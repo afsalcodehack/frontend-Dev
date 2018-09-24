@@ -32,6 +32,7 @@ copy:
   - src/config/environment.ts: environments/local.ts
   - .gitignore: .gitignore
   - .coafile: .coafile
+  - .sass-lint.yml: .sass-lint.yml
   - .editorconfig: .editorconfig
   - .ci/bin/: .ci/bin/
   - netlify.toml: netlify.toml
