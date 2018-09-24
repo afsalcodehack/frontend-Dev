@@ -1,0 +1,18 @@
+<ion-header *ngIf="deviceStatus.mobile">
+  <ion-navbar class="alignment-titlebar">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Event</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-navbar class="alignment-titlebar" *ngIf="deviceStatus.desktop">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Event</ion-title>
+  </ion-navbar>
+
+  <h1>{{ event.name }}</h1>
+</ion-content>

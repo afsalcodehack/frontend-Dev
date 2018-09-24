@@ -1,0 +1,168 @@
+#!/bin/sh
+
+if [ -z "$LOCK_DIR" ]; then
+    echo "LOCK_DIR not set"
+    exit 1
+fi
+if [ -z "$LOCK_FILE" ]; then
+    echo "LOCK_FILE not set"
+    exit 1
+fi
+if [ ! -f package.json ]; then
+    echo "package.json missing"
+    exit 1
+fi
+if [ "$LOCK_FILE" != "package-lock.json" ] && [ -f package-lock.json ]; then
+    set +x
+    echo "package-lock.json exists when lock file is $LOCK_FILE" 2>&1
+    exit 1
+fi
+if [ ! -f "$LOCK_FILE" ]; then
+    echo "$LOCK_FILE missing"
+    exit 1
+fi
+
+if [ ! -d "$LOCK_DIR" ]; then
+    echo "$LOCK_DIR/ missing; forcing a recheck"
+
+    set -x
+
+    mkdir $LOCK_DIR
+    touch $LOCK_DIR/package.json
+    cp "$LOCK_FILE" "$LOCK_DIR"
+
+    set +x
+fi
+
+if [ ! -f $LOCK_DIR/package.json ]; then
+    echo "$LOCK_DIR/package.json missing"
+    exit 1
+fi
+
+if [ ! -f "$LOCK_DIR/$LOCK_FILE" ]; then
+    echo "$LOCK_DIR/$LOCK_FILE missing"
+    exit 1
+fi
+
+set -e -x
+
+# Avoid differences due to missing eol at eof
+if [ "$LOCK_FILE" = "package-lock.json" ]; then
+    add-eof-eol "$LOCK_DIR/package.json" "$LOCK_DIR/$LOCK_FILE" "$LOCK_FILE"
+else
+    add-eof-eol "$LOCK_DIR/package.json"
+fi
+# Avoid differences due to saved lock file containing tarballs
+if [ "$LOCK_FILE" = "shrinkwrap.yaml" ]; then
+    sed -i '/tarball: .*registry/d' "$LOCK_DIR/$LOCK_FILE"
+fi
+
+set +e -x
+
+diff -u $LOCK_DIR/package.json package.json
+rv1=$?
+diff -u "$LOCK_DIR/$LOCK_FILE" "$LOCK_FILE"
+rv2=$?
+
+if [ $rv1 -eq 0 ] && [ $rv2 -eq 0 ]; then
+    set +x
+    echo "skipping; package.json and $LOCK_FILE not modified"
+    exit 0
+fi
+
+set -e
+
+if [ "$LOCK_FILE" = "package-lock.json" ]; then
+    npm install -g npm@5.8.0
+    npm --version
+fi
+
+rm "$LOCK_FILE"
+npm install --production
+
+# Push a copy to the artifact area in case cordova fails below
+if [ "$LOCK_FILE" = "package-lock.json" ]; then
+    add-eof-eol package.json "$LOCK_FILE"
+    sed -i 's/http:/https:/g' "$LOCK_FILE"
+fi
+if [ "$LOCK_FILE" = "shrinkwrap.yaml" ]; then
+    add-eof-eol package.json
+    # This regex is effectively the same as 's/http:/https:/g', but
+    # avoiding matching yaml keys ending in http which are followed by :.
+    sed -i 's/http:\(..\)registry/https:\1registry/g' "$LOCK_FILE"
+    # See note below regarding tarballs
+    sed -i '/tarball: .*registry/d' "$LOCK_FILE"
+fi
+
+cp package.json "$LOCK_DIR/"
+cp "$LOCK_FILE" "$LOCK_DIR/$LOCK_FILE-orig"
+
+if [ "$LOCK_FILE" = "package-lock.json" ]; then
+    # pnpm and yarn do not need dedupe
+    npm dedupe
+
+    add-eof-eol "$LOCK_FILE"
+    sed -i 's/http:/https:/g' "$LOCK_FILE"
+
+    cp "$LOCK_FILE" "$LOCK_DIR/$LOCK_FILE-dedupe"
+fi
+
+npm config get
+
+# cordova fails if the www directory doesnt exist
+mkdir www
+
+npm set package-lock-only true
+cordova platform add android ios --save-exact --production
+# cordova-plugin-googlemaps-sdk is an implicit dependency of
+# cordova-plugin-googlemaps, only needed when building for iOS.
+# The above verifies it works, and below checks it was added.
+grep cordova-plugin-googlemaps-sdk package.json
+# Now we can remove it.
+sed -i '/cordova-plugin-googlemaps-sdk/d' package.json
+
+add-eof-eol package.json
+
+if [ "$LOCK_FILE" = "package-lock.json" ]; then
+
+    add-eof-eol "$LOCK_FILE"
+    sed -i 's/http:/https:/g' "$LOCK_FILE"
+
+    cp package-lock.json "$LOCK_DIR/package-lock-dedupe.json"
+else
+    if [ -f package-lock.json ]; then
+        set +x
+        echo "package-lock.json was created when lock file is $LOCKFILE" 2>&1
+        exit 1
+    fi
+fi
+if [ "$LOCK_FILE" = "shrinkwrap.yaml" ]; then
+    sed -i 's/http:\(..\)registry/https:\1registry/g' "$LOCK_FILE"
+fi
+
+if [ "$LOCK_FILE" = "shrinkwrap.yaml" ]; then
+    # pnpm offline may remove tarball links from the lock file
+    # however tarball is needed for cordova-plugin-googlemaps-sdk lock
+    sed -i '/tarball: .*registry/d' "$LOCK_FILE"
+fi
+
+set +e
+diff -u "$LOCK_DIR/$LOCK_FILE-orig" "$LOCK_FILE"
+set -e
+
+npm set package-lock-only false
+npm install --production
+
+if [ "$LOCK_FILE" = "shrinkwrap.yaml" ]; then
+    # pnpm offline may remove tarball links from the lock file
+    # however tarball is needed for cordova-plugin-googlemaps-sdk lock
+    sed -i '/tarball: .*registry/d' "$LOCK_FILE"
+fi
+
+cp package.json "$LOCK_FILE" "$LOCK_DIR/"
+
+set +e
+diff -u "$LOCK_DIR/$LOCK_FILE-orig" "$LOCK_DIR/$LOCK_FILE"
+set -e
+
+git diff --exit-code

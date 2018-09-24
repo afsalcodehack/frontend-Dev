@@ -1,0 +1,11 @@
+overrides: ionic.yaml
+
+app_title: Ionic App
+
+colors:
+  primary: '#2657bf'
+  secondary: '#d3d3d3'
+  danger: '#f53d3d'
+  light: '#fff'
+  dark: '#222'
+  light-grey: '#f2f2f2'

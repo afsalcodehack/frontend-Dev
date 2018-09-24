@@ -1,0 +1,26 @@
+#!/bin/sh
+
+set -e -x
+
+backup_package_lock=/tmp/package_lock.$$
+cp package-lock.json "$backup_package_lock"
+
+set +e -x
+
+npm audit --audit-level low
+
+set -e -x
+
+# However, as the output is a static website, low level vulnerabilities
+# are unlikely to cause problems.
+
+# Use preinstalled npm6 to check that there are no vulnerabilities
+# listed in package.json production dependencies.
+npm audit fix --audit-level moderate
+
+# Restore package-lock.json
+cp "$backup_package_lock" package-lock.json
+
+add-eof-eol package.json
+
+git diff --exit-code package.json

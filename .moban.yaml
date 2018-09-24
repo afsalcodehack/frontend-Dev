@@ -1,4 +1,4 @@
-overrides: ionic.yaml
+overrides: picshare-ionic.yaml
 
 project_name: picshare
 name: picshare-ionic
@@ -18,7 +18,6 @@ configuration:
   configuration_dir: ../ionic-template/
 targets:
   - .moban.yaml: moban.yaml.jj2
-  - picshare-ionic.yaml: local_project.yaml.jj2
   - .gitlab-ci.yml: gitlab-ci.yml.jj2
   - src/index.html: index.html.jj2
   - src/global.ts: global.ts.jj2

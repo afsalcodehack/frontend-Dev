@@ -1,0 +1,37 @@
+<ion-header *ngIf="deviceStatus.mobile">
+
+  <ion-navbar class="alignment-titlebar">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{ 'Payment' | translate }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-navbar class="alignment-titlebar" *ngIf="deviceStatus.desktop">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{ 'Payment' | translate }}</ion-title>
+  </ion-navbar>
+
+  <div class="ion-content-custom" [hidden]="!stripeReady">
+    <h2>Buying {{ product?.name }} ({{ product?.price }} {{ product?.currency }})</h2>
+    <form novalidate (ngSubmit)="pay()" [formGroup]="paymentForm">
+      <ion-list>
+        <ion-item>
+          <ion-input id="email" type="email" class="validate" formControlName="email" placeholder="Email"></ion-input>
+        </ion-item>
+        <ion-item class="item-stripe">
+          <div id="card-element"></div>
+        </ion-item>
+      </ion-list>
+      <button type="submit" ion-button block [disabled]="!paymentForm.valid || !stripeStatus?.complete">
+        {{ 'Pay' | translate }}
+      </button>
+    </form>
+  </div>
+</ion-content>

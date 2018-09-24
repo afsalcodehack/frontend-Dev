@@ -1,0 +1,68 @@
+[all]
+files = **.js, **.ts, **.css, **.scss, **.json
+# note ignore inheritance is broken
+ignore =
+  .cache/,
+  .git/,
+  .npm/,
+  node_modules/,
+  www/,
+  dist/,
+
+language = JavaScript
+use_spaces = True
+indent_size = 2
+
+[all.consistency]
+bears = SpaceConsistencyBear
+ignore_length_regex = https?://
+
+[all.linelength]
+bears = LineLengthBear
+ignore =
+  .cache/,
+  .git/,
+  .npm/,
+  node_modules/,
+  www/,
+  dist/,
+  config/copy.config.js,
+  src/app/app.component.ts,
+  src/pages/profile/profile.ts,
+  src/app/data/dummy.ts
+max_line_length = 200
+
+[all.css]
+# CSSComb can also process .scss and .sass however the bear has issues
+# https://github.com/coala/coala-bears/issues/2682
+bears = CSSCombBear
+files = **.css
+
+csscomb_config = .csscomb.json
+
+[all.scss]
+bears = SASSLintBear
+files = **.scss
+
+sasslint_config = .sass-lint.yml
+
+[all.json]
+bears = JSONFormatBear
+files = **.json
+escape_unicode = False
+
+[all.yaml]
+bears = YAMLLintBear
+files = **.yml
+
+[all.sh]
+bears = ShellCheckBear
+files = .ci/bin/**
+indent_size = 4
+shell = sh
+
+[all.commit]
+bears = GitCommitBear
+shortlog_trailing_period = False
+shortlog_regex = ([^:]*|[^:]+[^ ]: [A-Z0-9*].*)
+ignore_length_regex = https?:\/\/

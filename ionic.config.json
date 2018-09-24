@@ -1,0 +1,14 @@
+{
+  "name": "picshare-ionic",
+  "app_id": "",
+  "type": "ionic-angular",
+  "telemetry": false,
+  "daemon": {
+    "updates": false
+  },
+  "yarn": false,
+  "version": "3.20.0",
+  "integrations": {
+    "cordova": {}
+  }
+}

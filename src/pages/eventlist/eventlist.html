@@ -1,0 +1,24 @@
+<ion-header *ngIf="deviceStatus.mobile">
+  <ion-navbar class="alignment-titlebar">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Event</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-navbar class="alignment-titlebar" *ngIf="deviceStatus.desktop">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Event</ion-title>
+  </ion-navbar>
+  <div class="ion-content-custom">
+    <button ion-button (click)="create()">Create</button>
+    <ion-list>
+      <button ion-item *ngFor="let event of events" (click)="eventSelected(event)">
+        {{ event.name }}
+      </button>
+    </ion-list>
+  </div>
+</ion-content>

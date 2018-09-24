@@ -1,0 +1,84 @@
+stages:
+  - test
+  - build
+
+image: jayvdb/ionic:pnpm
+
+variables:
+  XDG_CACHE_HOME: "$CI_PROJECT_DIR/.cache/"
+  GRADLE_OPTS: -Dorg.gradle.daemon=false
+  ANDROID_ARTIFACT_DIR: $CI_PROJECT_DIR/platforms/android/app/build/outputs/apk
+
+cache:
+  key: node-npm
+  paths: &node_lock_cache_paths
+    - node_modules
+    - .npm
+
+.npm_init: &npm_init |
+  export PATH=$(pwd)/.ci/bin:$PATH
+  npm set optional false
+  npm set production true
+  npm set dev true
+  npm set cache $CI_PROJECT_DIR/.npm
+  npm --version
+  npm --silent rebuild > /dev/null
+
+before_script:
+  - *npm_init
+  - npm install --no-save
+  - change-environment "$CI_COMMIT_REF_NAME"
+
+.collect_artifacts: &collect_artifacts
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
+    paths:
+      - www
+      - $ANDROID_ARTIFACT_DIR
+
+test:lint:
+  image: okdocker/pynode:3.6-10.x
+  stage: test
+  cache:
+    key: coala
+    paths:
+      - .cache/pip
+      - node_modules
+      - .npm
+  before_script:
+    - export PATH=$(pwd)/.ci/bin:$PATH
+    - npm install -g csscomb sass-lint
+  script: test_lint
+
+test:tslint:
+  stage: test
+  image: node:8
+  script:
+    - npm install codelyzer --no-save
+    - npx ionic-app-scripts lint --bailOnLintError true
+
+build:dev:web:
+  <<: *collect_artifacts
+  stage: build
+  script:
+    - build-www
+
+build:dev:android:
+  <<: *collect_artifacts
+  stage: build
+  script:
+    - ionic cordova build --debug android
+    - ls -al $ANDROID_ARTIFACT_DIR
+
+build:prod:web:
+  <<: *collect_artifacts
+  stage: build
+  script:
+    - build-www --prod
+
+build:prod:android:
+  <<: *collect_artifacts
+  stage: build
+  script:
+    - ionic cordova build --prod --release android
+    - ls -al $ANDROID_ARTIFACT_DIR

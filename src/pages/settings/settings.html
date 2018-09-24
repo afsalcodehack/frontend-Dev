@@ -1,0 +1,38 @@
+<ion-header *ngIf="deviceStatus.mobile">
+  <ion-navbar class="alignment-titlebar">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{ 'Settings' | translate }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-navbar class="alignment-titlebar" *ngIf="deviceStatus.desktop">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{ 'Settings' | translate }}</ion-title>
+  </ion-navbar>
+
+  <div class="ion-content-custom">
+	<ion-list>
+		<ion-item-group radio-group (ionChange)="applyLanguage()" [(ngModel)]="selectedLanguage">
+			<ion-item-divider color="light">{{ 'Language' | translate }}</ion-item-divider>
+			<ion-item *ngFor="let lang of languages">
+				<ion-label>{{lang.name}}</ion-label>
+				<ion-radio [value]="lang.code"></ion-radio>
+			</ion-item>
+		</ion-item-group>
+    <ion-item-group>
+      <ion-item-divider color="light">{{ 'About' | translate }}</ion-item-divider>
+      <button ion-item block outline (click) = "goToTandC()">{{ 'Terms and Conditions' | translate }}</button>
+    </ion-item-group>
+	</ion-list>
+  </div>
+
+  <ion-toolbar color="light" class="ion-content-custom" *ngIf="deviceStatus.desktop">
+    <a class="href-title-left" href="#/tandc">{{ 'Terms and Conditions' | translate }}</a>
+    <a class="href-title-right">{{ '&copy; Cookiecutter 2018' | translate }}</a>
+  </ion-toolbar>
+</ion-content>

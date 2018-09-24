@@ -1,0 +1,216 @@
+// http://ionicframework.com/docs/theming/
+
+
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+
+.toolbar-background {
+  background: color($colors, primary);
+  border-color: none;
+  color: color($colors, light);
+}
+
+.bar-button-default {
+  color: color($colors, light);
+}
+
+.center {
+  text-align: center;
+}
+
+/* Temp fix from https://github.com/ionic-team/ionic/issues/7204 */
+ion-item.item-input {
+  padding-left: 0;
+}
+
+.fab {
+  bottom: 10px !important;
+  margin-left: 1em;
+  margin-top: 1em;
+  right: 10px !important;
+}
+
+.description {
+  white-space: pre-wrap;
+}
+
+.help-button {
+  color: color($colors, secondary);
+  font-size: 1.3em;
+  margin: 0;
+  padding: 0;
+}
+
+.divide {
+  border-bottom: 1px solid color($colors, secondary) !important;
+}
+
+.unit-col .item {
+  padding-left: 0 !important;
+}
+
+.unit-col .select {
+  padding: 0;
+  padding-right: 5px !important;
+}
+
+.slb-text {
+  font-size: 0.5em;
+}
+
+.img-ion-item {
+  padding-left: 0 !important;
+  text-align: center;
+}
+
+.notes div {
+  margin-bottom: 0.4em;
+}
+
+.href-title-left {
+  color: color($colors, dark);
+  float: left;
+  text-decoration: none;
+}
+
+.href-title-right {
+  color: color($colors, dark);
+  float: right;
+  text-decoration: none;
+}
+
+// Small devices (landscape phones, 235px and up)
+@media only screen and (min-width: 235px) {
+  ion-navbar {
+    margin-top: default;
+  }
+
+  .alignment-navbar {
+    margin-left: auto;
+    margin-right: auto;
+    padding: default;
+  }
+
+  .alignment-titlebar {
+    margin-left: auto;
+    margin-right: auto;
+    padding: default;
+  }
+
+  .ion-content-custom {
+    font-size: default;
+    line-height: default;
+    padding: 16px;
+  }
+
+  .toolbar-title {
+    color: color($colors, light);
+    font-size: 1.5rem;
+  }
+}
+
+// Medium devices (tablets, 768px and up)
+@media only screen and (min-width: 768px) {
+  ion-navbar {
+    margin-top: default;
+  }
+
+  .alignment-navbar {
+    margin-left: auto;
+    margin-right: auto;
+    padding: default;
+  }
+
+  .alignment-titlebar {
+    margin-left: auto;
+    margin-right: auto;
+    padding: default;
+  }
+
+  .ion-content-custom {
+    font-size: default;
+    line-height: default;
+    padding: 75px;
+  }
+
+  .toolbar-title {
+    color: color($colors, light);
+    font-size: 1.5rem;
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media only screen and (min-width: 992px) {
+  .slb-text {
+    font-size: 0.8em;
+  }
+
+  ion-navbar {
+    margin-top: 3.2em;
+  }
+
+  .alignment-navbar {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 31rem;
+    padding-right: 31rem;
+  }
+
+  .alignment-titlebar {
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 7.5rem;
+    padding-left: 31.5rem;
+    padding-right: 31.5rem;
+    padding-top: 7.5rem;
+  }
+
+  .ion-content-custom {
+    font-size: 1.6rem;
+    line-height: 1.5;
+    padding-bottom: 7.5rem;
+    padding-left: 32.5rem;
+    padding-right: 32.5rem;
+    padding-top: 7.5rem;
+  }
+
+  .toolbar-title {
+    color: color($colors, light);
+    font-size: 3rem;
+  }
+}
+
+.navbar {
+  background-color: color($colors, primary);
+  overflow: hidden;
+}
+
+.navbar a {
+  color: color($colors, light-grey);
+  display: block;
+  float: left;
+  font-size: 1.6rem;
+  padding: 20px 16px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.navbar a:hover {
+  background: color($colors, light-grey);
+  color: color($colors, dark);
+}
+
+.tandc {
+  padding-left: 1em;
+}

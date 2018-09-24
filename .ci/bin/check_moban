@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -ex
+
+date
+
+moban
+git diff --exit-code

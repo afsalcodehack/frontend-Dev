@@ -1,0 +1,23 @@
+#!/bin/sh
+
+set -e
+
+ENVIRONMENT="$1"
+SOURCE_FILE="environments/$ENVIRONMENT.ts"
+TARGET_FILE="src/config/environment.ts"
+
+usage() {
+    echo "usage: $0 environment" >&2
+}
+
+if [ -z "$ENVIRONMENT" ]; then
+    usage
+    exit 64
+fi
+
+if [ ! -f "$SOURCE_FILE" ]; then
+    echo "$0: $SOURCE_FILE: No such file. Falling back to 'dev.ts'" >&2
+    SOURCE_FILE='environments/dev.ts'
+fi
+
+cp -fv "$SOURCE_FILE" "$TARGET_FILE"

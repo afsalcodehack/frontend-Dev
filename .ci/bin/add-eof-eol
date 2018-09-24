@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -x -e
+
+filenames="$*"
+
+for filename in $filenames; do
+  [ -n "$(tail -c1 $filename)" ] && echo >> $filename
+done
+
+exit 0

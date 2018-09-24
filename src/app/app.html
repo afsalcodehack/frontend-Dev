@@ -1,0 +1,38 @@
+<div (window:resize)="deviceStatus.onResize($event)"></div>
+
+<div *ngIf="deviceStatus.desktop">
+  <ion-header>
+    <div class="alignment-navbar navbar" color= "secondary">
+      <span *ngFor="let p of pages; let i = index;">
+        <a (click)="openPage(p)" color="secondary" *ngIf="p.status">{{ p.title | translate }}</a>
+      </span>
+    </div>
+  </ion-header>
+
+  <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+  <ion-nav [root]="rootPage"></ion-nav>
+</div>
+
+<div *ngIf="deviceStatus.mobile">
+  <ion-menu [content]="content">
+    <ion-header>
+      <ion-toolbar>
+        <p class="toolbar-title">COOKIECUTTER</p>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <ion-list>
+        <span *ngFor="let p of pages; let i = index;">
+          <button menuClose ion-item *ngIf="p.status" [class.divide]="p.divide" (click)="openPage(p)" no-lines>
+            {{p.title | translate }}
+          </button>
+        </span>
+      </ion-list>
+    </ion-content>
+
+  </ion-menu>
+
+  <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+  <ion-nav [root]="rootPage" #content main swipeBackEnabled="false"></ion-nav>
+</div>
