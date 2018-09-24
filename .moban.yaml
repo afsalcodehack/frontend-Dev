@@ -1,0 +1,50 @@
+overrides: ionic.yaml
+
+project_name: picshare
+name: picshare-ionic
+
+# Remove lock_moban to customise this repository
+lock_moban: true
+
+# Features that can not yet be disabled without customising .moban.yaml
+googlemaps: true
+payment: true
+
+configuration:
+  configuration: .moban.yaml
+  template_dir:
+    - ../ionic-template/templates/
+    - ../ionic-template/
+  configuration_dir: ../ionic-template/
+targets:
+  - .moban.yaml: moban.yaml.jj2
+  - picshare-ionic.yaml: local_project.yaml.jj2
+  - .gitlab-ci.yml: gitlab-ci.yml.jj2
+  - src/index.html: index.html.jj2
+  - src/global.ts: global.ts.jj2
+  - config.xml: config.xml.jj2
+  - config/copy.config.js: config/copy.config.js.jj2
+  - package.json: package.json.jj2
+  - ionic.config.json: ionic.config.json.jj2
+  - src/assets/i18n/en.json: i18n/en.json.jj2
+  - src/assets/i18n/de.json: i18n/de.json.jj2
+  - src/theme/colors.scss: colors.scss.jj2
+copy:
+  - src/config/environment.ts: environments/local.ts
+  - .gitignore: .gitignore
+  - .coafile: .coafile
+  - .editorconfig: .editorconfig
+  - .ci/bin/: .ci/bin/
+  - ionic.starter.json: ionic.starter.json
+  - environments/: environments/**
+  - resources/: resources/**
+  - tsconfig.json: tsconfig.json
+  - tslint.json: tslint.json
+  - README.md: README.md
+  - src/manifest.json: src/manifest.json
+  - src/config/environment.ts: src/config/environment.ts
+  - src/app/: src/app/**
+  - src/theme/variables.scss: src/theme/variables.scss
+  - src/models/: src/models/**
+  - src/pages/: src/pages/**
+  - src/providers/: src/providers/**
