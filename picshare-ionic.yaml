@@ -1,10 +1,10 @@
 overrides: ionic.yaml
 
-app_title: Ionic App
+app_title: Picshare
 
 colors:
-  primary: '#2657bf'
-  secondary: '#d3d3d3'
+  primary: green
+  secondary: aqua
   danger: '#f53d3d'
   light: '#fff'
   dark: '#222'
