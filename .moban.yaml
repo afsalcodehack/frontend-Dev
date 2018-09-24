@@ -34,6 +34,7 @@ copy:
   - .coafile: .coafile
   - .editorconfig: .editorconfig
   - .ci/bin/: .ci/bin/
+  - netlify.toml: netlify.toml
   - ionic.starter.json: ionic.starter.json
   - environments/: environments/**
   - resources/: resources/**

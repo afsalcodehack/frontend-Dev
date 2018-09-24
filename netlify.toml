@@ -1,0 +1,8 @@
+[build]
+  command = 'export PATH=./.ci/bin/:"$PATH" && build-netlify'
+  publish = 'www'
+
+[[redirects]]
+  from = '/*'
+  to = '/#/'
+  status = 301
