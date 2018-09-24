@@ -39,6 +39,8 @@ copy:
   - ionic.starter.json: ionic.starter.json
   - environments/: environments/**
   - resources/: resources/**
+  - resources/android/: resources/android/**
+  - resources/ios/: resources/ios/**
   - tsconfig.json: tsconfig.json
   - tslint.json: tslint.json
   - README.md: README.md

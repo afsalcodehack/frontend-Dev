@@ -12,6 +12,7 @@ import 'rxjs/add/operator/do';
 import * as url from 'url';
 
 import { backend } from '../app/backend'
+import { backendUrl } from '../global';
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -21,7 +22,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
   // only if fake responses are allowed above, select whether
   // fake data is preferred even if the component is implemented.
   // disable this to use the real backend together with the fake data.
-  preferOffline = true;
+  // currently, we enable preferOffline mode only if environment is
+  // switched to offline mode, where backendUrl is empty.
+  preferOffline = !backendUrl;
 
   getFakeResponse(request, component) {
     // Need to check request.method if the same end point supports
