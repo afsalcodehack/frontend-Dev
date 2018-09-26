@@ -57,7 +57,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         if (component === undefined) {
           console.log(`endpoint ${parsedUrl.pathname} is not in app.backend`);
         } else {
-          if (this.preferOffline) {
+          if (this.preferOffline || !component.implemented) {
             if (!component.fakeData) {
               console.log(`no fake data for ${parsedUrl.pathname}`);
             } else {

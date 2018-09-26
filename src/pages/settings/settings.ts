@@ -3,7 +3,6 @@ import { NavController, NavParams } from 'ionic-angular';
 import { lang } from './settings.constants';
 import { TranslateService } from 'ng2-translate/ng2-translate';
 import { LanguageProvider } from '../../providers/language/language';
-import { DeviceProvider } from '../../providers/device/device';
 import { TandcPage } from '../tandc/tandc';
 
 
@@ -18,7 +17,6 @@ export class SettingsPage {
     public navParams: NavParams,
     translate: TranslateService,
     public lp: LanguageProvider,
-    public deviceStatus: DeviceProvider
   ) {
     this.translate = translate;
   }

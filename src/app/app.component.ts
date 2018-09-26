@@ -1,31 +1,32 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { Events } from 'ionic-angular';
 
-import { UserProvider } from '../providers/user/user';
-import { AboutPage } from '../pages/about/about';
+import { Events, Nav, Platform } from 'ionic-angular';
+import { CacheService } from 'ionic-cache';
+
+import { TranslateService } from 'ng2-translate/ng2-translate';
+
+import { Globalization } from '@ionic-native/globalization';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
+
 import { HomePage } from '../pages/home/home';
+import { SignupPage } from '../pages/signup/signup';
+import { TandcPage } from '../pages/tandc/tandc';
+
+import { AboutPage } from '../pages/about/about';
+import { EventListPage } from '../pages/eventlist/eventlist';
+import { LoginPage } from '../pages/login/login';
+import { LogoutPage } from '../pages/logout/logout';
+import { ProductPage } from '../pages/product/product';
+import { ProfilePage } from '../pages/profile/profile';
 import { ServicePage } from '../pages/service/service';
 import { SettingsPage } from '../pages/settings/settings';
-import { LoginPage} from '../pages/login/login';
-import { SignupPage } from '../pages/signup/signup';
-import { LogoutPage } from '../pages/logout/logout';
-import { SearchPage } from '../pages/search/search';
-import { ProfilePage } from '../pages/profile/profile';
-import { TandcPage } from '../pages/tandc/tandc';
-import { ProductPage } from '../pages/product/product';
-import { EventListPage } from '../pages/eventlist/eventlist';
 
-import { CacheService } from "ionic-cache";
-
-import { LanguageProvider } from '../providers/language/language';
 import { DeviceProvider } from '../providers/device/device';
+import { LanguageProvider } from '../providers/language/language';
+import { UserProvider } from '../providers/user/user';
 
 import { lang } from '../pages/settings/settings.constants';
-import { Globalization } from '@ionic-native/globalization';
-import { TranslateService } from 'ng2-translate/ng2-translate';
 
 let _ = function(a) { return a; };
 
@@ -39,27 +40,25 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   constructor(
+    cache: CacheService,
     public platform: Platform,
     public statusBar: StatusBar,
     public deviceStatus: DeviceProvider,
     public splashScreen: SplashScreen,
     public up: UserProvider,
     public events: Events,
-    cache: CacheService,
     public translate: TranslateService,
-    public  globalization: Globalization,
+    public globalization: Globalization,
     public lp: LanguageProvider
   ) {
 
     let url = new URL(window.location.href);
 
     if (url.hash.indexOf('verify-email?key') > -1) {
-
       let key = url.hash.split('=')[1];
       this.up.verifyEmail({'key' : key}).then(req => {
         this.nav.setRoot(LoginPage, {message: 'Email Verified Successfully!'});
       })
-
     }
 
     let self = this;
@@ -72,40 +71,39 @@ export class MyApp {
       this.lp.getLanguage().then(res => {
         if (res) {
           translate.use(res);
-            lang.sysOptions.systemLanguage = res;
-          } else {
-            let language;
-            if ((<any>window).cordova) {
-              this.globalization.getPreferredLanguage().then(result => {
-                language = this.getSuitableLanguage(result.value);
-
-                translate.use(language);
-                lang.sysOptions.systemLanguage = language;
-              });
-            } else {
-              let browserLanguage = translate.getBrowserLang() || lang.defaultLanguage;
-              language = this.getSuitableLanguage(browserLanguage);
+          lang.sysOptions.systemLanguage = res;
+        } else {
+          let language;
+          if ((<any>window).cordova) {
+            this.globalization.getPreferredLanguage().then(result => {
+              language = this.getSuitableLanguage(result.value);
               translate.use(language);
               lang.sysOptions.systemLanguage = language;
-            }
-
-            this.lp.saveLanguage(language)
+            });
+          } else {
+            let browserLanguage = translate.getBrowserLang() || lang.defaultLanguage;
+            language = this.getSuitableLanguage(browserLanguage);
+            translate.use(language);
+            lang.sysOptions.systemLanguage = language;
           }
+          this.lp.saveLanguage(language)
+        }
       })
 
-      statusBar.styleDefault();
-      splashScreen.hide();
+      if (platform.is('cordova')) {
+        statusBar.styleDefault();
+        splashScreen.hide();
+      }
       cache.setDefaultTTL(3600);
     });
 
     this.pages = [
       { title: _('Home'), component: HomePage, status: false, divide: true},
-      { title: _('Service'), component: ServicePage, status: false , divide: true},
+      { title: _('Service'), component: ServicePage, status: false, divide: true},
       { title: _('Settings'), component: SettingsPage, status: false, divide: false},
       { title: _('Product'), component: ProductPage, status: false, divide: false},
       { title: _('Event'), component: EventListPage, status: false, divide: false},
       { title: _('Signup/Login'), component: LoginPage, status: false, divide: false},
-      { title: _('Search Page'), component: SearchPage, status: false, divide: true},
       { title: _('Profile'), component: ProfilePage, status: false, divide: false},
       { title: _('Logout'), component: LogoutPage, status: false, divide: false},
       { title: _('About'), component: AboutPage, status: false, divide: false},
@@ -119,8 +117,13 @@ export class MyApp {
       this.setStatus();
     });
 
+    var securedPages = [
+      'Logout',
+      'Profile',
+    ];
+
     self.pages.forEach(page => {
-      if (page.component != LogoutPage && page.component != ProfilePage) {
+      if (securedPages.indexOf(page.title) < 0) {
         page.status = true;
       }
     })
@@ -143,10 +146,12 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
+      if (this.platform.is('cordova')) {
+        this.statusBar.styleDefault();
+        this.splashScreen.hide();
+      }
       this.setStatus();
-      });
+    });
   }
 
   setStatus() {

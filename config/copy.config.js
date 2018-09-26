@@ -15,8 +15,4 @@ module.exports = {
     src: ['{{ROOT}}/node_modules/ionicons/dist/fonts/**/*', '{{ROOT}}/node_modules/ionic-angular/fonts/**/*'],
     dest: '{{WWW}}/assets/fonts'
   },
-  copySwToolbox: {
-    src: ['{{ROOT}}/node_modules/sw-toolbox/sw-toolbox.js'],
-    dest: '{{BUILD}}'
-  },
 }

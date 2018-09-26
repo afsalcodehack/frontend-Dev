@@ -55,6 +55,11 @@ Note: Currently the backend of this template is set to work with:
 https://gitlab.com/viperdev/open/cookiecutters/django-backend.git
 ```
 
+### Fake Backend
+
+When environment offline mode is enabled, fake backend is preferred.
+See more on [Fake Backend Doc](src/app/backends/README.md)
+
 ## Translations
 
 ### Extracting Strings
@@ -62,6 +67,11 @@ https://gitlab.com/viperdev/open/cookiecutters/django-backend.git
 ```
 npm run extract
 ```
+
+### Translating with moban
+
+See [translations.md](translation.md) for how to initialise translations
+in a repository using moban.
 
 ### Translating
 

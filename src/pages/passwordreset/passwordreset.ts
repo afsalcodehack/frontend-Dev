@@ -3,7 +3,6 @@ import { NavController, NavParams } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { AlertController } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/user';
-import { DeviceProvider } from '../../providers/device/device';
 import { HomePage } from '../home/home'
 
 
@@ -21,7 +20,6 @@ export class PasswordresetPage {
     private up: UserProvider,
     public alertCtrl: AlertController,
     public fb: FormBuilder,
-    public deviceStatus: DeviceProvider
   ) {
     this.passwordresetForm = this.fb.group({
     email: ['', Validators.required],

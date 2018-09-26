@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { DeviceProvider } from '../../providers/device/device';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { EventProvider } from '../../providers/event/event';
 import { EventListPage } from '../eventlist/eventlist';
@@ -23,7 +22,6 @@ export class EventCreatePage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public deviceStatus: DeviceProvider,
     private formBuilder: FormBuilder,
     public eventProvider: EventProvider,
   ) {

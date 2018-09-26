@@ -117,9 +117,14 @@ cordova platform add android ios --save-exact --production
 # cordova-plugin-googlemaps-sdk is an implicit dependency of
 # cordova-plugin-googlemaps, only needed when building for iOS.
 # The above verifies it works, and below checks it was added.
-grep cordova-plugin-googlemaps-sdk package.json
-# Now we can remove it.
-sed -i '/cordova-plugin-googlemaps-sdk/d' package.json
+set +e
+grep cordova-plugin-googlemaps package.json
+rv=$?
+if [ $rv -eq 0 ]; then
+    grep cordova-plugin-googlemaps-sdk package.json
+    # Now we can remove it.
+    sed -i '/cordova-plugin-googlemaps-sdk/d' package.json
+fi
 
 add-eof-eol package.json
 

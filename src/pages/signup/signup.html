@@ -1,82 +1,57 @@
-<ion-header *ngIf="deviceStatus.mobile">
-  <ion-navbar class="alignment-titlebar">
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
+<app-content title="Sign Up">
+  <form [formGroup]="signupForm" (ngSubmit)="create()">
+    <ion-list>
+
+      <ion-item>
+        <ion-label floating>{{ 'Name' | translate }}</ion-label>
+        <ion-input id="name" type="text" class="validate" formControlName="name"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>{{ 'Email' | translate }}</ion-label>
+        <ion-input id="email" type="email" class="validate" email formControlName="email"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>{{ 'Password' | translate }}</ion-label>
+        <ion-input id="pwd1" type="password" class="validate" formControlName="password1"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>{{ 'Repeat Password' | translate }}</ion-label>
+        <ion-input id="pwd2" type="password" class="validate" formControlName="password2"></ion-input>
+      </ion-item>
+
+      <ion-item text-wrap no-padding>
+        <ion-row>
+          <ion-col col-1 no-padding no-margin>
+            <ion-item no-padding no-margin no-lines>
+              <ion-checkbox formControlName="termsAccepted"></ion-checkbox>
+            </ion-item>
+          </ion-col>
+          <ion-col col-11 no-padding no-margin>
+            <ion-item no-padding no-margin no-lines>
+              <a target="_blank" href="#/tandc" class="tandc">{{ 'I agree to Terms and Conditions.' | translate }}</a>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+
+    </ion-list>
+
+    <br>
+    <button *ngIf="!status"
+    ion-button block
+    type="submit"
+    class="btn center waves-effect white black-text" [disabled]="!signupForm.valid">
+      <span class="btn-text">{{ 'Sign Up' | translate }}</span>
     </button>
-    <ion-title>{{ 'Sign Up' | translate }}</ion-title>
-  </ion-navbar>
+  </form>
 
-</ion-header>
-
-<br>
-<ion-content>
-  <ion-navbar class="alignment-titlebar" *ngIf="deviceStatus.desktop">
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>{{ 'Sign Up' | translate }}</ion-title>
-  </ion-navbar>
-
-  <div class="ion-content-custom">
-    <form [formGroup]="signupForm" (ngSubmit)="create()">
-      <ion-list>
-
-        <ion-item>
-          <ion-label floating>{{ 'Name' | translate }}</ion-label>
-          <ion-input id="name" type="text" class="validate" formControlName="name"></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label floating>{{ 'Email' | translate }}</ion-label>
-          <ion-input id="email" type="email" class="validate" email formControlName="email"></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label floating>{{ 'Password' | translate }}</ion-label>
-          <ion-input id="pwd1" type="password" class="validate" formControlName="password1"></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label floating>{{ 'Repeat Password' | translate }}</ion-label>
-          <ion-input id="pwd2" type="password" class="validate" formControlName="password2"></ion-input>
-        </ion-item>
-
-        <ion-item text-wrap no-padding>
-          <ion-row>
-            <ion-col col-1 no-padding no-margin>
-              <ion-item no-padding no-margin no-lines>
-                <ion-checkbox formControlName="termsAccepted"></ion-checkbox>
-              </ion-item>
-            </ion-col>
-            <ion-col col-11 no-padding no-margin>
-              <ion-item no-padding no-margin no-lines>
-                <a target="_blank" href="#/tandc" class="tandc">{{ 'I agree to Terms and Conditions.' | translate }}</a>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-        </ion-item>
-
-      </ion-list>
-
-      <br>
-      <button *ngIf="!status"
-      ion-button block
-      type="submit"
-      class="btn center waves-effect white black-text" [disabled]="!signupForm.valid">
-        <span class="btn-text">{{ 'Sign Up' | translate }}</span>
-      </button>
-    </form>
-
-    <button ion-button block (click) = "login()" clear>
-      <span class="btn-text">{{ 'Login' | translate }}</span>
-    </button>
-    <div align="right">
-      <button ion-button small (click) = "goToPasswordReset()" clear>{{ 'Trouble loggin in?' | translate }}</button>
-    </div>
+  <button ion-button block (click) = "login()" clear>
+    <span class="btn-text">{{ 'Login' | translate }}</span>
+  </button>
+  <div align="right">
+    <button ion-button small (click) = "goToPasswordReset()" clear>{{ 'Trouble loggin in?' | translate }}</button>
   </div>
-
-  <ion-toolbar color="light" class="ion-content-custom" *ngIf="deviceStatus.desktop">
-    <a class="href-title-left" href="#/tandc">{{ 'Terms and Conditions' | translate }}</a>
-    <a class="href-title-right">{{ '&copy; Cookiecutter 2018' | translate }}</a>
-  </ion-toolbar>
-</ion-content>
+</app-content>

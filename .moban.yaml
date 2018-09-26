@@ -3,12 +3,8 @@ overrides: picshare-ionic.yaml
 project_name: picshare
 name: picshare-ionic
 
-# Remove lock_moban to customise this repository
+# Remove lock_moban to customise this file
 lock_moban: true
-
-# Features that can not yet be disabled without customising .moban.yaml
-googlemaps: true
-payment: true
 
 configuration:
   configuration: .moban.yaml
@@ -18,16 +14,24 @@ configuration:
   configuration_dir: ../ionic-template/
 targets:
   - .moban.yaml: moban.yaml.jj2
+  - README.md: README.md.jj2
   - .gitlab-ci.yml: gitlab-ci.yml.jj2
   - src/index.html: index.html.jj2
   - src/global.ts: global.ts.jj2
+  - src/app/app.module.ts: app/module.ts.jj2
+  - src/app/app.component.ts: app/component.ts.jj2
+  - src/models/.gitignore: app/gitignore.jj2
+  - src/pages/.gitignore: app/gitignore.jj2
+  - src/providers/.gitignore: app/gitignore.jj2
   - config.xml: config.xml.jj2
   - config/copy.config.js: config/copy.config.js.jj2
   - package.json: package.json.jj2
+  - tsconfig.json: tsconfig.json.jj2
   - ionic.config.json: ionic.config.json.jj2
   - src/assets/i18n/en.json: i18n/en.json.jj2
   - src/assets/i18n/de.json: i18n/de.json.jj2
   - src/theme/colors.scss: colors.scss.jj2
+  - src/theme/site_variables.scss: theme_variables.scss.jj2
 copy:
   - src/config/environment.ts: environments/local.ts
   - .gitignore: .gitignore
@@ -41,13 +45,31 @@ copy:
   - resources/: resources/**
   - resources/android/: resources/android/**
   - resources/ios/: resources/ios/**
-  - tsconfig.json: tsconfig.json
   - tslint.json: tslint.json
   - README.md: README.md
   - src/manifest.json: src/manifest.json
+  - src/app/auth.module.ts: src/app/auth.module.ts
+  - src/app/main.ts: src/app/main.ts
+  - src/components/: src/components/**
   - src/config/environment.ts: src/config/environment.ts
-  - src/app/: src/app/**
-  - src/theme/variables.scss: src/theme/variables.scss
   - src/models/: src/models/**
-  - src/pages/: src/pages/**
+  - src/pages/about/: src/pages/about/
+  - src/pages/home/: src/pages/home/
+  - src/pages/service/: src/pages/service/
+  - src/pages/settings/: src/pages/settings/
+  - src/pages/login/: src/pages/login/
+  - src/pages/signup/: src/pages/signup/
+  - src/pages/logout/: src/pages/logout/
+  - src/pages/welcome/: src/pages/welcome/
+  - src/pages/passwordreset/: src/pages/passwordreset/
+  - src/pages/passwordresetconfirm/: src/pages/passwordresetconfirm/
+  - src/pages/profile/: src/pages/profile/
+  - src/pages/tandc/: src/pages/tandc/
+  - src/pages/not-found/: src/pages/not-found/
+  - src/pages/product/: src/pages/product/
+  - src/pages/event/: src/pages/event/
+  - src/pages/eventlist/: src/pages/eventlist/
+  - src/pages/eventcreate/: src/pages/eventcreate/
+  - src/pages/payment/: src/pages/payment/
   - src/providers/: src/providers/**
+  - src/theme/variables.scss: src/theme/variables.scss

@@ -2,6 +2,12 @@ overrides: ionic.yaml
 
 app_title: Picshare
 
+features:
+  payment: true
+
+pages:
+  search: false
+
 colors:
   primary: green
   secondary: aqua

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { StripeService, Elements, Element as StripeElement, ElementsOptions, ElementOptions } from "ngx-stripe";
-import { DeviceProvider } from '../../providers/device/device';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { StripeProvider } from '../../providers/stripe/stripe';
 import { ProductPage } from '../product/product';
@@ -41,7 +40,6 @@ export class PaymentPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public stripeService: StripeService,
-    public deviceStatus: DeviceProvider,
     private formBuilder: FormBuilder,
     public stripeProvider: StripeProvider,
     public loadingCtrl: LoadingController,

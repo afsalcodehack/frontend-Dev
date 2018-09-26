@@ -3,7 +3,6 @@ import { NavController} from 'ionic-angular';
 
 import { Currency } from '../../models/cur';
 
-import { DeviceProvider } from '../../providers/device/device';
 import {  CurrencyExchangeProvider } from '../../providers/cur-exchange/cur-exchange';
 
 
@@ -14,7 +13,7 @@ import {  CurrencyExchangeProvider } from '../../providers/cur-exchange/cur-exch
 export class ServicePage {
   c: Currency;
   vari;
-  constructor(public navCtrl: NavController, private ce: CurrencyExchangeProvider, public deviceStatus: DeviceProvider) {
+  constructor(public navCtrl: NavController, private ce: CurrencyExchangeProvider) {
     this.ce.load().subscribe(cur => {
       this.c = cur;
       this.vari = JSON.stringify(this.c);

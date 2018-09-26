@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { HomePage } from '../../pages/home/home';
 import { UserProvider } from '../../providers/user/user';
-import { DeviceProvider } from '../../providers/device/device';
 import { Events } from 'ionic-angular';
 import { SignupPage } from '../signup/signup';
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
@@ -24,7 +23,7 @@ export class LoginPage {
   message : string  = '';
   private loginForm : FormGroup;
   constructor(public navCtrl: NavController, public navParams: NavParams, private up: UserProvider,
-  public events: Events, private formBuilder: FormBuilder, public deviceStatus: DeviceProvider) {
+  public events: Events, private formBuilder: FormBuilder) {
     this.user = {};
     this.message = this.navParams.get('message');
     this.loginForm = this.formBuilder.group({

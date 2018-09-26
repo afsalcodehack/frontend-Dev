@@ -1,108 +1,83 @@
-<ion-header *ngIf="deviceStatus.mobile">
-  <ion-navbar class="alignment-titlebar">
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>{{ 'Profile Details' | translate }}</ion-title>
-  </ion-navbar>
+<app-content title="Profile Details">
+  <div *ngIf="user">
 
-</ion-header>
-
-
-<ion-content>
-  <ion-navbar class="alignment-titlebar" *ngIf="deviceStatus.desktop">
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>{{ 'Profile Details' | translate }}</ion-title>
-  </ion-navbar>
-
-  <div class="ion-content-custom">
-    <div *ngIf="user">
-
-      <div class="profile-card center">
-        <div>
-          <img src="{{ user['image']['360p'] }}" class="profile-card-image" *ngIf="user.image">
-          <img *ngIf="!user.image" src="https://upload.wikimedia.org/wikipedia/en/b/b1/Portrait_placeholder.png" class="profile-card-image" alt="Contact Person">
-        </div>
-        <br>
-        <div>
-          <ion-buttons *ngIf="deviceStatus.isCordova">
-            <button ion-button icon-left (click)="presentActionSheet()">
-              <ion-icon name="camera"></ion-icon>Select Image
-            </button>
-            <button ion-button icon-left (click)="uploadImage()" [disabled]="lastImage === null">
-              <ion-icon name="cloud-upload"></ion-icon>Upload
-            </button>
-          </ion-buttons>
-          <ion-buttons *ngIf="!deviceStatus.isCordova">
-            <div>
-              <label for="custom-file-input" ion-button class="default-button" color="light">
-                <ion-icon name="camera"></ion-icon>
-              </label>
-              <input (change)="onImageSelect($event)" type="file" accept="image/*" id="custom-file-input" class="hide"/>
-            </div>
-          </ion-buttons>
-        </div>
+    <div class="profile-card center">
+      <div>
+        <img src="{{ user['image']['360p'] }}" class="profile-card-image" *ngIf="user.image">
+        <img *ngIf="!user.image" src="https://upload.wikimedia.org/wikipedia/en/b/b1/Portrait_placeholder.png" class="profile-card-image" alt="Contact Person">
       </div>
-
-      <ion-list>
-        <ion-item>
-          <ion-label floating>{{ 'First Name' | translate }}</ion-label>
-          <ion-input id="first_name" type="text" class="validate" [(ngModel)]="user.first_name"></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label floating>{{ 'Last Name' | translate }}</ion-label>
-          <ion-input id="last_name" type="text" class="validate" [(ngModel)]="user.last_name"></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label floating>{{ 'Email' | translate }}</ion-label>
-          <ion-input id="email" type="email" class="validate" email [(ngModel)]="user.email"></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label floating>{{ 'Bio' | translate }}</ion-label>
-          <ion-input id="bio" type="text" class="validate" [(ngModel)]="user.bio"></ion-input>
-        </ion-item>
-
-      </ion-list>
-
-      <button  ion-button block (click)="userDetails()" class="btn center waves-effect white black-text" [disabled]="!user || !user.email">
-        <span class="btn-text">{{ 'Change Details' | translate }}</span>
-      </button>
-
+      <br>
+      <div>
+        <ion-buttons *ngIf="deviceStatus.isCordova">
+          <button ion-button icon-left (click)="presentActionSheet()">
+            <ion-icon name="camera"></ion-icon>Select Image
+          </button>
+          <button ion-button icon-left (click)="uploadImage()" [disabled]="lastImage === null">
+            <ion-icon name="cloud-upload"></ion-icon>Upload
+          </button>
+        </ion-buttons>
+        <ion-buttons *ngIf="!deviceStatus.isCordova">
+          <div>
+            <label for="custom-file-input" ion-button class="default-button" color="light">
+              <ion-icon name="camera"></ion-icon>
+            </label>
+            <input (change)="onImageSelect($event)" type="file" accept="image/*" id="custom-file-input" class="hide"/>
+          </div>
+        </ion-buttons>
+      </div>
     </div>
 
+    <ion-list>
+      <ion-item>
+        <ion-label floating>{{ 'First Name' | translate }}</ion-label>
+        <ion-input id="first_name" type="text" class="validate" [(ngModel)]="user.first_name"></ion-input>
+      </ion-item>
 
-    <form [formGroup]="changePasswordForm" (ngSubmit)="changePassword()">
-      <ion-list>
-        <ion-item>
-          <ion-label floating>{{ 'Current Password' | translate }}</ion-label>
-          <ion-input id="old_pwd" type="password" class="validate" formControlName="old_password"></ion-input>
-        </ion-item>
+      <ion-item>
+        <ion-label floating>{{ 'Last Name' | translate }}</ion-label>
+        <ion-input id="last_name" type="text" class="validate" [(ngModel)]="user.last_name"></ion-input>
+      </ion-item>
 
-        <ion-item>
-          <ion-label floating>{{ 'New Password' | translate }}</ion-label>
-          <ion-input id="new_pwd1" type="password" class="validate" formControlName="new_password1"></ion-input>
-        </ion-item>
+      <ion-item>
+        <ion-label floating>{{ 'Email' | translate }}</ion-label>
+        <ion-input id="email" type="email" class="validate" email [(ngModel)]="user.email"></ion-input>
+      </ion-item>
 
-        <ion-item>
-          <ion-label floating>{{ 'Repeat New Password' | translate }}</ion-label>
-          <ion-input id="new_pwd2" type="password" class="validate" formControlName="new_password2"></ion-input>
-        </ion-item>
+      <ion-item>
+        <ion-label floating>{{ 'Bio' | translate }}</ion-label>
+        <ion-input id="bio" type="text" class="validate" [(ngModel)]="user.bio"></ion-input>
+      </ion-item>
 
-      </ion-list>
+    </ion-list>
 
-      <button *ngIf="!status" ion-button block type="submit" class="btn center waves-effect white black-text" [disabled]="!changePasswordForm.valid">
-        <span class="btn-text">{{ 'Change Password' | translate }}</span>
-      </button>
-    </form>
+    <button  ion-button block (click)="userDetails()" class="btn center waves-effect white black-text" [disabled]="!user || !user.email">
+      <span class="btn-text">{{ 'Change Details' | translate }}</span>
+    </button>
+
   </div>
 
-  <ion-toolbar color="light" class="ion-content-custom" *ngIf="deviceStatus.desktop">
-    <a class="href-title-left" href="#/tandc">{{ 'Terms and Conditions' | translate }}</a>
-    <a class="href-title-right">{{ '&copy; Cookiecutter 2018' | translate }}</a>
-  </ion-toolbar>
-</ion-content>
+
+  <form [formGroup]="changePasswordForm" (ngSubmit)="changePassword()">
+    <ion-list>
+      <ion-item>
+        <ion-label floating>{{ 'Current Password' | translate }}</ion-label>
+        <ion-input id="old_pwd" type="password" class="validate" formControlName="old_password"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>{{ 'New Password' | translate }}</ion-label>
+        <ion-input id="new_pwd1" type="password" class="validate" formControlName="new_password1"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>{{ 'Repeat New Password' | translate }}</ion-label>
+        <ion-input id="new_pwd2" type="password" class="validate" formControlName="new_password2"></ion-input>
+      </ion-item>
+
+    </ion-list>
+
+    <button *ngIf="!status" ion-button block type="submit" class="btn center waves-effect white black-text" [disabled]="!changePasswordForm.valid">
+      <span class="btn-text">{{ 'Change Password' | translate }}</span>
+    </button>
+  </form>
+</app-content>

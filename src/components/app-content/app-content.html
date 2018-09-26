@@ -1,25 +1,27 @@
+<ng-template #headerTpl>
+  <ng-content select="[header]"></ng-content>
+</ng-template>
+
 <ion-header *ngIf="deviceStatus.mobile">
   <ion-navbar class="alignment-titlebar">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{ 'Map' | translate }}</ion-title>
+    <ion-title *ngIf="title">{{ title | translate }}</ion-title>
+    <ng-container *ngTemplateOutlet="headerTpl"></ng-container>
   </ion-navbar>
 </ion-header>
-
 <ion-content>
   <ion-navbar class="alignment-titlebar" *ngIf="deviceStatus.desktop">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{ 'Map' | translate }}</ion-title>
-    <ion-buttons end>
-      <button ion-button (click)="addMarker()"><ion-icon name="add"></ion-icon>Add Marker</button>
-    </ion-buttons>
+    <ion-title *ngIf="title">{{ title | translate }}</ion-title>
+    <ng-container *ngTemplateOutlet="headerTpl"></ng-container>
   </ion-navbar>
 
-  <div class="ion-content-custom">
-    <div #map id="map"></div>
+  <div [class.ion-content-custom]="padding">
+    <ng-content></ng-content>
   </div>
 
   <ion-toolbar color="light" class="ion-content-custom" *ngIf="deviceStatus.desktop">

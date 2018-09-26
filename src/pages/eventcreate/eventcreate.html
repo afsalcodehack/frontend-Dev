@@ -1,35 +1,19 @@
-<ion-header *ngIf="deviceStatus.mobile">
-  <ion-navbar class="alignment-titlebar">
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Create Event</ion-title>
-  </ion-navbar>
-</ion-header>
-<ion-content>
-  <ion-navbar class="alignment-titlebar" *ngIf="deviceStatus.desktop">
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Create Event</ion-title>
-  </ion-navbar>
-  <div class="ion-content-custom">
-    <form [formGroup]="eventForm" (ngSubmit)="create()">
-      <ion-list>
-        <ion-item>
-          <ion-label for="name" floating>{{ 'Name' | translate }}</ion-label>
-          <ion-input id="name" class="validate" type="text" formControlName="name"></ion-input>
-        </ion-item>
-        
-        <ion-item>
-          <ion-label>{{ 'Public' | translate }}</ion-label>
-          <ion-checkbox color="dark" formControlName="isPublic"></ion-checkbox>
-        </ion-item>
-      </ion-list>
+<app-content Title="Create Event">
+  <form [formGroup]="eventForm" (ngSubmit)="create()">
+    <ion-list>
+      <ion-item>
+        <ion-label for="name" floating>{{ 'Name' | translate }}</ion-label>
+        <ion-input id="name" class="validate" type="text" formControlName="name"></ion-input>
+      </ion-item>
 
-      <button type="submit" ion-button block [disabled]="!eventForm.valid">
-        {{ 'Create' | translate }}
-      </button>
-    </form>
-  </div>
-</ion-content>
+      <ion-item>
+        <ion-label>{{ 'Public' | translate }}</ion-label>
+        <ion-checkbox color="dark" formControlName="isPublic"></ion-checkbox>
+      </ion-item>
+    </ion-list>
+
+    <button type="submit" ion-button block [disabled]="!eventForm.valid">
+      {{ 'Create' | translate }}
+    </button>
+  </form>
+</app-content>

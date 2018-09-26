@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/user';
-import { DeviceProvider } from '../../providers/device/device';
 import { AlertController } from 'ionic-angular';
 import { WelcomePage } from '../welcome/welcome';
 import { LoginPage } from '../login/login';
@@ -25,7 +24,6 @@ export class SignupPage {
     private up: UserProvider,
     public alertCtrl: AlertController,
     public fb: FormBuilder,
-    public deviceStatus: DeviceProvider
   ) {
 
     this.signupForm = this.fb.group({
