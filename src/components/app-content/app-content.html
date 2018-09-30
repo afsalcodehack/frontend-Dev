@@ -25,7 +25,7 @@
   </div>
 
   <ion-toolbar color="light" class="ion-content-custom" *ngIf="deviceStatus.desktop">
-    <a class="href-title-left" href="#/tandc">{{ 'Terms and Conditions' | translate }}</a>
-    <a class="href-title-right">{{ '&copy; Cookiecutter 2018' | translate }}</a>
+    <a class="href-title-left" [href]="this.pageLocation.location('tandc')">{{ 'Terms and Conditions' | translate }}</a>
+    <a class="href-title-right">{{ '© Cookiecutter 2018' | translate }}</a>
   </ion-toolbar>
 </ion-content>

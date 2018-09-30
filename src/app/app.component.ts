@@ -9,17 +9,15 @@ import { Globalization } from '@ionic-native/globalization';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
-import { HomePage } from '../pages/home/home';
+import { EventListPage } from '../pages/eventlist/eventlist';
 import { SignupPage } from '../pages/signup/signup';
-import { TandcPage } from '../pages/tandc/tandc';
 
 import { AboutPage } from '../pages/about/about';
-import { EventListPage } from '../pages/eventlist/eventlist';
+import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { LogoutPage } from '../pages/logout/logout';
 import { ProductPage } from '../pages/product/product';
 import { ProfilePage } from '../pages/profile/profile';
-import { ServicePage } from '../pages/service/service';
 import { SettingsPage } from '../pages/settings/settings';
 
 import { DeviceProvider } from '../providers/device/device';
@@ -35,8 +33,8 @@ let _ = function(a) { return a; };
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = HomePage;
-  pages: Array<{title: string, component: any, status: any, divide: any}>;
+  rootPage:any = EventListPage;
+  pages: Array<{title: string, id: string, component: any, status: any, divide: any}>;
   @ViewChild(Nav) nav: Nav;
 
   constructor(
@@ -98,15 +96,14 @@ export class MyApp {
     });
 
     this.pages = [
-      { title: _('Home'), component: HomePage, status: false, divide: true},
-      { title: _('Service'), component: ServicePage, status: false, divide: true},
-      { title: _('Settings'), component: SettingsPage, status: false, divide: false},
-      { title: _('Product'), component: ProductPage, status: false, divide: false},
-      { title: _('Event'), component: EventListPage, status: false, divide: false},
-      { title: _('Signup/Login'), component: LoginPage, status: false, divide: false},
-      { title: _('Profile'), component: ProfilePage, status: false, divide: false},
-      { title: _('Logout'), component: LogoutPage, status: false, divide: false},
-      { title: _('About'), component: AboutPage, status: false, divide: false},
+      { title: _('Home'), id: 'home', component: HomePage, status: false, divide: true},
+      { title: _('Settings'), id: 'settings', component: SettingsPage, status: false, divide: false},
+      { title: _('Product'), id: 'product', component: ProductPage, status: false, divide: false},
+      { title: _('Event'), id: 'event-list', component: EventListPage, status: false, divide: false},
+      { title: _('Signup/Login'), id: 'login', component: LoginPage, status: false, divide: false},
+      { title: _('Profile'), id: 'profile', component: ProfilePage, status: false, divide: false},
+      { title: _('Logout'), id: 'logout', component: LogoutPage, status: false, divide: false},
+      { title: _('About'), id: 'about', component: AboutPage, status: false, divide: false},
     ];
 
     events.subscribe('user:logout', () => {
@@ -175,9 +172,5 @@ export class MyApp {
         })
       }
     });
-  }
-
-  goToTandC() {
-    this.nav.setRoot(TandcPage);
   }
 }

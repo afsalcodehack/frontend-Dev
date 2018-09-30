@@ -11,6 +11,7 @@ import 'rxjs/add/operator/do';
 
 import * as url from 'url';
 
+import { EndPoint } from '../models/backend'
 import { backend } from '../app/backend'
 import { backendUrl } from '../global';
 
@@ -45,40 +46,47 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     return fakeData;
   }
 
+  getFakeComponent(request) : EndPoint | null {
+    if (!this.allowFakeResponse) return null;
+
+    let parsedUrl = url.parse(request.url);
+    if (!parsedUrl.pathname) return null;
+    let component = backend.paths[parsedUrl.pathname];
+
+    if (component === undefined) {
+      console.log(`endpoint ${parsedUrl.pathname} is not in app.backend`);
+      return null;
+    }
+
+    if (!this.preferOffline && component.implemented) {
+      console.log(`implemented endpoint ${parsedUrl.pathname} is preferred`);
+      return null;
+    }
+
+    if (!component.fakeData) {
+      console.log(`no fake data for ${parsedUrl.pathname}`);
+      return null;
+    }
+
+    return component;
+  }
+
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // wrap in delayed observable to simulate server api call
     return Observable.of(null).mergeMap(() => {
-      let response;
+      const component = this.getFakeComponent(request);
 
-      if (this.allowFakeResponse) {
-        let parsedUrl = url.parse(request.url);
-        let component = backend.paths[parsedUrl.pathname];
-
-        if (component === undefined) {
-          console.log(`endpoint ${parsedUrl.pathname} is not in app.backend`);
-        } else {
-          if (this.preferOffline || !component.implemented) {
-            if (!component.fakeData) {
-              console.log(`no fake data for ${parsedUrl.pathname}`);
-            } else {
-              response = this.getFakeResponse(request, component);
-            }
-          }
-        }
-
-        if (response) {
-          return Observable.of(response)
+      if (component) {
+        const response = this.getFakeResponse(request, component);
+        return Observable.of(response)
           .delay(500)
           .do(() => {
             if (component.done) {
               component.done(request, response);
             }
           });
-        }
+      } else {
 
-      }
-
-      if (!response) {
         // pass through any requests not handled above
         return next.handle(request);
       }

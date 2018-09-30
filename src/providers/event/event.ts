@@ -14,6 +14,7 @@ export class EventProvider {
   eventlistUrl = backend.paths['events'].toURL();
   eventUrl = backend.paths['event'].toURL();
   eventcreateUrl = backend.paths['event/create'].toURL();
+  eventUpdateUrl = backend.paths['event/update'].toURL();
 
   constructor(public http: HttpClient) {
   }
@@ -28,6 +29,10 @@ export class EventProvider {
 
   createEvent(data: any): Promise<any> {
     return this.http.post(this.eventcreateUrl, data).toPromise();
+  }
+
+  updateEvent(data: any): Promise<any> {
+    return this.http.post(this.eventUpdateUrl, data).toPromise();
   }
 
 }

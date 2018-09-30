@@ -48,14 +48,13 @@ copy:
   - tslint.json: tslint.json
   - README.md: README.md
   - src/manifest.json: src/manifest.json
-  - src/app/auth.module.ts: src/app/auth.module.ts
+  - src/app/authHttpServiceFactory.ts: src/app/authHttpServiceFactory.ts
   - src/app/main.ts: src/app/main.ts
   - src/components/: src/components/**
   - src/config/environment.ts: src/config/environment.ts
   - src/models/: src/models/**
   - src/pages/about/: src/pages/about/
   - src/pages/home/: src/pages/home/
-  - src/pages/service/: src/pages/service/
   - src/pages/settings/: src/pages/settings/
   - src/pages/login/: src/pages/login/
   - src/pages/signup/: src/pages/signup/
@@ -71,5 +70,6 @@ copy:
   - src/pages/eventlist/: src/pages/eventlist/
   - src/pages/eventcreate/: src/pages/eventcreate/
   - src/pages/payment/: src/pages/payment/
+  - src/pipes/: src/pipes/**
   - src/providers/: src/providers/**
   - src/theme/variables.scss: src/theme/variables.scss

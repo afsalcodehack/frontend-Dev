@@ -20,10 +20,19 @@ localStorage.setItem('users', JSON.stringify(fakeUsers));
 
 export const fakeJwtToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.Et9HFtf9R3GEMA0IICOfFMVXY7kkTX1wr4qCyhIf58U';
 
+function getStoredUsers() {
+  const serialised_users = localStorage.getItem('users');
+  if (serialised_users) {
+    return JSON.parse(serialised_users);
+  } else {
+    return [];
+  }
+}
+
 export function handleRegistration(request) {
   const email: string = request.body.email;
   const password: string = request.body.password;
-  const users: any[] = JSON.parse(localStorage.getItem('users')) || [];
+  const users: any[] = getStoredUsers();
   if (users.some((user) => user.email === email)) {
     throw {email: ['A user has already been registered with this email address.']};
   }
@@ -40,7 +49,7 @@ export function handleRegistration(request) {
 export function handleLogin(request) {
   const email: string = request.body.email;
   const password: string = request.body.password;
-  const users: any[] = JSON.parse(localStorage.getItem('users')) || [];
+  const users: any[] = getStoredUsers();
   for (const user of users) {
     if (user.email === email) {
       if (user.verified) {

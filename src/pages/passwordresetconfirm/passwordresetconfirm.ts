@@ -3,7 +3,6 @@ import { NavController, NavParams } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { AlertController } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/user';
-import { HomePage } from '../home/home'
 
 
 @Component({
@@ -51,7 +50,7 @@ export class PasswordresetconfirmPage {
     buttons: [ {
       text: 'OK',
       handler: data => {
-      this.navCtrl.setRoot(HomePage);
+      this.navCtrl.setRoot('root');
       }
     }],
   });

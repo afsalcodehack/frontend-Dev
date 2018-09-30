@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { HomePage } from '../../pages/home/home';
 import { UserProvider } from '../../providers/user/user';
 import { Events } from 'ionic-angular';
 import { SignupPage } from '../signup/signup';
@@ -45,7 +44,7 @@ export class LoginPage {
     this.up.isAuthenticated().then(loggedIn => {
       console.log(loggedIn);
       if (loggedIn) {
-        this.navCtrl.push(HomePage);
+        this.navCtrl.setRoot('root');
       }
     })
   }
@@ -55,7 +54,7 @@ export class LoginPage {
     this.up.loginUser({'email': data['email'], 'password': data['password']})
       .then( usr => {
           this.events.publish('user:login');
-          this.navCtrl.setRoot(HomePage);
+          this.navCtrl.setRoot('root');
           console.log(usr)
       },error => console.log(error));
   }
@@ -67,5 +66,4 @@ export class LoginPage {
   goToPasswordReset() {
     this.navCtrl.push(PasswordresetPage);
   }
-
 }

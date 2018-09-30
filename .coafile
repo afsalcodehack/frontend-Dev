@@ -4,6 +4,7 @@ files = **.js, **.ts, **.css, **.scss, **.json
 ignore =
   .cache/,
   .git/,
+  .pnpm-store/,
   .npm/,
   node_modules/,
   www/,
@@ -22,6 +23,7 @@ bears = LineLengthBear
 ignore =
   .cache/,
   .git/,
+  .pnpm-store/,
   .npm/,
   node_modules/,
   www/,
@@ -58,6 +60,16 @@ files = **.yml
 [all.sh]
 bears = ShellCheckBear
 files = .ci/bin/**
+ignore =
+  .ci/bin/npm,
+  .ci/bin/npx,
+  .cache/,
+  .git/,
+  .pnpm-store/
+  .npm/,
+  node_modules/,
+  www/,
+  dist/
 indent_size = 4
 shell = sh
 

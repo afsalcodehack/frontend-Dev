@@ -1,5 +1,4 @@
 {
-  "&copy; Cookiecutter 2018": "&copy; Picshare 2018",
   "About": "Über",
   "About ViperDev": "Über Picshare",
   "All the Terms and Condtitions goes here.": "Alle Geschäftsbedingungen finden Sie hier.",
@@ -38,5 +37,6 @@
   "Trouble loggin in?": "Probleme beim Einloggen?",
   "Your MVP. Done in just 30 Days. Designed with you, implemented and deployed by us.": "Dein MVP. In nur 30 Tagen erledigt. Entwickelt mit Ihnen, implementiert und implementiert von uns.",
   "service": "Bedienung",
-  "welcome": "herzlich willkommen"
+  "welcome": "herzlich willkommen",
+  "© Cookiecutter 2018": "© Picshare 2018"
 }

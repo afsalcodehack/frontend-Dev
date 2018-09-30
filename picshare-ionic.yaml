@@ -1,12 +1,16 @@
 overrides: ionic.yaml
 
 app_title: Picshare
+home_page: event-list
 
 features:
   payment: true
 
 pages:
   search: false
+  service: false
+
+verify_e2e: false
 
 colors:
   primary: green

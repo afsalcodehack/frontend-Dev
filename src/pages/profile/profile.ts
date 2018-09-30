@@ -79,57 +79,16 @@ export class ProfilePage {
         },error => console.log(error));
   }
 
-  presentActionSheet() {
-    let actionSheet = this.actionSheetCtrl.create({
-      title: 'Select Image Source',
-      buttons: [
-        {
-          text: 'Load from Library',
-          handler: () => {
-            var sourceType = this.camera.PictureSourceType.PHOTOLIBRARY;
-            this.imageUploadProvider.takePicture(sourceType).then(imagePath=> {
-              if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
-                return this.imageUploadProvider.pathHandler(sourceType, imagePath)
-              } else {
-                return new Promise(function(resolve){
-                  var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
-                  var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
-
-                  resolve ({
-                    'correctPath' : correctPath,
-                    'currentName' : currentName
-                  })
-                });
-              }
-
-            }).then(res => {
-                var correctPath = res['correctPath'];
-                var currentName = res['currentName'];
-                return this.imageUploadProvider.copyFileToLocalDir(correctPath, currentName, this.imageUploadProvider.createFileName());
-            }).then(res => {
-               this.lastImage = res;
-               this.user.image = this.imageUploadProvider.pathForImage(res);
-               return this.storage.get('token')
-            }).then((val) => {
-              this.authToken = val;
-            });
-          }
-        },
-        {
-          text: 'Use Camera',
-          handler: () => {
-            this.imageUploadProvider.takePicture(this.camera.PictureSourceType.CAMERA).then(res=> {
-
-            }) ;
-          }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel'
-        }
-      ]
+  presentActionSheetAndUpload() {
+    this.imageUploadProvider.presentActionSheet((promise) => {
+      promise.then(res => {
+            this.lastImage = res;
+            this.user.image = this.imageUploadProvider.pathForImage(res);
+            return this.storage.get('token')
+        }).then((val) => {
+          this.authToken = val;
+        });
     });
-    actionSheet.present();
   }
 
   uploadImage() {

@@ -9,7 +9,7 @@
 		</ion-item-group>
     <ion-item-group>
       <ion-item-divider color="light">{{ 'About' | translate }}</ion-item-divider>
-      <button ion-item block outline (click) = "goToTandC()">{{ 'Terms and Conditions' | translate }}</button>
+      <a button block outline [href]="this.pageLocation.location('tandc')">{{ 'Terms and Conditions' | translate }}</a>
     </ion-item-group>
 	</ion-list>
 </app-content>

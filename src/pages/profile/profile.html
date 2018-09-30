@@ -9,7 +9,7 @@
       <br>
       <div>
         <ion-buttons *ngIf="deviceStatus.isCordova">
-          <button ion-button icon-left (click)="presentActionSheet()">
+          <button ion-button icon-left (click)="presentActionSheetAndUpload()">
             <ion-icon name="camera"></ion-icon>Select Image
           </button>
           <button ion-button icon-left (click)="uploadImage()" [disabled]="lastImage === null">

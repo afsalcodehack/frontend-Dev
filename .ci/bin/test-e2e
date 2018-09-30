@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -e -x
+
+ionic serve --no-open --local --no-devapp --no-proxy &
+
+sleep 60
+
+exec npm run e2e

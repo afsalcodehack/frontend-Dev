@@ -3,8 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { lang } from './settings.constants';
 import { TranslateService } from 'ng2-translate/ng2-translate';
 import { LanguageProvider } from '../../providers/language/language';
-import { TandcPage } from '../tandc/tandc';
-
+import { PageLocationProvider } from '../../providers/page-location/page-location';
 
 @Component({
   selector: 'page-settings',
@@ -17,6 +16,7 @@ export class SettingsPage {
     public navParams: NavParams,
     translate: TranslateService,
     public lp: LanguageProvider,
+    public pageLocation: PageLocationProvider,
   ) {
     this.translate = translate;
   }
@@ -24,18 +24,12 @@ export class SettingsPage {
   languages = lang.availableLanguages;
   selectedLanguage = lang.sysOptions.systemLanguage;
 
-  param = { value: 'world' };
-
   private translate: TranslateService;
 
   applyLanguage() {
     this.translate.use(this.selectedLanguage);
     this.lp.saveLanguage(this.selectedLanguage);
     lang.sysOptions.systemLanguage = this.selectedLanguage;
-  }
-
-  goToTandC() {
-    this.navCtrl.push(TandcPage);
   }
 
 }

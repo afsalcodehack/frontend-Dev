@@ -1,3 +1,31 @@
 <app-content title="Event">
-  <h1>{{ event.name }}</h1>
+  <ion-grid no-padding>
+    <ng-container *ngFor="let collection of getAlbumCollections(event.album) | mapToIterable">
+      <ion-row>
+        <ion-col class="collection-label" text-start>
+          {{ collection.key | date:'shortTime' }}
+        </ion-col>
+        <ion-col class="collection-label" text-end>
+          {{ collection.key | date:'longDate' }}
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col *ngFor="let photo of collection.val" col-4>
+          <square-image [src]="photo.url"></square-image>
+        </ion-col>
+      </ion-row>
+    </ng-container>
+  </ion-grid>
 </app-content>
+
+<ion-fab bottom right>
+  <div *ngIf="!deviceStatus.isCordova">
+    <label ion-fab for="file-upload">
+      <ion-icon name="add"></ion-icon>
+    </label>
+    <input type="file" accept="image/*" id="file-upload" class="hide" (change)="uploadSelectedImage($event)"/>
+  </div>
+  <button ion-fab *ngIf="deviceStatus.isCordova" (click)="openSheetAndUpload()">
+    <ion-icon name="add"></ion-icon>
+  </button>
+</ion-fab>

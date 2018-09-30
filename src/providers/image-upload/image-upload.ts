@@ -111,7 +111,7 @@ export class ImageUploadProvider {
 
   uploadImage(authToken, targetPath, options, param) {
     var url = this.userUrl
-    if (param && param.length > 0) {
+    if (param && param.toString().length > 0) {
       url = this.petsUrl + param + '/';
     }
     const fileTransfer: TransferObject = this.transfer.create();
@@ -119,11 +119,69 @@ export class ImageUploadProvider {
 
     // Use the FileTransfer to upload the image
     return fileTransfer.upload(targetPath, url, options).then(data => {
-      this.presentToast('Image succesful uploaded.');
+      this.presentToast('Image successfully uploaded.');
       return data;
     }, err => {
       this.presentToast('Error while uploading file.');
     });
+  }
+
+  presentActionSheet(processor) {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Select Image Source',
+      buttons: [{
+          text: 'Photo Gallery',
+          handler: () => {
+            let sourceType = this.camera.PictureSourceType.PHOTOLIBRARY;
+
+            let promise = this.takePicture(sourceType).then(imagePath => {
+              if (this.platform.is('android') &&
+                  sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
+
+                return this.pathHandler(sourceType, imagePath);
+              } else {
+
+                return new Promise(function(resolve) {
+                  let currentName = imagePath.substr(
+                    imagePath.lastIndexOf('/') + 1);
+
+                  let correctPath = imagePath.substr(
+                    0, imagePath.lastIndexOf('/') + 1);
+
+                  resolve({
+                    correctPath,
+                    currentName,
+                  });
+                });
+              }
+            }).then(res => {
+              let correctPath = res['correctPath'];
+              let currentName = res['currentName'];
+
+              return this.copyFileToLocalDir(
+                correctPath, currentName, this.createFileName());
+            });
+
+            processor(promise);
+          }
+        },
+        {
+          text: 'Camera',
+          handler: () => {
+            let promise = this.takePicture(
+              this.camera.PictureSourceType.CAMERA);
+
+            processor(promise);
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    });
+
+    actionSheet.present();
   }
 
 }

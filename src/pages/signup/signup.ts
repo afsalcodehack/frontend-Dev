@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/user';
-import { AlertController } from 'ionic-angular';
-import { WelcomePage } from '../welcome/welcome';
 import { LoginPage } from '../login/login';
 import { PasswordresetPage } from '../passwordreset/passwordreset';
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
@@ -22,7 +20,6 @@ export class SignupPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private up: UserProvider,
-    public alertCtrl: AlertController,
     public fb: FormBuilder,
   ) {
 
@@ -48,22 +45,6 @@ export class SignupPage {
         this.signup = true;
         this.navCtrl.push(LoginPage, { 'message' : usr.detail })
       },error => console.log(error));
-  }
-
-  showAlert() {
-    let alert = this.alertCtrl.create({
-      title: 'Sign Up Successfull!',
-      subTitle: 'Lets get started!',
-      buttons: [ {
-       text: 'OK',
-       handler: data => {
-
-        this.navCtrl.setRoot(WelcomePage);
-        }
-      }],
-
-    });
-    alert.present();
   }
 
   login() : void {

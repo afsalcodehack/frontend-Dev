@@ -92,7 +92,10 @@ export class PaymentPage {
 
     loading.present();
 
-    const email = this.paymentForm.get('email').value;
+    const email_field = this.paymentForm.get('email');
+    if (!email_field) return;
+
+    const email = email_field.value;
     this.stripeService
       .createToken(this.card, {})
       .subscribe(async result => {
