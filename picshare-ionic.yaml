@@ -10,6 +10,13 @@ pages:
   search: false
   service: false
 
+menu_pages:
+  - event-list
+  - login
+  - logout
+  - settings
+  - about
+
 verify_e2e: false
 
 colors:

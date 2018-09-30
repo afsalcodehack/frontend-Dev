@@ -10,14 +10,12 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
 import { EventListPage } from '../pages/eventlist/eventlist';
+import { LoginPage } from '../pages/login/login';
+import { LogoutPage } from '../pages/logout/logout';
+import { ProfilePage } from '../pages/profile/profile';
 import { SignupPage } from '../pages/signup/signup';
 
 import { AboutPage } from '../pages/about/about';
-import { HomePage } from '../pages/home/home';
-import { LoginPage } from '../pages/login/login';
-import { LogoutPage } from '../pages/logout/logout';
-import { ProductPage } from '../pages/product/product';
-import { ProfilePage } from '../pages/profile/profile';
 import { SettingsPage } from '../pages/settings/settings';
 
 import { DeviceProvider } from '../providers/device/device';
@@ -96,13 +94,10 @@ export class MyApp {
     });
 
     this.pages = [
-      { title: _('Home'), id: 'home', component: HomePage, status: false, divide: true},
-      { title: _('Settings'), id: 'settings', component: SettingsPage, status: false, divide: false},
-      { title: _('Product'), id: 'product', component: ProductPage, status: false, divide: false},
       { title: _('Event'), id: 'event-list', component: EventListPage, status: false, divide: false},
       { title: _('Signup/Login'), id: 'login', component: LoginPage, status: false, divide: false},
-      { title: _('Profile'), id: 'profile', component: ProfilePage, status: false, divide: false},
       { title: _('Logout'), id: 'logout', component: LogoutPage, status: false, divide: false},
+      { title: _('Settings'), id: 'settings', component: SettingsPage, status: false, divide: false},
       { title: _('About'), id: 'about', component: AboutPage, status: false, divide: false},
     ];
 
