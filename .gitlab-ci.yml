@@ -108,5 +108,5 @@ verify:e2e:
     - npm install http-server jasmine-spec-reporter minimist protractor
                      ts-node '@types/jasmine'
     - export PATH=$CI_PROJECT_DIR/.ci/bin:$PATH
-    - sleep 5
+    - npm run e2e-update
   script: test-e2e www-dev-offline
