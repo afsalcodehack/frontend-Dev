@@ -24,7 +24,13 @@ export class ProductPage {
   }
 
   buy(product) {
-    this.navCtrl.push(PaymentPage, { product });
+    this.navCtrl.push(PaymentPage, {
+      title: product.name,
+      item: {
+        type: 'product',
+        ...product,
+      }
+    });
   }
 
 }

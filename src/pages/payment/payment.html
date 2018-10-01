@@ -1,6 +1,6 @@
 <app-content title="Payment">
   <div [hidden]="!stripeReady">
-    <h2>Buying {{ product?.name }} ({{ product?.price }} {{ product?.currency }})</h2>
+    <h2>Buying {{ title }} ({{ item?.price }} {{ item?.currency }})</h2>
     <form novalidate (ngSubmit)="pay()" [formGroup]="paymentForm">
       <ion-list>
         <ion-item>

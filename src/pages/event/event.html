@@ -11,7 +11,7 @@
       </ion-row>
       <ion-row>
         <ion-col *ngFor="let photo of collection.val" col-4>
-          <square-image [src]="photo.url"></square-image>
+          <square-image [photo]="photo" [event]="event"></square-image>
         </ion-col>
       </ion-row>
     </ng-container>

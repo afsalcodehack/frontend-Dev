@@ -33,6 +33,7 @@ import { ENV } from '../config/environment';
 import { AboutPage } from '../pages/about/about';
 import { EventPage } from '../pages/event/event';
 import { EventCreatePage } from '../pages/eventcreate/eventcreate';
+import { EventFrontPage } from '../pages/eventfront/eventfront';
 import { EventListPage } from '../pages/eventlist/eventlist';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
@@ -78,6 +79,7 @@ const deepLinkConfig = {
     { component: ProductPage, name: "product", segment: "product"},
     { component: EventPage, name: "event", segment: "event/:id"},
     { component: EventCreatePage, name: "event-create", segment: "event/create"},
+    { component: EventFrontPage, name: "event-front", segment: "event-front"},
     { component: PaymentPage, name: "payment", segment: "payment"},
   ]
 };
@@ -88,6 +90,7 @@ const deepLinkConfig = {
     AboutPage,
     EventPage,
     EventCreatePage,
+    EventFrontPage,
     EventListPage,
     HomePage,
     LoginPage,
@@ -129,6 +132,7 @@ const deepLinkConfig = {
     AboutPage,
     EventPage,
     EventCreatePage,
+    EventFrontPage,
     EventListPage,
     HomePage,
     LoginPage,

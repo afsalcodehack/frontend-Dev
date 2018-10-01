@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Events, NavController, NavParams } from 'ionic-angular';
 import { EventPage } from '../event/event';
 import { EventCreatePage } from '../eventcreate/eventcreate';
 import { EventProvider } from '../../providers/event/event';
+import { UserProvider } from '../../providers/user/user';
 
 /**
  * Generated class for the EventlistPage page.
@@ -16,14 +17,32 @@ import { EventProvider } from '../../providers/event/event';
   templateUrl: 'eventlist.html',
 })
 export class EventListPage {
-
+  loggedIn: boolean;
   events = [];
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    public up: UserProvider,
+    public ionicEvents: Events,
     public eventProvider: EventProvider,
   ) {
+    this.loggedIn = false;
+    this.setStatus();
+
+    ionicEvents.subscribe('user:logout', () => {
+      this.setStatus();
+    });
+
+    ionicEvents.subscribe('user:login', () => {
+      this.setStatus();
+    });
+  }
+
+  setStatus(): void {
+    this.up.isAuthenticated().then(loggedIn => {
+      this.loggedIn = !!loggedIn;
+    });
   }
 
   async ionViewDidLoad() {

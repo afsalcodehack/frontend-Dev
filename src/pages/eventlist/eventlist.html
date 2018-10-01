@@ -1,5 +1,5 @@
 <app-content title="Event">
-  <button ion-button (click)="create()">Create</button>
+  <button *ngIf="loggedIn" ion-button (click)="create()">Create</button>
   <ion-list>
     <button ion-item *ngFor="let event of events" (click)="eventSelected(event)">
       {{ event.name }}

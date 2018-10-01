@@ -35,6 +35,7 @@ targets:
 copy:
   - src/config/environment.ts: environments/local.ts
   - .gitignore: .gitignore
+  - pnpmfile.js: pnpmfile.js
   - .coafile: .coafile
   - .sass-lint.yml: .sass-lint.yml
   - .editorconfig: .editorconfig
@@ -51,6 +52,8 @@ copy:
   - src/app/authHttpServiceFactory.ts: src/app/authHttpServiceFactory.ts
   - src/app/main.ts: src/app/main.ts
   - src/app/app.html: src/app/app.html
+  - src/app/app.scss: src/app/app.scss
+  - src/app/backends/: src/app/backends/
   - src/components/: src/components/**
   - src/config/environment.ts: src/config/environment.ts
   - src/models/: src/models/**
@@ -70,6 +73,7 @@ copy:
   - src/pages/event/: src/pages/event/
   - src/pages/eventlist/: src/pages/eventlist/
   - src/pages/eventcreate/: src/pages/eventcreate/
+  - src/pages/eventfront/: src/pages/eventfront/
   - src/pages/payment/: src/pages/payment/
   - src/pipes/: src/pipes/**
   - src/providers/: src/providers/**

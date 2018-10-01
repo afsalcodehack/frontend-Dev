@@ -30,6 +30,8 @@ describe('Login page', () => {
       browser.sleep(5000);
       // redirected to home page, which may be different on each site
       page.getPageTitleText().then((text) => expect(text).not.toEqual('Login'));
+      // need to log out to clear states
+      page.logOut();
     });
   });
 

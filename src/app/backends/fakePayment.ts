@@ -1,18 +1,9 @@
-import { products } from './fakeProducts';
-
-export const handlePayment = (req) => {
-  const product = products.find(({ id }) => id === req.body.product_id);
-  if (!product) {
-    console.log('Product not found');
-    return;
-  }
-
-  const token = req.body.token;
+export const handlePayment = ({ body }) => {
   const charge = {
-    amount: product.price,
-    currency: product.currency,
-    description: `Charge for ${product.name}`,
-    source: token,
+    amount: body.price,
+    currency: body.currency,
+    description: `Charge for ${body.item_type} ${body.item_id}`,
+    source: body.token,
   };
   console.log('Created stripe charge', charge);
 };

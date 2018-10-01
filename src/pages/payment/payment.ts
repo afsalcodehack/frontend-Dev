@@ -3,7 +3,6 @@ import { NavController, NavParams, LoadingController, AlertController } from 'io
 import { StripeService, Elements, Element as StripeElement, ElementsOptions, ElementOptions } from "ngx-stripe";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { StripeProvider } from '../../providers/stripe/stripe';
-import { ProductPage } from '../product/product';
 import { LanguageProvider } from '../../providers/language/language';
 
 @Component({
@@ -14,7 +13,8 @@ export class PaymentPage {
 
   elements: Elements;
   card: StripeElement;
-  product: any;
+  title: string;
+  item: any;
   stripeStatus: any;
   stripeReady = false;
 
@@ -46,7 +46,8 @@ export class PaymentPage {
     public alertCtrl: AlertController,
     public languageProvider: LanguageProvider,
   ) {
-    this.product = this.navParams.get('product');
+    this.title = this.navParams.get('title');
+    this.item = this.navParams.get('item');
 
     this.paymentForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -54,8 +55,8 @@ export class PaymentPage {
   }
 
   async ionViewDidLoad() {
-    if (!this.product) {
-      return this.navCtrl.setRoot(ProductPage);
+    if (!this.item) {
+      return this.navCtrl.setRoot('root');
     }
 
     const loading = this.loadingCtrl.create({
@@ -101,21 +102,21 @@ export class PaymentPage {
       .subscribe(async result => {
         if (result.token) {
           await this.stripeProvider.charge(
-            this.product.id, email, result.token.id
+            this.item, email, result.token.id
           );
 
           loading.dismiss();
 
           const successAlert = this.alertCtrl.create({
             title: 'Payment Success',
-            subTitle: `You have purchased ${this.product.name}`,
+            subTitle: `You have purchased ${this.title}`,
             buttons: ['OK'],
           });
 
           successAlert.present();
 
           successAlert.onDidDismiss(() => {
-            this.navCtrl.setRoot(ProductPage);
+            this.navCtrl.setRoot(this.navCtrl.getPrevious());
           });
         } else if (result.error) {
           // Error creating the token

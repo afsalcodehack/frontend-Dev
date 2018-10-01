@@ -11,14 +11,18 @@ export class StripeProvider {
   }
 
   charge(
-    productId: string | number,
+    item: { type, id, price, currency },
     email: string,
     token: string,
   ): Promise<any> {
-    return this.http.post(
-      this.paymentUrl,
-      { token, email, product_id: productId },
-    ).toPromise();
+    return this.http.post(this.paymentUrl, {
+      token,
+      email,
+      item_type: item.type,
+      item_id: item.id,
+      price: item.price,
+      currency: item.currency,
+    }).toPromise();
   }
 
 }

@@ -1,3 +1,7 @@
 <div class="image-container">
-  <img [src]="src" imageViewer/>
+  <ng-template #navbarButtons>
+    <button ion-button (click)="buy()">Buy ({{ event.price }}$)</button>
+  </ng-template>
+
+  <img [src]="photo.url" #image (click)="presentImage(image)" />
 </div>
