@@ -17,8 +17,6 @@ menu_pages:
   - settings
   - about
 
-verify_e2e: false
-
 colors:
   primary: green
   secondary: aqua

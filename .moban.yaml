@@ -50,6 +50,7 @@ copy:
   - src/manifest.json: src/manifest.json
   - src/app/authHttpServiceFactory.ts: src/app/authHttpServiceFactory.ts
   - src/app/main.ts: src/app/main.ts
+  - src/app/app.html: src/app/app.html
   - src/components/: src/components/**
   - src/config/environment.ts: src/config/environment.ts
   - src/models/: src/models/**
@@ -73,3 +74,5 @@ copy:
   - src/pipes/: src/pipes/**
   - src/providers/: src/providers/**
   - src/theme/variables.scss: src/theme/variables.scss
+  - tests/e2e/: tests/e2e/**
+  - jasmine.json: jasmine.json

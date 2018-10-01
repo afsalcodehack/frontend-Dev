@@ -4,7 +4,7 @@
   <ion-header>
     <div class="alignment-navbar navbar" color= "secondary">
       <span *ngFor="let p of pages; let i = index;">
-        <a (click)="openPage(p)" color="secondary" *ngIf="p.status">{{ p.title | translate }}</a>
+        <a (click)="openPage(p)" [id]="p.id" color="secondary" *ngIf="p.status">{{ p.title | translate }}</a>
       </span>
     </div>
   </ion-header>

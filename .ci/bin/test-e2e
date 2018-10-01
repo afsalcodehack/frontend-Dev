@@ -2,8 +2,20 @@
 
 set -e -x
 
-ionic serve --no-open --local --no-devapp --no-proxy &
+wwwroot="$1"
+if [ "$1" ]; then
+    wwwroot="$1"
+else
+    wwwroot=www
+fi
 
-sleep 60
+if [ ! -d "$wwwroot" ]; then
+    echo 'Directory "$wwwroot" not found.'
+    exit 1
+fi
+
+http-server "$wwwroot" -p 8100 &
+
+sleep 10
 
 exec npm run e2e
