@@ -9,13 +9,14 @@ import { Globalization } from '@ionic-native/globalization';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
-import { EventListPage } from '../pages/eventlist/eventlist';
+import { EventFrontPage } from '../pages/eventfront/eventfront';
 import { LoginPage } from '../pages/login/login';
 import { LogoutPage } from '../pages/logout/logout';
 import { ProfilePage } from '../pages/profile/profile';
 import { SignupPage } from '../pages/signup/signup';
 
 import { AboutPage } from '../pages/about/about';
+import { EventListPage } from '../pages/eventlist/eventlist';
 import { SettingsPage } from '../pages/settings/settings';
 
 import { DeviceProvider } from '../providers/device/device';
@@ -31,7 +32,7 @@ let _ = function(a) { return a; };
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = EventListPage;
+  rootPage:any = EventFrontPage;
   pages: Array<{title: string, id: string, component: any, status: any, divide: any}>;
   @ViewChild(Nav) nav: Nav;
 

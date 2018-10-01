@@ -66,8 +66,8 @@ import { MapToIterablePipe } from '../pipes/map-to-iterable/map-to-iterable';
 const deepLinkConfig = {
   // All custom deep links goes here.
   links: [
-    { component: EventListPage, name: "root", segment: ""},
-    { component: EventListPage, name: "event-list", segment: "event-list"},
+    { component: EventFrontPage, name: "root", segment: ""},
+    { component: EventFrontPage, name: "event-front", segment: "event-front"},
     { component: AboutPage, name: "about", segment: "about"},
     { component: HomePage, name: "home", segment: "home"},
     { component: SettingsPage, name: "settings", segment: "settings"},
@@ -78,8 +78,8 @@ const deepLinkConfig = {
     { component: NotFoundPage, name: "not-found", segment: "*"},
     { component: ProductPage, name: "product", segment: "product"},
     { component: EventPage, name: "event", segment: "event/:id"},
+    { component: EventListPage, name: "event-list", segment: "event"},
     { component: EventCreatePage, name: "event-create", segment: "event/create"},
-    { component: EventFrontPage, name: "event-front", segment: "event-front"},
     { component: PaymentPage, name: "payment", segment: "payment"},
   ]
 };

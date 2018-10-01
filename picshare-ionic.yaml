@@ -3,7 +3,7 @@ overrides: ionic.yaml
 package_manager: pnpm
 
 app_title: Picshare
-home_page: event-list
+home_page: event-front
 
 features:
   payment: true
