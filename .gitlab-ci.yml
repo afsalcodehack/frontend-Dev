@@ -11,23 +11,27 @@ variables:
   ANDROID_ARTIFACT_DIR: $CI_PROJECT_DIR/platforms/android/app/build/outputs/apk
 
 cache:
-  key: node-npm
+  key: node-pnpm
   paths: &node_lock_cache_paths
-    - node_modules
-    - .npm
+    - .pnpm-store
 
 .npm_init: &npm_init |
   export PATH=$CI_PROJECT_DIR/.ci/bin:$PATH
   npm set optional false
   npm set production true
   npm set dev true
-  npm set cache $CI_PROJECT_DIR/.npm
-  npm --version
-  npm --silent rebuild > /dev/null
+  rm -rf node_modules
+  npm set store $CI_PROJECT_DIR/.pnpm-store
+  npm set pnpmfile $CI_PROJECT_DIR/pnpmfile.js
+  npm set prefer-frozen-shrinkwrap true
+  npm set prefer-offline true
+  [ -n "$(which pnpm 2>/dev/null)" ] || npm install -g pnpm
+  ln -s $(which pnpm) .ci/bin/npm
+  ln -s $(which pnpx) .ci/bin/npx
 
 before_script:
   - *npm_init
-  - npm install --no-save
+  - pnpm install --no-save
   - change-environment "$CI_COMMIT_REF_NAME"
 
 .collect_artifacts: &collect_artifacts
@@ -42,25 +46,26 @@ test:lint:
   image: okdocker/pynode:3.6-10.x
   stage: test
   cache:
-    key: coala-npm
+    key: coala-pnpm
     paths:
       - .cache/pip
-      - .npm
+      - .pnpm-store
   before_script:
     - *npm_init
-    - npm install -g csscomb sass-lint
+    - npm config set package-import-method copy
+    - pnpm install -g csscomb sass-lint
   script: test_lint
 
 test:tslint:
   stage: test
   image: node:8
   cache:
-    key: tslint-npm
+    key: tslint-pnpm
     paths: *node_lock_cache_paths
   script:
-    - npm install --no-save
+    - pnpm install --no-save
         tslint codelyzer tslint-eslint-rules
-    - npx ionic-app-scripts lint --bailOnLintError true
+    - pnpx ionic-app-scripts lint --bailOnLintError true
 
 build:dev:web:
   <<: *collect_artifacts
@@ -76,6 +81,10 @@ build:dev:android:
   variables:
     BUILD_FLAGS: --debug
   script: &android_build
+    - npm config set shrinkwrap-only true
+    - ionic cordova platform add android
+    - npm config set shrinkwrap-only false
+    - git checkout shrinkwrap.yaml
     - ionic cordova build android $BUILD_FLAGS
     - ls -al $ANDROID_ARTIFACT_DIR
 
