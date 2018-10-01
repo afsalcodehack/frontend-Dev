@@ -57,6 +57,7 @@ copy:
   - src/components/: src/components/**
   - src/config/environment.ts: src/config/environment.ts
   - src/models/: src/models/**
+  - src/pages/eventfront/: src/pages/eventfront/
   - src/pages/about/: src/pages/about/
   - src/pages/home/: src/pages/home/
   - src/pages/settings/: src/pages/settings/
@@ -73,7 +74,6 @@ copy:
   - src/pages/event/: src/pages/event/
   - src/pages/eventlist/: src/pages/eventlist/
   - src/pages/eventcreate/: src/pages/eventcreate/
-  - src/pages/eventfront/: src/pages/eventfront/
   - src/pages/payment/: src/pages/payment/
   - src/pipes/: src/pipes/**
   - src/providers/: src/providers/**

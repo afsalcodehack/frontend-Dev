@@ -11,8 +11,11 @@ features:
 pages:
   search: false
   service: false
+  event-front:
+    label: Home
 
 menu_pages:
+  - event-front
   - event-list
   - login
   - logout

@@ -95,6 +95,7 @@ export class MyApp {
     });
 
     this.pages = [
+      { title: _('Home'), id: 'event-front', component: EventFrontPage, status: false, divide: false},
       { title: _('Event'), id: 'event-list', component: EventListPage, status: false, divide: false},
       { title: _('Signup/Login'), id: 'login', component: LoginPage, status: false, divide: false},
       { title: _('Logout'), id: 'logout', component: LogoutPage, status: false, divide: false},
