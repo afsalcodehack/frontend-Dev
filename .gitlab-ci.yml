@@ -105,7 +105,7 @@ verify:e2e:
     - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
     - . "$HOME/.nvm/nvm.sh"  # This loads nvm
     - nvm install 8
-    - npm install -g http-server jasmine-spec-reporter minimist protractor
+    - npm install http-server jasmine-spec-reporter minimist protractor
                      ts-node '@types/jasmine'
     - export PATH=$CI_PROJECT_DIR/.ci/bin:$PATH
     - sleep 5
