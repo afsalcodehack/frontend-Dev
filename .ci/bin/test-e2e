@@ -14,8 +14,12 @@ if [ ! -d "$wwwroot" ]; then
     exit 1
 fi
 
+if [ -d './node_modules/.bin' ]; then
+    export PATH="$PATH:./node_modules/.bin"
+fi
+
 http-server "$wwwroot" -p 8100 &
 
 sleep 10
 
-exec npm run e2e
+exec protractor ./tests/e2e/protractor.conf.js
