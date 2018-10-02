@@ -31,7 +31,7 @@ export const backend = new Backend(
   [
     new EndPoint('get-user-info', true, {'token': 'fake token'}),
     new EndPoint('update-user-info', true),
-    new EndPoint('image-upload', true, (req) => ({ url: req.body.src })),
+    new EndPoint('image-upload', false, (req) => ({ url: req.body.src })),
     // rest-auth
     new EndPoint('rest-auth/registration', true, handleRegistration),
     new EndPoint('rest-auth/login', true, handleLogin),
