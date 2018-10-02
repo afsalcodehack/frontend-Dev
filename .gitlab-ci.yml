@@ -84,7 +84,6 @@ build:dev:android:
     - npm config set shrinkwrap-only true
     - ionic cordova platform add android
     - npm config set shrinkwrap-only false
-    - git checkout shrinkwrap.yaml
     - ionic cordova build android $BUILD_FLAGS
     - ls -al $ANDROID_ARTIFACT_DIR
 
