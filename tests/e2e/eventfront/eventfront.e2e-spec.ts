@@ -35,15 +35,16 @@ describe('Event front page when not logged in', () => {
 describe('Event front page when logged in', () => {
   let page: EventFrontPage;
   let loginPage: LoginPage;
+  let defaultInterval: number;
 
   beforeAll(() => {
+    defaultInterval = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+    // increase DEFAULT_TIMEOUT_INTERVAL to 120 seconds
+    // because login takes some time.
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 120000;
     loginPage = new LoginPage();
     loginPage.navigateTo().then(() => {
-      const email = 'alice@example.com';
-      const password = '123456';
-      loginPage.fillCredentials(email, password).then(() => {
-        browser.sleep(5000);
-      });
+      loginPage.logIn();
     });
   });
 
@@ -56,6 +57,7 @@ describe('Event front page when logged in', () => {
 
   afterAll(() => {
     loginPage.logOut();
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = defaultInterval;
   });
 
   it('should display your events/new events buttons', () => {
