@@ -14,6 +14,7 @@ export class SquareImageComponent {
   @Input() event: any;
 
   @ViewChild('navbarButtons') navbarButtons: TemplateRef<any>;
+  @ViewChild('imageContent') imageContent: TemplateRef<any>;
 
   opened = false;
   viewer: ImageViewer;
@@ -26,8 +27,10 @@ export class SquareImageComponent {
   presentImage(image) {
     this.viewer = this.imageViewerCtrl.create(image, {
       navbarButtons: this.navbarButtons,
+      imageContent: this.imageContent,
     });
-    this.viewer.present();
+    this.viewer.present().then(() => this.opened = true);
+    this.viewer.onWillDismiss(() => this.opened = false);
   }
 
   async buy() {

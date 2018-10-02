@@ -8,6 +8,14 @@ module.exports = {
 function readPackage(pkg) {
   if (!pkg.dependencies) return pkg;
 
+  // As it is private, this is the app pkg
+  // https://gitlab.com/viperdev/template/ionic/issues/111
+  if (pkg.private) {
+    Object.assign(pkg.dependencies, {
+      setimmediate: '1.0.5',
+    });
+  }
+
   // transpile fails due to:
   // Cannot find type definition file for 'localforage'
   if (pkg.dependencies['@ionic/storage']) {

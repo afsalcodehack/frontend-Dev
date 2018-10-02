@@ -1,30 +1,19 @@
-import { backendUrl } from '../global'
+import { backendUrl, appTitle } from '../global'
+
+import { Subject } from "rxjs";
+import { filter, map } from "rxjs/operators";
+
+export const backendEvent = new Subject<{name: string, data?: any }>();
+export const backendEventListener = (name: string) => backendEvent.asObservable().pipe(
+  filter((payload) => payload.name === name),
+  map((payload) => payload.data),
+);
 
 import { EndPoint, Backend } from '../models/backend'
 import { handlePayment } from './backends/fakePayment';
 import { products } from './backends/fakeProducts';
 import { handleRegistration, handleLogin } from './backends/fakeUserAuth';
-
-const wikiUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/";
-
-const album = {
-  images: [
-    { createdAt: new Date(1537684843000), url: `${wikiUrl}0/04/Crater_Mountain_Panarama.jpg/640px-Crater_Mountain_Panarama.jpg` },
-    { createdAt: new Date(1537684843000), url: `${wikiUrl}8/8d/Freudenberg_sg_Switzerland.jpg/640px-Freudenberg_sg_Switzerland.jpg` },
-    { createdAt: new Date(1506151739000), url: `${wikiUrl}3/3b/BrockenSnowedTreesInSun.jpg/640px-BrockenSnowedTreesInSun.jpg` },
-    { createdAt: new Date(1506151739000), url: `${wikiUrl}0/0e/Salar_de_Atacama.jpg/640px-Salar_de_Atacama.jpg` },
-    { createdAt: new Date(1537684843000), url: `${wikiUrl}f/f5/Desert_View_Indian_Wells.jpg/640px-Desert_View_Indian_Wells.jpg` },
-    { createdAt: new Date(1506151739000), url: `${wikiUrl}b/b5/GothafossWinter.jpg/640px-GothafossWinter.jpg` },
-    { createdAt: new Date(1506151739000), url: 'https://upload.wikimedia.org/wikipedia/commons/d/d8/Ile-de-Re_vue_du_ciel.JPG' },
-  ],
-};
-
-const events = [
-  { id: 1, name: 'CEBIT', isPublic: true, },
-  { id: 2, name: 'PyCon', isPublic: true, },
-  { id: 3, name: 'B2BNord', isPublic: true, },
-  { id: 4, name: 'TechCrunch', isPublic: false, },
-];
+import { events, album } from './backends/fakeEvents';
 
 export const backend = new Backend(
   backendUrl,
@@ -55,6 +44,7 @@ export const backend = new Backend(
         album.images.push({
           createdAt: new Date(),
           url: req.body.url,
+          addWatermark: appTitle,
         });
       }
     }),

@@ -3,5 +3,20 @@
     <button ion-button (click)="buy()">Buy ({{ event.price }}$)</button>
   </ng-template>
 
+  <ng-template #watermarkTpl>
+    <div class="image-watermark" *ngIf="!!photo.addWatermark">
+      <div class="image-watermark-text">
+        {{ photo.addWatermark }}
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #imageContent>
+    <div *ngIf="opened">
+      <ng-container *ngTemplateOutlet="watermarkTpl"></ng-container>
+    </div>
+  </ng-template>
+
+  <ng-container *ngTemplateOutlet="watermarkTpl"></ng-container>
   <img [src]="photo.url" #image (click)="presentImage(image)" />
 </div>
