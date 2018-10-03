@@ -1,4 +1,9 @@
-<app-content title="Event">
+<app-content>
+  <ion-buttons end header *ngIf="loggedIn">
+    <button ion-button icon-only (click)="editEventInfo()">
+      <ion-icon name="create"></ion-icon>
+    </button>
+  </ion-buttons>
   <ion-grid no-padding>
     <ng-container *ngFor="let collection of getAlbumCollections(event.album) | mapToIterable">
       <ion-row>

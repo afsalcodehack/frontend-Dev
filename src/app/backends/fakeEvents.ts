@@ -2,60 +2,100 @@ import { backendEventListener } from "../backend";
 import { appTitle } from "../../global";
 
 export const events = [
-  { id: 1, name: 'CEBIT', isPublic: true, price: 5.99, currency: 'usd' },
+  { id: 1, name: 'CEBIT', isPublic: false, price: 5.99, currency: 'usd', secret: 'hello' },
   { id: 2, name: 'PyCon', isPublic: true, price: 2.99, currency: 'usd' },
-  { id: 3, name: 'B2BNord', isPublic: true, price: 3.99, currency: 'usd' },
-  { id: 4, name: 'TechCrunch', isPublic: false, price: 9.99, currency: 'usd' },
+  { id: 3, name: 'B2BNord', isPublic: false, price: 3.99, currency: 'usd', secret: '12345' },
+  { id: 4, name: 'TechCrunch', isPublic: true, price: 9.99, currency: 'usd' },
 ];
 
-export const wikiUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/";
+export const wikiUrl = "https://upload.wikimedia.org/wikipedia/commons/";
+const thumbUrl = `${wikiUrl}thumb/`;
+
+const imageUrls = [
+  '2/2f/Gothic_Chapel_Peterhof_tonemapped.jpg',
+  '8/8d/Freudenberg_sg_Switzerland.jpg',
+  '0/0e/Salar_de_Atacama.jpg',
+  'f/f5/Desert_View_Indian_Wells.jpg',
+  'b/b5/GothafossWinter.jpg',
+  '4/4c/Monrepos_0550.jpg',
+  'd/d3/HVB-Tower_Munich%2C_June_2017.jpg',
+];
+
+const getImgUrl = (i) => `${wikiUrl}${imageUrls[i]}`;
+const getThumbUrl = (i) => `${thumbUrl}${imageUrls[i]}/640px-${imageUrls[i].replace(/.*\//g, '')}`
 
 export const album = {
   images: [
     {
       createdAt: new Date(1537684843000),
-      url: `${wikiUrl}0/04/Crater_Mountain_Panarama.jpg/640px-Crater_Mountain_Panarama.jpg`,
+      fullResUrl: getImgUrl(0),
+      thumbUrl: getThumbUrl(0),
       addWatermark: appTitle,
+      purchased: false,
     },
     {
       createdAt: new Date(1537684843000),
-      url: `${wikiUrl}8/8d/Freudenberg_sg_Switzerland.jpg/640px-Freudenberg_sg_Switzerland.jpg`,
-      addWatermark: appTitle,
+      fullResUrl: getImgUrl(1),
+      thumbUrl: getThumbUrl(1),
+      addWatermark: '',
+      purchased: true,
     },
     {
       createdAt: new Date(1506151739000),
-      url: `${wikiUrl}3/3b/BrockenSnowedTreesInSun.jpg/640px-BrockenSnowedTreesInSun.jpg`,
+      fullResUrl: getImgUrl(2),
+      thumbUrl: getThumbUrl(2),
       addWatermark: appTitle,
+      purchased: false,
     },
     {
       createdAt: new Date(1506151739000),
-      url: `${wikiUrl}0/0e/Salar_de_Atacama.jpg/640px-Salar_de_Atacama.jpg`,
+      fullResUrl: getImgUrl(3),
+      thumbUrl: getThumbUrl(3),
       addWatermark: appTitle,
+      purchased: false,
     },
     {
       createdAt: new Date(1537684843000),
-      url: `${wikiUrl}f/f5/Desert_View_Indian_Wells.jpg/640px-Desert_View_Indian_Wells.jpg`,
+      fullResUrl: getImgUrl(4),
+      thumbUrl: getThumbUrl(4),
       addWatermark: appTitle,
+      purchased: false,
     },
     {
       createdAt: new Date(1506151739000),
-      url: `${wikiUrl}b/b5/GothafossWinter.jpg/640px-GothafossWinter.jpg`,
+      fullResUrl: getImgUrl(5),
+      thumbUrl: getThumbUrl(5),
       addWatermark: appTitle,
+      purchased: false,
     },
     {
       createdAt: new Date(1506151739000),
-      url: 'https://upload.wikimedia.org/wikipedia/commons/d/d8/Ile-de-Re_vue_du_ciel.JPG',
+      fullResUrl: getImgUrl(6),
+      thumbUrl: getThumbUrl(6),
       addWatermark: appTitle,
+      purchased: false,
     },
   ],
+};
+
+export const forkAndCleanEvent = (event) => {
+  event = Object.assign({}, event);
+
+  if (event['secret']) {
+    event.isPublic = false;
+    delete event.secret;
+  }
+
+  return event;
 };
 
 backendEventListener('payment:success')
   .filter(({ item_type }) => item_type === 'image')
   .subscribe(data => {
-    const photo = album.images.find(image => image.url === data.item_id);
+    const photo = album.images.find(image => image.fullResUrl === data.item_id);
     if (!photo) {
       return;
     }
     photo.addWatermark = '';
+    photo.purchased = true;
 });

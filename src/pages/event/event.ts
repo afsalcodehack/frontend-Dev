@@ -4,6 +4,7 @@ import { DeviceProvider } from '../../providers/device/device';
 import { EventProvider } from '../../providers/event/event';
 import { UserProvider } from '../../providers/user/user'
 import { ImageUploadProvider } from "../../providers/image-upload/image-upload";
+import { EventCreatePage } from "../../pages/eventcreate/eventcreate";
 
 /**
  * Generated class for the EventPage page.
@@ -19,6 +20,7 @@ import { ImageUploadProvider } from "../../providers/image-upload/image-upload";
 export class EventPage {
 
   event = {};
+  loggedIn = false;
 
   constructor(
     public navCtrl: NavController,
@@ -31,6 +33,10 @@ export class EventPage {
   }
 
   async ionViewDidLoad() {
+    this.userProvider.isAuthenticated().then((loggedIn) => {
+      this.loggedIn = !!loggedIn;
+    });
+
     const id = this.navParams.get('id');
     this.event = await this.eventProvider.getEvent(id);
   }
@@ -80,6 +86,12 @@ export class EventPage {
           this.uploadImage(src);
         }
       }, () => console.log('failed selecting image'));
+    });
+  }
+
+  editEventInfo() {
+    this.navCtrl.push(EventCreatePage, {
+      id: this.event['id'],
     });
   }
 

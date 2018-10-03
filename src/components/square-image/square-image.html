@@ -1,6 +1,11 @@
 <div class="image-container">
   <ng-template #navbarButtons>
-    <button ion-button (click)="buy()">Buy ({{ event.price }}$)</button>
+    <button ion-button (click)="buy()" *ngIf="!photo.purchased">
+      Buy ({{ event.price }}$)
+    </button>
+    <a [href]="photo.fullResUrl" ion-button download *ngIf="photo.purchased">
+      View Full Size
+    </a>
   </ng-template>
 
   <ng-template #watermarkTpl>
@@ -18,5 +23,5 @@
   </ng-template>
 
   <ng-container *ngTemplateOutlet="watermarkTpl"></ng-container>
-  <img [src]="photo.url" #image (click)="presentImage(image)" />
+  <img [src]="photo.thumbUrl" #image (click)="presentImage(image)" />
 </div>

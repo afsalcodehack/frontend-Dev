@@ -9,6 +9,7 @@ if [ ! -f ionic-template/ionic.yaml ]; then
     exit 1
 fi
 
+rm -rf "$project_name"
 mkdir "$project_name"
 cd "$project_name"
 

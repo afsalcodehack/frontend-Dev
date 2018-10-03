@@ -5,6 +5,7 @@ import { Events } from 'ionic-angular';
 import { SignupPage } from '../signup/signup';
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { PasswordresetPage } from '../passwordreset/passwordreset';
+import { minPasswordLength, maxPasswordLength } from '../../global';
 
 /**
  * Generated class for the LoginPage page.
@@ -27,7 +28,11 @@ export class LoginPage {
     this.message = this.navParams.get('message');
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
-      password: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(20)])],
+      password: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(minPasswordLength),
+        Validators.maxLength(maxPasswordLength)]
+      )],
     });
 
   }

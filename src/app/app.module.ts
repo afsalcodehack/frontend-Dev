@@ -80,6 +80,7 @@ const deepLinkConfig = {
     { component: EventPage, name: "event", segment: "event/:id"},
     { component: EventListPage, name: "event-list", segment: "event"},
     { component: EventCreatePage, name: "event-create", segment: "event/create"},
+    { component: EventCreatePage, name: "event-create", segment: "event/edit/:id"},
     { component: PaymentPage, name: "payment", segment: "payment"},
   ]
 };

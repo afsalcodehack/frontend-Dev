@@ -2,6 +2,7 @@
   <button *ngIf="loggedIn" ion-button (click)="create()">Create</button>
   <ion-list>
     <button ion-item *ngFor="let event of events" (click)="eventSelected(event)">
+      <ion-icon name="lock" *ngIf="!event.isPublic" item-end></ion-icon>
       {{ event.name }}
     </button>
   </ion-list>

@@ -40,7 +40,7 @@ export class SquareImageComponent {
       title: `a photo from ${this.event.name}`,
       item: {
         type: 'image',
-        id: this.photo.url,
+        id: this.photo.fullResUrl,
         price: this.event.price,
         currency: this.event.currency
       },

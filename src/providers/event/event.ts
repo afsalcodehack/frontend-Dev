@@ -15,6 +15,7 @@ export class EventProvider {
   eventUrl = backend.paths['event'].toURL();
   eventcreateUrl = backend.paths['event/create'].toURL();
   eventUpdateUrl = backend.paths['event/update'].toURL();
+  getAccessTokenUrl = backend.paths['event/access-token'].toURL();
 
   constructor(public http: HttpClient) {
   }
@@ -23,8 +24,8 @@ export class EventProvider {
     return this.http.get(this.eventlistUrl).toPromise();
   }
 
-  getEvent(id: number | string): Promise<any> {
-    return this.http.post(this.eventUrl, { id }).toPromise();
+  getEvent(id: number | string, opts={}): Promise<any> {
+    return this.http.post(this.eventUrl, { id, ...opts }).toPromise();
   }
 
   createEvent(data: any): Promise<any> {
@@ -33,6 +34,10 @@ export class EventProvider {
 
   updateEvent(data: any): Promise<any> {
     return this.http.post(this.eventUpdateUrl, data).toPromise();
+  }
+
+  getAccessToken(id: any, secret: any) {
+    return this.http.post(this.getAccessTokenUrl, { id, secret }).toPromise();
   }
 
 }

@@ -1,9 +1,14 @@
-<app-content title="Create Event">
-  <form [formGroup]="eventForm" (ngSubmit)="create()">
+<app-content [title]="pageTitle">
+  <form [formGroup]="eventForm" (ngSubmit)="createOrUpdate()">
     <ion-list>
       <ion-item>
         <ion-label for="name" floating>{{ 'Name' | translate }}</ion-label>
         <ion-input id="name" class="validate" type="text" formControlName="name"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label for="secret" floating>{{ 'Optional Secret Key' | translate }}</ion-label>
+        <ion-input id="secret" class="validate" type="password" formControlName="secret" [disabled]="secretFieldDisabled"></ion-input>
       </ion-item>
 
       <ion-item>
@@ -13,7 +18,7 @@
     </ion-list>
 
     <button type="submit" ion-button block [disabled]="!eventForm.valid">
-      {{ 'Create' | translate }}
+      {{ submitActionTitle | translate }}
     </button>
   </form>
 </app-content>

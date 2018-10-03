@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Events, NavController, NavParams } from 'ionic-angular';
+import { AlertController, Events, NavController, NavParams } from 'ionic-angular';
 import { EventPage } from '../event/event';
 import { EventCreatePage } from '../eventcreate/eventcreate';
 import { EventProvider } from '../../providers/event/event';
@@ -21,6 +21,7 @@ export class EventListPage {
   events = [];
 
   constructor(
+    public alertCtrl: AlertController,
     public navCtrl: NavController,
     public navParams: NavParams,
     public up: UserProvider,
@@ -50,9 +51,48 @@ export class EventListPage {
   }
 
   eventSelected(event) {
-    this.navCtrl.push(EventPage, {
-      id: event.id,
-    });
+    const openEventPage = () => {
+      this.navCtrl.push(EventPage, {
+        id: event.id,
+      });
+    }
+
+    if (!this.loggedIn && !event.isPublic) {
+      let alert = this.alertCtrl.create({
+        title: 'Secret Event',
+        message: 'Access to this event is protected by a secret key.',
+        inputs: [
+          {
+            name: 'secret',
+            type: 'password',
+            placeholder: 'Secret',
+          }
+        ],
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+          },
+          {
+            text: 'Submit',
+            handler: (data) => {
+              this.eventProvider.getAccessToken(event.id, data.secret)
+                .then((res) => {
+                  if (res['ok']) {
+                    openEventPage();
+                  } else {
+                    this.eventSelected(event);
+                  };
+                });
+            }
+          }
+        ]
+      });
+
+      alert.present();
+    } else {
+      openEventPage();
+    }
   }
 
   create() {
