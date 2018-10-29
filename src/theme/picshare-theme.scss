@@ -1,0 +1,144 @@
+.picshare-theme {
+
+  font-family: 'Helvetica Neue', 'Segoe UI', Roboto, Arial, sans-serif !important;
+
+  $colors: (
+    primary:    #a21a44,
+    secondary:  #fc8b00,
+    danger:     #f53d3d,
+    light:      #fff,
+    dark:       #222,
+    light-grey: #f2f2f2,
+  );
+
+  .logo {
+    display: block;
+
+    &-text {
+      color: color($colors, primary);
+      display: block;
+    }
+  }
+
+  a:not(.button) {
+    color: color($colors, primary);
+  }
+
+  .toolbar-background {
+    background: white;
+    border-color: none;
+  }
+
+  .toolbar-title {
+    color: color($colors, dark);
+  }
+
+  .navbar {
+    background-color: color($colors, light);
+  }
+
+  .navbar a {
+    color: color($colors, secondary);
+  }
+
+  .navbar a:not(.logo-inner):hover {
+    background: color($colors, light-grey);
+  }
+
+  .bar-button-default {
+    color: color($colors, dark);
+  }
+
+  .help-button {
+    color: color($colors, secondary);
+  }
+
+  .divide {
+    border-bottom: 1px solid color($colors, secondary) !important;
+  }
+
+  .href-title-left {
+    color: color($colors, dark);
+  }
+
+  .href-title-right {
+    color: color($colors, dark);
+  }
+
+  .button-md, .button-md:hover:not(.disable-hover), .button-md.activated {
+    background-color: color($colors, primary);
+    color: color($colors, light);
+  }
+
+  .fab-md, .fab-md:hover:not(.disable-hover), .fab-md.activated {
+    background-color: color($colors, primary);
+  }
+
+  .alert-md .alert-input:focus {
+    border-bottom: 2px solid color($colors, primary);
+  }
+
+  .alert-md [aria-checked=true] .alert-radio-label {
+    color: color($colors, primary);
+  }
+
+  .alert-md [aria-checked=true] .alert-checkbox-icon {
+    background-color: color($colors, primary);
+    border-color: color($colors, primary);
+  }
+
+  .icon-md-primary {
+    color: color($colors, primary);
+  }
+
+  .item-md.item-input.input-has-focus .item-inner,.item-md.item-input.item-input-has-focus .item-inner {
+    -webkit-box-shadow: inset 0 -1px 0 0 color($colors, primary);
+    border-bottom-color: color($colors, primary);
+    box-shadow: inset 0 -1px 0 0 color($colors, primary);
+  }
+
+  .list-md .item-input.input-has-focus:last-child,.list-md .item-input.item-input-has-focus:last-child {
+    -webkit-box-shadow: inset 0 -1px 0 0 color($colors, primary);
+    border-bottom-color: color($colors, primary);
+    box-shadow: inset 0 -1px 0 0 color($colors, primary);
+  }
+
+  .item-radio-checked.item-md ion-label {
+    color: color($colors, primary);
+  }
+
+  .radio-md .radio-checked {
+    border-color: color($colors, primary);
+  }
+
+  .radio-md .radio-inner {
+    background-color: color($colors, primary);
+  }
+
+  .content-md .toolbar-md .back-button {
+    color: color($colors, dark);
+
+    &:hover {
+      opacity: .8;
+    }
+  }
+
+  @media only screen and (min-width: 992px) {
+    .alignment-titlebar {
+      padding-bottom: 1rem;
+    }
+
+    .ion-content-custom {
+      padding-top: 2.5rem;
+    }
+  }
+
+  page-eventfront {
+    .button-md {
+      margin: 1.7rem auto;
+      max-width: 300px;
+      width: 70%;
+    }
+  }
+
+}

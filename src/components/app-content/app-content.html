@@ -7,7 +7,12 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title *ngIf="title">{{ title | translate }}</ion-title>
+    <ion-title *ngIf="title">
+      <div class="logo">
+        <img class="logo-img" [src]="'/assets/imgs/' + selectedTheme + '-logo.png'" [alt]="appTitle">
+      </div>
+      {{ title | translate }}
+    </ion-title>
     <ng-container *ngTemplateOutlet="headerTpl"></ng-container>
   </ion-navbar>
 </ion-header>

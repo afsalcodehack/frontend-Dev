@@ -1,0 +1,24 @@
+.cookie-consent {
+  ion-backdrop {
+    cursor: not-allowed;
+    opacity: 0.15;
+  }
+
+  .popover-content {
+    bottom: 0 !important;
+    left: 50% !important;
+    max-width: 500px;
+    top: auto !important;
+    transform: translateX(-50%) !important;
+    width: 100%;
+  }
+
+  // Somehow required for popover entry animation to work.
+  .popover-viewport, .popover-wrapper {
+    opacity: 1;
+  }
+}
+
+.cookie-consent-content {
+  padding: 12px;
+}

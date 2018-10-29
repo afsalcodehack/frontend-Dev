@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { Http, HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -26,11 +26,13 @@ import { NgxStripeModule } from 'ngx-stripe';
 import { fakeBackendProvider } from '../providers/backendless';
 
 import { MyApp } from './app.component';
-import { authHttpServiceFactory } from './authHttpServiceFactory'
+import { authHttpServiceFactory } from './authHttpServiceFactory';
 
 import { ENV } from '../config/environment';
 
 import { AboutPage } from '../pages/about/about';
+import { CookieConsentPage } from '../pages/cookieconsent/cookieconsent';
+import { DebugPage } from '../pages/debug/debug';
 import { EventPage } from '../pages/event/event';
 import { EventCreatePage } from '../pages/eventcreate/eventcreate';
 import { EventFrontPage } from '../pages/eventfront/eventfront';
@@ -49,6 +51,7 @@ import { SignupPage } from '../pages/signup/signup';
 import { TandcPage } from '../pages/tandc/tandc';
 import { WelcomePage } from '../pages/welcome/welcome';
 
+import { CookieConsentProvider } from '../providers/cookie-consent/cookie-consent';
 import { CurrencyExchangeProvider } from '../providers/cur-exchange/cur-exchange';
 import { DeviceProvider } from '../providers/device/device';
 import { EventProvider } from '../providers/event/event';
@@ -66,29 +69,36 @@ import { MapToIterablePipe } from '../pipes/map-to-iterable/map-to-iterable';
 const deepLinkConfig = {
   // All custom deep links goes here.
   links: [
-    { component: EventFrontPage, name: "root", segment: ""},
-    { component: EventFrontPage, name: "event-front", segment: "event-front"},
-    { component: AboutPage, name: "about", segment: "about"},
-    { component: HomePage, name: "home", segment: "home"},
-    { component: SettingsPage, name: "settings", segment: "settings"},
-    { component: SignupPage, name: "signup", segment: "signup"},
-    { component: ProfilePage, name: "profile", segment: "profile"},
-    { component: ProfilePage, name: "profile", segment: "users/profile/:id"},
-    { component: TandcPage, name: "tandc", segment: "tandc"},
-    { component: NotFoundPage, name: "not-found", segment: "*"},
-    { component: ProductPage, name: "product", segment: "product"},
-    { component: EventPage, name: "event", segment: "event/:id"},
-    { component: EventListPage, name: "event-list", segment: "event"},
-    { component: EventCreatePage, name: "event-create", segment: "event/create"},
-    { component: EventCreatePage, name: "event-create", segment: "event/edit/:id"},
-    { component: PaymentPage, name: "payment", segment: "payment"},
-  ]
+    { component: EventFrontPage, name: 'root', segment: '' },
+    { component: EventFrontPage, name: 'event-front', segment: 'event-front' },
+    { component: AboutPage, name: 'about', segment: 'about' },
+    { component: HomePage, name: 'home', segment: 'home' },
+    { component: SettingsPage, name: 'settings', segment: 'settings' },
+    { component: SignupPage, name: 'signup', segment: 'signup' },
+    { component: ProfilePage, name: 'profile', segment: 'profile' },
+    { component: ProfilePage, name: 'profile', segment: 'users/profile/:id' },
+    { component: TandcPage, name: 'tandc', segment: 'tandc' },
+    { component: NotFoundPage, name: 'not-found', segment: '*' },
+    { component: ProductPage, name: 'product', segment: 'product' },
+    { component: EventPage, name: 'event', segment: 'event/:id' },
+    { component: EventListPage, name: 'event-list', segment: 'event' },
+    { component: EventCreatePage, name: 'event-create', segment: 'event/create' },
+    { component: EventCreatePage, name: 'event-create', segment: 'event/edit/:id' },
+    { component: PaymentPage, name: 'payment', segment: 'payment' },
+    { component: DebugPage, name: 'debug', segment: 'debug' },
+  ],
+};
+
+export const createTranslateLoader = (http: Http) => {
+  return new TranslateStaticLoader(http, 'assets/i18n', '.json');
 };
 
 @NgModule({
   declarations: [
     MyApp,
     AboutPage,
+    CookieConsentPage,
+    DebugPage,
     EventPage,
     EventCreatePage,
     EventFrontPage,
@@ -121,7 +131,7 @@ const deepLinkConfig = {
     TranslateModule.forRoot({
       provide: TranslateLoader,
       useFactory: (createTranslateLoader),
-      deps: [Http]
+      deps: [Http],
     }),
     IonicStorageModule.forRoot(),
     IonicImageViewerModule,
@@ -131,6 +141,8 @@ const deepLinkConfig = {
   entryComponents: [
     MyApp,
     AboutPage,
+    CookieConsentPage,
+    DebugPage,
     EventPage,
     EventCreatePage,
     EventFrontPage,
@@ -150,9 +162,13 @@ const deepLinkConfig = {
     WelcomePage,
   ],
   providers: [
+    CookieConsentProvider,
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    {
+      provide: ErrorHandler,
+      useClass: IonicErrorHandler,
+    },
     CurrencyExchangeProvider,
     UserProvider,
     LanguageProvider,
@@ -172,10 +188,6 @@ const deepLinkConfig = {
     EventProvider,
     StripeProvider,
     ProductProvider,
-  ]
+  ],
 })
 export class AppModule {}
-
-export function createTranslateLoader (http: Http) {
-  return new TranslateStaticLoader(http, 'assets/i18n', '.json');
-}

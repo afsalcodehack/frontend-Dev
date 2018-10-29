@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { EventCreatePage } from '../../pages/eventcreate/eventcreate';
 import { DeviceProvider } from '../../providers/device/device';
 import { EventProvider } from '../../providers/event/event';
-import { UserProvider } from '../../providers/user/user'
-import { ImageUploadProvider } from "../../providers/image-upload/image-upload";
-import { EventCreatePage } from "../../pages/eventcreate/eventcreate";
+import { ImageUploadProvider } from '../../providers/image-upload/image-upload';
+import { UserProvider } from '../../providers/user/user';
 
 /**
  * Generated class for the EventPage page.
@@ -42,14 +42,14 @@ export class EventPage {
   }
 
   getAlbumCollections(album) {
-    let collections = {};
+    const collections = {};
 
     if (album) {
-      album['images'].forEach(photo => {
+      album['images'].forEach((photo) => {
         let time = photo['createdAt'];
 
         // group images by hour
-        time = time - time%3600000;
+        time = time - time % 3600000;
 
         if (!collections[time]) {
           collections[time] = [];
@@ -65,12 +65,14 @@ export class EventPage {
   uploadImage(src) {
     return this.userProvider.uploadImage({ src })
       .then((res) => this.eventProvider.updateEvent({ url: res.url }))
-      .catch(() => console.log('failed uploading'));
+      .catch(() => {
+        console.log('failed uploading');
+      });
   }
 
   uploadSelectedImage(event) {
-    let file = event.srcElement.files[0];
-    let reader = new FileReader();
+    const file = event.srcElement.files[0];
+    const reader = new FileReader();
 
     reader.onloadend = () => {
       this.uploadImage(reader.result);
@@ -85,7 +87,9 @@ export class EventPage {
         if (src) {
           this.uploadImage(src);
         }
-      }, () => console.log('failed selecting image'));
+      }, () => {
+        console.log('failed selecting image');
+      });
     });
   }
 

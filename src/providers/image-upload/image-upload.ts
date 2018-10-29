@@ -1,15 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Transfer, TransferObject } from "@ionic-native/transfer";
-import { Camera } from "@ionic-native/camera";
-import { Platform, ToastController, ActionSheetController, LoadingController, Loading } from "ionic-angular";
-import { DeviceProvider } from "../device/device";
+import { Camera } from '@ionic-native/camera';
+import { File } from '@ionic-native/file';
+import { Transfer, TransferObject } from '@ionic-native/transfer';
 import { Storage } from '@ionic/storage';
-import { File } from "@ionic-native/file";
-import { backendUrl } from "../../global";
+import { ActionSheetController, Loading, LoadingController, Platform, ToastController } from 'ionic-angular';
+import { backendUrl } from '../../global';
+import { DeviceProvider } from '../device/device';
 
-
-declare var cordova : any;
+declare var cordova: any;
 
 /*
   Generated class for the ImageUploadProvider provider.
@@ -22,9 +21,9 @@ export class ImageUploadProvider {
   loading: Loading;
   authToken: any;
   userUrl = backendUrl + 'rest-auth/user/';
-  petsUrl = backendUrl + 'pets/profile'
+  petsUrl = backendUrl + 'pets/profile';
 
-  constructor(public http: HttpClient,private camera: Camera, private transfer: Transfer, private file: File,
+  constructor(public http: HttpClient, private camera: Camera, private transfer: Transfer, private file: File,
   public actionSheetCtrl: ActionSheetController,
   public toastCtrl: ToastController, public platform: Platform,
   public loadingCtrl: LoadingController, public deviceStatus: DeviceProvider,
@@ -36,11 +35,11 @@ export class ImageUploadProvider {
 
   takePicture(sourceType) {
     // Create options for the Camera Dialog
-    var options = {
+    const options = {
       quality: 100,
-      sourceType: sourceType,
+      sourceType,
       saveToPhotoAlbum: false,
-      correctOrientation: true
+      correctOrientation: true,
     };
 
     // Get the data of an image
@@ -71,31 +70,31 @@ export class ImageUploadProvider {
         }
       });
     */
-    return {}
+    return {};
   }
 
   // Create a new name for the image
   createFileName() {
-    var d = new Date(),
+    const d = new Date(),
     n = d.getTime(),
-    newFileName =  n + ".jpg";
+    newFileName =  n + '.jpg';
     return newFileName;
   }
 
   // Copy the image to a local folder
   copyFileToLocalDir(namePath, currentName, newFileName) {
-    return this.file.copyFile(namePath, currentName, cordova.file.dataDirectory, newFileName).then(success => {
+    return this.file.copyFile(namePath, currentName, cordova.file.dataDirectory, newFileName).then((success) => {
        return newFileName;
-    }, error => {
+    }, (error) => {
       this.presentToast('Error while storing file.');
     });
   }
 
   presentToast(text) {
-    let toast = this.toastCtrl.create({
+    const toast = this.toastCtrl.create({
       message: text,
       duration: 3000,
-      position: 'top'
+      position: 'top',
     });
     toast.present();
   }
@@ -110,42 +109,41 @@ export class ImageUploadProvider {
   }
 
   uploadImage(authToken, targetPath, options, param) {
-    var url = this.userUrl
+    let url = this.userUrl;
     if (param && param.toString().length > 0) {
       url = this.petsUrl + param + '/';
     }
     const fileTransfer: TransferObject = this.transfer.create();
 
-
     // Use the FileTransfer to upload the image
-    return fileTransfer.upload(targetPath, url, options).then(data => {
+    return fileTransfer.upload(targetPath, url, options).then((data) => {
       this.presentToast('Image successfully uploaded.');
       return data;
-    }, err => {
+    }, (err) => {
       this.presentToast('Error while uploading file.');
     });
   }
 
   presentActionSheet(processor) {
-    let actionSheet = this.actionSheetCtrl.create({
+    const actionSheet = this.actionSheetCtrl.create({
       title: 'Select Image Source',
       buttons: [{
           text: 'Photo Gallery',
           handler: () => {
-            let sourceType = this.camera.PictureSourceType.PHOTOLIBRARY;
+            const sourceType = this.camera.PictureSourceType.PHOTOLIBRARY;
 
-            let promise = this.takePicture(sourceType).then(imagePath => {
+            const promise = this.takePicture(sourceType).then((imagePath) => {
               if (this.platform.is('android') &&
                   sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
 
                 return this.pathHandler(sourceType, imagePath);
               } else {
 
-                return new Promise(function(resolve) {
-                  let currentName = imagePath.substr(
+                return new Promise((resolve) => {
+                  const currentName = imagePath.substr(
                     imagePath.lastIndexOf('/') + 1);
 
-                  let correctPath = imagePath.substr(
+                  const correctPath = imagePath.substr(
                     0, imagePath.lastIndexOf('/') + 1);
 
                   resolve({
@@ -154,31 +152,31 @@ export class ImageUploadProvider {
                   });
                 });
               }
-            }).then(res => {
-              let correctPath = res['correctPath'];
-              let currentName = res['currentName'];
+            }).then((res) => {
+              const correctPath = res['correctPath'];
+              const currentName = res['currentName'];
 
               return this.copyFileToLocalDir(
                 correctPath, currentName, this.createFileName());
             });
 
             processor(promise);
-          }
+          },
         },
         {
           text: 'Camera',
           handler: () => {
-            let promise = this.takePicture(
+            const promise = this.takePicture(
               this.camera.PictureSourceType.CAMERA);
 
             processor(promise);
-          }
+          },
         },
         {
           text: 'Cancel',
-          role: 'cancel'
-        }
-      ]
+          role: 'cancel',
+        },
+      ],
     });
 
     actionSheet.present();

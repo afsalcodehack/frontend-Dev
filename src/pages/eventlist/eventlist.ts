@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { AlertController, Events, NavController, NavParams } from 'ionic-angular';
-import { EventPage } from '../event/event';
-import { EventCreatePage } from '../eventcreate/eventcreate';
 import { EventProvider } from '../../providers/event/event';
 import { UserProvider } from '../../providers/user/user';
+import { EventPage } from '../event/event';
+import { EventCreatePage } from '../eventcreate/eventcreate';
 
 /**
  * Generated class for the EventlistPage page.
@@ -41,13 +41,13 @@ export class EventListPage {
   }
 
   setStatus(): void {
-    this.up.isAuthenticated().then(loggedIn => {
+    this.up.isAuthenticated().then((loggedIn) => {
       this.loggedIn = !!loggedIn;
     });
   }
 
   async ionViewDidLoad() {
-     this.events = await this.eventProvider.getEvents()
+     this.events = await this.eventProvider.getEvents();
   }
 
   eventSelected(event) {
@@ -55,10 +55,10 @@ export class EventListPage {
       this.navCtrl.push(EventPage, {
         id: event.id,
       });
-    }
+    };
 
     if (!this.loggedIn && !event.isPublic) {
-      let alert = this.alertCtrl.create({
+      const alert = this.alertCtrl.create({
         title: 'Secret Event',
         message: 'Access to this event is protected by a secret key.',
         inputs: [
@@ -66,7 +66,7 @@ export class EventListPage {
             name: 'secret',
             type: 'password',
             placeholder: 'Secret',
-          }
+          },
         ],
         buttons: [
           {
@@ -82,11 +82,11 @@ export class EventListPage {
                     openEventPage();
                   } else {
                     this.eventSelected(event);
-                  };
+                  }
                 });
-            }
-          }
-        ]
+            },
+          },
+        ],
       });
 
       alert.present();

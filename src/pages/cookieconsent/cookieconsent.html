@@ -1,0 +1,18 @@
+<ion-grid class="cookie-consent-content">
+  <ion-row>
+    <ion-col>
+      <ion-list no-lines>
+        <ion-item text-wrap text-justify>
+          {{ 'Our product uses cookies to improve your user experience. If you continue browsing, we assume that you consent to our use of cookies.' | translate }}
+        </ion-item>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <button ion-button full icon-start color="dark" (click)="dismiss(true)">
+        <ion-icon name="checkmark"></ion-icon> {{ 'OK' | translate }}
+      </button>
+    </ion-col>
+  </ion-row>
+</ion-grid>

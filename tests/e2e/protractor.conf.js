@@ -26,6 +26,7 @@ exports.config = {
     require('ts-node').register({
       project: 'tsconfig.json',
     });
+
     jasmine.getEnv().addReporter(
       new SpecReporter({
         spec: {
@@ -33,5 +34,15 @@ exports.config = {
         }
       })
     );
+
+    /* Provide cookie consent */
+    const EC = ExpectedConditions;
+    const okConsent = element(by.xpath('//page-cookie-consent/ion-grid/ion-row[2]/ion-col/button'));
+
+    return browser.get('/#/event')
+      .then(() => browser.sleep(1000))
+      .then(() => browser.wait(EC.elementToBeClickable(okConsent), 6000))
+      .then(() => okConsent.click())
+      .then(() => browser.sleep(1000));
   }
 };

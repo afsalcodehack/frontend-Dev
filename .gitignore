@@ -4,6 +4,9 @@
 .moban.hashes
 .package-lock/
 
+.npm/
+.pnpm-store/
+
 *~
 *.sw[mnpcod]
 *.log
@@ -36,3 +39,27 @@ $RECYCLE.BIN/
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
+
+# from trackbnb-ng
+
+# compiled output
+out-tsc
+dist-server
+
+# IDEs and editors
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+
+# misc
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# e2e
+/e2e/*.js
+/e2e/*.map

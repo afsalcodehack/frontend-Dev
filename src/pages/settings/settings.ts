@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { lang } from './settings.constants';
 import { TranslateService } from 'ng2-translate/ng2-translate';
 import { LanguageProvider } from '../../providers/language/language';
 import { PageLocationProvider } from '../../providers/page-location/page-location';
+import { ThemeProvider } from '../../providers/theme/theme';
+import { lang } from './settings.constants';
 
 @Component({
   selector: 'page-settings',
@@ -17,9 +18,17 @@ export class SettingsPage {
     translate: TranslateService,
     public lp: LanguageProvider,
     public pageLocation: PageLocationProvider,
+    public themeProvider: ThemeProvider,
   ) {
     this.translate = translate;
+    this.themeProvider.getActiveTheme().subscribe((val) => {
+      this.selectedTheme = val;
+    });
+    this.themes = themeProvider.getAvailableThemes();
   }
+
+  themes: string[];
+  selectedTheme: string;
 
   languages = lang.availableLanguages;
   selectedLanguage = lang.sysOptions.systemLanguage;
@@ -32,4 +41,9 @@ export class SettingsPage {
     lang.sysOptions.systemLanguage = this.selectedLanguage;
   }
 
+  toggleTheme() {
+    if (this.selectedTheme) {
+      this.themeProvider.setActiveTheme(this.selectedTheme);
+    }
+  }
 }

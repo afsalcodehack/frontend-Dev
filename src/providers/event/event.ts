@@ -24,7 +24,7 @@ export class EventProvider {
     return this.http.get(this.eventlistUrl).toPromise();
   }
 
-  getEvent(id: number | string, opts={}): Promise<any> {
+  getEvent(id: number | string, opts= {}): Promise<any> {
     return this.http.post(this.eventUrl, { id, ...opts }).toPromise();
   }
 

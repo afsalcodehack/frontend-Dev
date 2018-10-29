@@ -1,8 +1,7 @@
 import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { ImageViewerController, ImageViewer } from 'ionic-img-viewer';
+import { ImageViewer, ImageViewerController } from 'ionic-img-viewer';
 import { PaymentPage } from '../../pages/payment/payment';
-
 
 @Component({
   selector: 'square-image',
@@ -42,7 +41,7 @@ export class SquareImageComponent {
         type: 'image',
         id: this.photo.fullResUrl,
         price: this.event.price,
-        currency: this.event.currency
+        currency: this.event.currency,
       },
     });
   }

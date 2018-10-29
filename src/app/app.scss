@@ -21,6 +21,10 @@
   color: color($colors, light);
 }
 
+.toolbar-title {
+  color: color($colors, light);
+}
+
 .bar-button-default {
   color: color($colors, light);
 }
@@ -115,7 +119,6 @@ ion-item.item-input {
   }
 
   .toolbar-title {
-    color: color($colors, light);
     font-size: 1.5rem;
   }
 }
@@ -145,7 +148,6 @@ ion-item.item-input {
   }
 
   .toolbar-title {
-    color: color($colors, light);
     font-size: 1.5rem;
   }
 }
@@ -186,13 +188,14 @@ ion-item.item-input {
   }
 
   .toolbar-title {
-    color: color($colors, light);
     font-size: 3rem;
   }
 }
 
 .navbar {
+  align-items: center;
   background-color: color($colors, primary);
+  display: flex;
   overflow: hidden;
 }
 
@@ -206,11 +209,47 @@ ion-item.item-input {
   text-decoration: none;
 }
 
-.navbar a:hover {
+.navbar a:not(.logo-inner):hover {
   background: color($colors, light-grey);
   color: color($colors, dark);
 }
 
 .tandc {
   padding-left: 1em;
+}
+
+.toolbar-title-md {
+  align-items: center;
+  display: flex;
+}
+
+.logo {
+  display: none;
+  width: auto;
+
+  a {
+    align-items: center;
+    display: flex;
+    padding: 13px 16px;
+  }
+
+  &-text {
+    display: none;
+    margin-left: 8px;
+  }
+
+  &-img {
+    display: block;
+    height: 35px;
+  }
+}
+
+ion-title {
+  .logo {
+    margin-right: 10px;
+  }
+}
+
+.clickable {
+  cursor: pointer;
 }

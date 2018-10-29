@@ -1,9 +1,9 @@
 <div class="image-container">
   <ng-template #navbarButtons>
-    <button ion-button (click)="buy()" *ngIf="!photo.purchased">
+    <button ion-button id="buy" (click)="buy()" *ngIf="!photo.purchased">
       Buy ({{ event.price }}$)
     </button>
-    <a [href]="photo.fullResUrl" ion-button download *ngIf="photo.purchased">
+    <a [href]="photo.fullResUrl" id="download" ion-button download *ngIf="photo.purchased">
       View Full Size
     </a>
   </ng-template>

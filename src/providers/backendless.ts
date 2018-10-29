@@ -1,19 +1,19 @@
+import { HTTP_INTERCEPTORS, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/delay';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/materialize';
 import 'rxjs/add/operator/dematerialize';
 import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/materialize';
+import 'rxjs/add/operator/mergeMap';
+import { Observable } from 'rxjs/Observable';
 
 import * as url from 'url';
 
-import { EndPoint } from '../models/backend'
-import { backend } from '../app/backend'
+import { backend } from '../app/backend';
 import { backendUrl } from '../global';
+import { EndPoint } from '../models/backend';
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -31,9 +31,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     // Need to check request.method if the same end point supports
     // multiple methods.
 
-    let fakeData : any = component.fakeData;
+    let fakeData: any = component.fakeData;
 
-    if (typeof fakeData == 'function') {
+    if (typeof fakeData === 'function') {
       console.log(`invoking function to get fake data for ${component.path}`);
       fakeData = fakeData(request);
     }
@@ -41,17 +41,17 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     console.log(`using fake data for ${component.path} of type ` + typeof fakeData);
 
     if (! (fakeData instanceof HttpResponse)) {
-      fakeData = new HttpResponse({ status: 200, body: fakeData })
+      fakeData = new HttpResponse({ status: 200, body: fakeData });
     }
     return fakeData;
   }
 
-  getFakeComponent(request) : EndPoint | null {
-    if (!this.allowFakeResponse) return null;
+  getFakeComponent(request): EndPoint | null {
+    if (!this.allowFakeResponse) { return null; }
 
-    let parsedUrl = url.parse(request.url);
-    if (!parsedUrl.pathname) return null;
-    let component = backend.paths[parsedUrl.pathname];
+    const parsedUrl = url.parse(request.url);
+    if (!parsedUrl.pathname) { return null; }
+    const component = backend.paths[parsedUrl.pathname];
 
     if (component === undefined) {
       console.log(`endpoint ${parsedUrl.pathname} is not in app.backend`);
@@ -90,7 +90,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         // pass through any requests not handled above
         return next.handle(request);
       }
-    })
+    });
   }
 }
 
@@ -98,5 +98,5 @@ export let fakeBackendProvider = {
     // use fake backend in place of Http service for backend-less development
     provide: HTTP_INTERCEPTORS,
     useClass: FakeBackendInterceptor,
-    multi: true
+    multi: true,
 };

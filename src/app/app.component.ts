@@ -1,6 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Renderer2, ElementRef } from '@angular/core';
 
-import { Events, Nav, Platform } from 'ionic-angular';
+import { Events, Nav, Platform, PopoverController } from 'ionic-angular';
 import { CacheService } from 'ionic-cache';
 
 import { TranslateService } from 'ng2-translate/ng2-translate';
@@ -9,6 +9,8 @@ import { Globalization } from '@ionic-native/globalization';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
+import { CookieConsentPage } from '../pages/cookieconsent/cookieconsent';
+import { DebugPage } from '../pages/debug/debug';
 import { EventFrontPage } from '../pages/eventfront/eventfront';
 import { LoginPage } from '../pages/login/login';
 import { LogoutPage } from '../pages/logout/logout';
@@ -19,22 +21,36 @@ import { AboutPage } from '../pages/about/about';
 import { EventListPage } from '../pages/eventlist/eventlist';
 import { SettingsPage } from '../pages/settings/settings';
 
+import { CookieConsentProvider } from '../providers/cookie-consent/cookie-consent';
 import { DeviceProvider } from '../providers/device/device';
 import { LanguageProvider } from '../providers/language/language';
 import { UserProvider } from '../providers/user/user';
 
+import { appTitle as globalAppTitle } from '../global';
 import { lang } from '../pages/settings/settings.constants';
 
-let _ = function(a) { return a; };
-
+const _ = (a) => a;
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
 })
 export class MyApp {
-  rootPage:any = EventFrontPage;
-  pages: Array<{title: string, id: string, component: any, status: any, divide: any}>;
+  selectedTheme = 'picshare-theme';
+  rootPage: any = EventFrontPage;
+  pages: {title: string, id: string, component: any, status: any, divide: any}[];
+  appTitle = globalAppTitle;
   @ViewChild(Nav) nav: Nav;
+
+  private currentPageComponent: any;
+  private loggedIn: boolean;
+
+  private consentMessageFreePages = [
+    EventFrontPage,
+    DebugPage,
+    AboutPage,
+    LoginPage,
+    SettingsPage,
+  ];
 
   constructor(
     cache: CacheService,
@@ -46,46 +62,51 @@ export class MyApp {
     public events: Events,
     public translate: TranslateService,
     public globalization: Globalization,
-    public lp: LanguageProvider
+    public lp: LanguageProvider,
+    public popCtrl: PopoverController,
+    public ccp: CookieConsentProvider,
+    public renderer: Renderer2,
+    public elRef: ElementRef,
   ) {
 
-    let url = new URL(window.location.href);
+    const url = new URL(window.location.href);
 
     if (url.hash.indexOf('verify-email?key') > -1) {
-      let key = url.hash.split('=')[1];
-      this.up.verifyEmail({'key' : key}).then(req => {
-        this.nav.setRoot(LoginPage, {message: 'Email Verified Successfully!'});
-      })
+      const key = url.hash.split('=')[1];
+      this.up.verifyEmail({ key }).then((req) => {
+        this.nav.setRoot(LoginPage, { message: 'Email Verified Successfully!' });
+      });
     }
 
-    let self = this;
     this.initializeApp();
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
+      const ionApp = this.renderer.parentNode(elRef.nativeElement);
+      this.renderer.addClass(ionApp, this.selectedTheme);
       translate.setDefaultLang(lang.defaultLanguage);
 
-      this.lp.getLanguage().then(res => {
+      this.lp.getLanguage().then((res) => {
         if (res) {
           translate.use(res);
           lang.sysOptions.systemLanguage = res;
         } else {
           let language;
-          if ((<any>window).cordova) {
-            this.globalization.getPreferredLanguage().then(result => {
+          if ((window as any).cordova) {
+            this.globalization.getPreferredLanguage().then((result) => {
               language = this.getSuitableLanguage(result.value);
               translate.use(language);
               lang.sysOptions.systemLanguage = language;
             });
           } else {
-            let browserLanguage = translate.getBrowserLang() || lang.defaultLanguage;
+            const browserLanguage = translate.getBrowserLang() || lang.defaultLanguage;
             language = this.getSuitableLanguage(browserLanguage);
             translate.use(language);
             lang.sysOptions.systemLanguage = language;
           }
-          this.lp.saveLanguage(language)
+          this.lp.saveLanguage(language);
         }
-      })
+      });
 
       if (platform.is('cordova')) {
         statusBar.styleDefault();
@@ -95,12 +116,12 @@ export class MyApp {
     });
 
     this.pages = [
-      { title: _('Home'), id: 'event-front', component: EventFrontPage, status: false, divide: false},
-      { title: _('Event'), id: 'event-list', component: EventListPage, status: false, divide: false},
-      { title: _('Signup/Login'), id: 'login', component: LoginPage, status: false, divide: false},
-      { title: _('Logout'), id: 'logout', component: LogoutPage, status: false, divide: false},
-      { title: _('Settings'), id: 'settings', component: SettingsPage, status: false, divide: false},
-      { title: _('About'), id: 'about', component: AboutPage, status: false, divide: false},
+      { title: _('Home'), id: 'event-front', component: EventFrontPage, status: false, divide: false },
+      { title: _('Event'), id: 'event-list', component: EventListPage, status: false, divide: false },
+      { title: _('Signup/Login'), id: 'login', component: LoginPage, status: false, divide: false },
+      { title: _('Logout'), id: 'logout', component: LogoutPage, status: false, divide: false },
+      { title: _('Settings'), id: 'settings', component: SettingsPage, status: false, divide: false },
+      { title: _('About'), id: 'about', component: AboutPage, status: false, divide: false },
     ];
 
     events.subscribe('user:logout', () => {
@@ -111,22 +132,41 @@ export class MyApp {
       this.setStatus();
     });
 
-    var securedPages = [
+    const securedPages = [
       'Logout',
       'Profile',
     ];
 
-    self.pages.forEach(page => {
+    this.pages.forEach((page) => {
       if (securedPages.indexOf(page.title) < 0) {
         page.status = true;
       }
-    })
+    });
+  }
+
+  ngAfterViewInit() {
+    const updateCurrentPage = (pageComponent) => {
+      this.currentPageComponent = pageComponent;
+      this.showConsentIfRequired();
+    }
+
+    this.nav.ngAfterViewInit().then(() => {
+      this.setStatus().then(() => {
+        // Run every time page changes
+        this.nav.viewDidEnter.subscribe((ctrl) => {
+          updateCurrentPage(ctrl.component);
+        });
+
+        // Run for root page
+        updateCurrentPage(this.nav.getActive().component);
+      });
+    });
   }
 
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    if (page.component == LoginPage || page.component == SignupPage) {
+    if (page.component === LoginPage || page.component === SignupPage) {
       this.nav.push(page.component);
     } else {
       this.nav.setRoot(page.component);
@@ -135,7 +175,7 @@ export class MyApp {
 
   getSuitableLanguage(language) {
     language = language.substring(0, 2).toLowerCase();
-    return lang.availableLanguages.some(x => x.code == language) ? language : lang.defaultLanguage;
+    return lang.availableLanguages.some((x) => x.code === language) ? language : lang.defaultLanguage;
   }
 
   initializeApp() {
@@ -148,26 +188,46 @@ export class MyApp {
     });
   }
 
-  setStatus() {
-    var self = this;
-    this.up.isAuthenticated().then(loggedIn => {
-      if (loggedIn) {
-        self.pages.forEach(page => {
-          page.status = true;
-          if (page.component == LoginPage || page.component == SignupPage) {
-            page.status = false;
-          }
-        })
+  showConsentIfRequired() {
+    if(this.currentPageComponent) {
+      if(this.consentMessageFreePages.indexOf(this.currentPageComponent) === -1) {
+        if (!this.deviceStatus.isCordova && !this.loggedIn) {
+          this.ccp.getConsent().then((consent) => {
+            if (!consent && !this.ccp.requesting) {
+              CookieConsentPage.present(this.popCtrl);
+              this.ccp.requesting = true;
+            }
+          });
+        }
       } else {
-        self.pages.forEach(page => {
-          if (page.component == LogoutPage || page.component == ProfilePage) {
+        this.events.publish('consent:forceClose');
+      }
+    }
+  }
+
+  setStatus() {
+    return this.up.isAuthenticated().then((loggedIn) => {
+      this.loggedIn = loggedIn;
+
+      if (loggedIn) {
+        this.pages.forEach((page) => {
+          page.status = true;
+          if (page.component === LoginPage || page.component === SignupPage) {
             page.status = false;
           }
-          if (page.component == LoginPage ||  page.component == SignupPage) {
+        });
+      } else {
+        this.pages.forEach((page) => {
+          if (page.component === LogoutPage || page.component === ProfilePage) {
+            page.status = false;
+          }
+          if (page.component === LoginPage ||  page.component === SignupPage) {
             page.status = true;
           }
-        })
+        });
       }
+
+      this.showConsentIfRequired();
     });
   }
 }

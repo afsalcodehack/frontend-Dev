@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { NavController, NavParams } from 'ionic-angular';
-import { UserProvider } from '../../providers/user/user';
-import { DeviceProvider } from '../../providers/device/device';
-import { AlertController } from 'ionic-angular';
-import { ActionSheetController, Platform } from 'ionic-angular';
-import { ImageUploadProvider } from "../../providers/image-upload/image-upload";
-import { Camera } from "@ionic-native/camera";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Camera } from '@ionic-native/camera';
 import { Storage } from '@ionic/storage';
-
+import {
+  ActionSheetController,
+  AlertController,
+  NavController,
+  NavParams,
+  Platform,
+} from 'ionic-angular';
+import { DeviceProvider } from '../../providers/device/device';
+import { ImageUploadProvider } from '../../providers/image-upload/image-upload';
+import { UserProvider } from '../../providers/user/user';
 
 @Component({
   selector: 'page-profile',
@@ -23,8 +26,7 @@ export class ProfilePage {
   selectedFiles: any;
 
   private changePasswordForm: FormGroup;
-  private user : any;
-
+  private user: any;
 
   constructor(
     public navCtrl: NavController,
@@ -37,54 +39,57 @@ export class ProfilePage {
     public actionSheetCtrl: ActionSheetController,
     public camera: Camera,
     public platform: Platform,
-    public storage: Storage
+    public storage: Storage,
   ) {
     this.changePasswordForm = this.fb.group({
       old_password: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(20)])],
       new_password1: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(20)])],
       new_password2: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(20)])],
-    })
+    });
 
   }
 
   ionViewDidLoad() {
-    var self = this;
-    self.up.isAuthenticated().then(res=> {
-      if(res) return self.up.getUserInfo()
-    }).then(res=> {
-      self.user = JSON.parse(res._body)['user'];
-    })
+    this.up.isAuthenticated().then((res) => {
+      if (res) { return this.up.getUserInfo(); }
+    }).then((res) => {
+      this.user = JSON.parse(res._body)['user'];
+    });
 
   }
 
   changePassword() {
     // Set uid here and check the following link for details:
     // http://django-rest-auth.readthedocs.io/en/latest/api_endpoints.html
-    var data = this.changePasswordForm.value;
+    const data = this.changePasswordForm.value;
     this.up.changePassword(data)
-      .then( usr => {
+      .then(() => {
         this.showAlertChangePassword();
-        },error => console.log(error));
+      }, (error) => {
+        console.log(error);
+      });
   }
 
   userDetails() {
     // Set uid here and check the following link for details:
     // http://django-rest-auth.readthedocs.io/en/latest/api_endpoints.html
-    var data = this.user;
+    const data = this.user;
     delete data['image'];
 
     this.up.updateInfo(data)
-      .then( usr => {
+      .then(() => {
         this.showAlertUserDetails();
-        },error => console.log(error));
+      }, (error) => {
+        console.log(error);
+      });
   }
 
   presentActionSheetAndUpload() {
     this.imageUploadProvider.presentActionSheet((promise) => {
-      promise.then(res => {
+      promise.then((res) => {
             this.lastImage = res;
             this.user.image = this.imageUploadProvider.pathForImage(res);
-            return this.storage.get('token')
+            return this.storage.get('token');
         }).then((val) => {
           this.authToken = val;
         });
@@ -93,70 +98,69 @@ export class ProfilePage {
 
   uploadImage() {
     // File for Upload
-    var targetPath = this.imageUploadProvider.pathForImage(this.lastImage);
+    const targetPath = this.imageUploadProvider.pathForImage(this.lastImage);
 
-    var params = this.user;
+    const params = this.user;
 
     delete params['image'];
 
-    var options = {
-      fileKey: "image",
+    const options = {
+      fileKey: 'image',
       chunkedMode: false,
       httpMethod : 'PUT',
-      mimeType: "multipart/form-data",
-      params : params,
-      headers: { Authorization: 'JWT '+ this.authToken }
+      mimeType: 'multipart/form-data',
+      params,
+      headers: { Authorization: 'JWT ' + this.authToken },
     };
 
-    this.imageUploadProvider.uploadImage(this.authToken, targetPath, options, null).then(res => {
+    this.imageUploadProvider.uploadImage(this.authToken, targetPath, options, null).then((res) => {
       console.log(JSON.stringify(res));
-    })
+    });
   }
 
   showAlertChangePassword() {
-    let alert = this.alertCtrl.create({
+    const alert = this.alertCtrl.create({
     title: 'Successfully Changed',
     subTitle: 'Your password has been changed successfully.',
     buttons: [ {
       text: 'OK',
-      handler: data => {
+      handler: (data) => {
       this.navCtrl.setRoot(ProfilePage);
-      }
+      },
       }],
     });
     alert.present();
   }
 
   showAlertUserDetails() {
-    let alert = this.alertCtrl.create({
+    const alert = this.alertCtrl.create({
     title: 'Successfully Changed',
     subTitle: 'Details Updated.',
     buttons: [ {
       text: 'OK',
-      handler: data => {
+      handler: (data) => {
         this.navCtrl.setRoot(ProfilePage);
-      }
+      },
       }],
     });
     alert.present();
   }
 
-
   onImageSelect(event) {
-    let file = event.srcElement.files;
-    var formData = new FormData();
-    let headers = new Headers();
+    const file = event.srcElement.files;
+    const formData = new FormData();
+    const headers = new Headers();
     formData.append('image', file[0], file[0].name);
-    var keys = Object.keys(this.user);
+    const keys = Object.keys(this.user);
     delete keys['image'];
 
-    keys.forEach(key => {
-      formData.append(key, this.user[key])
-    })
+    keys.forEach((key) => {
+      formData.append(key, this.user[key]);
+    });
 
-    this.up.desktopImageSelect(headers, formData, null).then(res => {
+    this.up.desktopImageSelect(headers, formData, null).then((res) => {
 
-    })
+    });
   }
 
 }

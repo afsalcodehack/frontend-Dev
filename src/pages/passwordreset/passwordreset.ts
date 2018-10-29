@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { AlertController } from 'ionic-angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AlertController, NavController, NavParams } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/user';
-
 
 @Component({
   selector: 'page-passwordreset',
@@ -22,26 +20,28 @@ export class PasswordresetPage {
   ) {
     this.passwordresetForm = this.fb.group({
     email: ['', Validators.required],
-    })
+    });
   }
 
   resetPasswordInitiate() {
-    var data = this.passwordresetForm.value;
+    const data = this.passwordresetForm.value;
     this.up.resetPasswordInitiate(data)
-      .then( usr => {
+      .then(() => {
         this.showAlert();
-        },error => console.log(error));
+      }, (error) => {
+        console.log(error);
+      });
   }
 
   showAlert() {
-  let alert = this.alertCtrl.create({
+  const alert = this.alertCtrl.create({
     title: 'Reset Initiated',
     subTitle: 'Password reset e-mail has been sent.',
     buttons: [ {
       text: 'OK',
-      handler: data => {
+      handler: (data) => {
       this.navCtrl.setRoot('root');
-      }
+      },
     }],
   });
     alert.present();

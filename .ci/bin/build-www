@@ -4,4 +4,4 @@ set -e -x
 
 cat src/config/environment.ts
 
-exec npm run-script build "$@"
+exec npm run build -- "$@"

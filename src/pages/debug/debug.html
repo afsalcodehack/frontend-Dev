@@ -1,0 +1,19 @@
+<app-content title="Debug">
+  <ion-list no-padding>
+    <ion-list-header no-margin>
+      Local Storage
+      <button ion-button icon-only item-end clear (click)="fetchStorageRecords()">
+        <ion-icon name="refresh"></ion-icon>
+      </button>
+      <button ion-button item-end outline (click)="clearAllRecords()">
+        Clear
+      </button>
+    </ion-list-header>
+
+    <ion-item *ngFor="let record of records">
+      <h2>{{ record.key }}</h2>
+      <p text-wrap>{{ record.val }}</p>
+      <ion-icon item-end name="close" class="clickable" (click)="clearSingleRecord(record.key)"></ion-icon>
+    </ion-item>
+  </ion-list>
+</app-content>

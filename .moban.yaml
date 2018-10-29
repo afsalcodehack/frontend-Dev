@@ -2,6 +2,7 @@ overrides: picshare-ionic.yaml
 
 project_name: picshare
 name: picshare-ionic
+theme: picshare-theme
 
 # Remove lock_moban to customise this file
 lock_moban: true
@@ -16,22 +17,26 @@ targets:
   - .moban.yaml: moban.yaml.jj2
   - README.md: README.md.jj2
   - .gitlab-ci.yml: gitlab-ci.yml.jj2
-  - src/index.html: index.html.jj2
+  - netlify.toml: netlify.toml.jj2
+  - tsconfig.json: tsconfig.json.jj2
+  - package.json: package.json.jj2
+  - src/app/main.ts: app/main.ts.jj2
   - src/global.ts: global.ts.jj2
+  - src/index.html: index.html.jj2
   - src/app/app.module.ts: app/module.ts.jj2
   - src/app/app.component.ts: app/component.ts.jj2
+  - src/app/constants.ts: app/constants.ts.jj2
   - src/models/.gitignore: app/gitignore.jj2
   - src/pages/.gitignore: app/gitignore.jj2
   - src/providers/.gitignore: app/gitignore.jj2
   - config.xml: config.xml.jj2
   - config/copy.config.js: config/copy.config.js.jj2
-  - package.json: package.json.jj2
-  - tsconfig.json: tsconfig.json.jj2
   - ionic.config.json: ionic.config.json.jj2
-  - src/assets/i18n/en.json: i18n/en.json.jj2
-  - src/assets/i18n/de.json: i18n/de.json.jj2
   - src/theme/colors.scss: colors.scss.jj2
   - src/theme/site_variables.scss: theme_variables.scss.jj2
+  - src/theme/variables.scss: variables.scss.jj2
+  - src/assets/i18n/en.json: i18n/en.json.jj2
+  - src/assets/i18n/de.json: i18n/de.json.jj2
 copy:
   - src/config/environment.ts: environments/local.ts
   - .gitignore: .gitignore
@@ -39,24 +44,22 @@ copy:
   - .coafile: .coafile
   - .sass-lint.yml: .sass-lint.yml
   - .editorconfig: .editorconfig
+  - tslint.json: tslint.json
   - .ci/bin/: .ci/bin/
-  - netlify.toml: netlify.toml
-  - ionic.starter.json: ionic.starter.json
   - environments/: environments/**
+  - src/models/: src/models/**
+  - ionic.starter.json: ionic.starter.json
   - resources/: resources/**
   - resources/android/: resources/android/**
   - resources/ios/: resources/ios/**
-  - tslint.json: tslint.json
   - README.md: README.md
   - src/manifest.json: src/manifest.json
   - src/app/authHttpServiceFactory.ts: src/app/authHttpServiceFactory.ts
-  - src/app/main.ts: src/app/main.ts
   - src/app/app.html: src/app/app.html
   - src/app/app.scss: src/app/app.scss
   - src/app/backends/: src/app/backends/
   - src/components/: src/components/**
   - src/config/environment.ts: src/config/environment.ts
-  - src/models/: src/models/**
   - src/pages/eventfront/: src/pages/eventfront/
   - src/pages/about/: src/pages/about/
   - src/pages/home/: src/pages/home/
@@ -75,8 +78,10 @@ copy:
   - src/pages/eventlist/: src/pages/eventlist/
   - src/pages/eventcreate/: src/pages/eventcreate/
   - src/pages/payment/: src/pages/payment/
+  - src/pages/cookieconsent/: src/pages/cookieconsent/
+  - src/pages/debug/: src/pages/debug/
   - src/pipes/: src/pipes/**
   - src/providers/: src/providers/**
-  - src/theme/variables.scss: src/theme/variables.scss
+  - src/theme/picshare-theme.scss: src/theme/picshare-theme.scss
   - tests/e2e/: tests/e2e/**
   - jasmine.json: jasmine.json

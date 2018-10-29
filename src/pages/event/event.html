@@ -1,4 +1,4 @@
-<app-content>
+<app-content [title]="event.name">
   <ion-buttons end header *ngIf="loggedIn">
     <button ion-button icon-only (click)="editEventInfo()">
       <ion-icon name="create"></ion-icon>

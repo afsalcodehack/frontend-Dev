@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { Events, NavController } from 'ionic-angular';
 
-import { EventListPage } from '../eventlist/eventlist';
-import { EventCreatePage } from '../eventcreate/eventcreate';
-import { LoginPage } from '../login/login';
 import { UserProvider } from '../../providers/user/user';
+import { EventCreatePage } from '../eventcreate/eventcreate';
+import { EventListPage } from '../eventlist/eventlist';
+import { LoginPage } from '../login/login';
 
 @Component({
   selector: 'page-eventfront',
-  templateUrl: 'eventfront.html'
+  templateUrl: 'eventfront.html',
 })
 export class EventFrontPage {
   loggedIn: boolean;
@@ -31,13 +31,13 @@ export class EventFrontPage {
   }
 
   setStatus(): void {
-    this.up.isAuthenticated().then(loggedIn => {
+    this.up.isAuthenticated().then((loggedIn) => {
       this.loggedIn = !!loggedIn;
     });
   }
 
   nav(destination: string): void {
-    switch(destination) {
+    switch (destination) {
       case 'event-list':
         this.navCtrl.push(EventListPage);
         break;

@@ -3,7 +3,6 @@ import { NavController, NavParams } from 'ionic-angular';
 import { ProductProvider } from '../../providers/product/product';
 import { PaymentPage } from '../payment/payment';
 
-
 @Component({
   selector: 'page-product',
   templateUrl: 'product.html',
@@ -29,7 +28,7 @@ export class ProductPage {
       item: {
         type: 'product',
         ...product,
-      }
+      },
     });
   }
 

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs/Rx';
 
-import { CacheService } from "ionic-cache";
+import { CacheService } from 'ionic-cache';
 
 import { Currency } from '../../models/cur';
 
@@ -14,8 +14,8 @@ export class CurrencyExchangeProvider {
   constructor(public http: Http, private cache: CacheService) { }
 
   load(): Observable<Currency> {
-    let request = this.http.get(this.ceUrl);
-    let cacheKey = this.ceUrl;
-    return this.cache.loadFromObservable(cacheKey, request).map(res => <Currency>res.json());
+    const request = this.http.get(this.ceUrl);
+    const cacheKey = this.ceUrl;
+    return this.cache.loadFromObservable(cacheKey, request).map((res) => res.json() as Currency);
   }
 }

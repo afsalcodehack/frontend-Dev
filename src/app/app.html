@@ -3,6 +3,12 @@
 <div *ngIf="deviceStatus.desktop">
   <ion-header>
     <div class="alignment-navbar navbar" color= "secondary">
+      <div class="logo">
+        <a (click)="openPage(pages[0])" class="logo-inner">
+          <img class="logo-img" [src]="'/assets/imgs/' + selectedTheme + '-logo.png'" [alt]="appTitle">
+          <span class="logo-text">{{ appTitle }}</span>
+        </a>
+      </div>
       <span *ngFor="let p of pages; let i = index;">
         <a (click)="openPage(p)" [id]="p.id" color="secondary" *ngIf="p.status">{{ p.title | translate }}</a>
       </span>

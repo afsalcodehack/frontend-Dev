@@ -6,4 +6,4 @@ change-environment "$BRANCH"
 
 sed -i '/cordova\.js/d' src/index.html
 
-exec build-www --prod
+exec build-www --prod "$@"

@@ -28,11 +28,18 @@ ignore =
   node_modules/,
   www/,
   dist/,
+  src/assets/i18n/**,
   config/copy.config.js,
   src/app/app.component.ts,
   src/pages/profile/profile.ts,
+  src/app/backend.ts,
   src/app/data/dummy.ts
 max_line_length = 200
+
+[all.linelength.i18n]
+files = src/assets/i18n/**
+ignore =
+max_line_length = 350
 
 [all.css]
 # CSSComb can also process .scss and .sass however the bear has issues

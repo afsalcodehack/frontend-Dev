@@ -1,15 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Platform } from "ionic-angular";
-
+import { Platform } from 'ionic-angular';
 
 @Injectable()
 export class DeviceProvider {
 
-  mobile: boolean = false;
-  desktop: boolean = false;
-  pixelWidth : number;
-  isCordova : boolean = false;
+  mobile = false;
+  desktop = false;
+  pixelWidth: number;
+  isCordova = false;
 
   constructor(public http: HttpClient, public platform: Platform) {
     if (this.platform.is('cordova')) {

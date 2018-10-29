@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController, NavParams } from 'ionic-angular';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { minEventSecretLength } from '../../global';
+import { event } from '../../app/constants';
 import { EventProvider } from '../../providers/event/event';
 import { EventListPage } from '../eventlist/eventlist';
-import { minEventSecretLength } from '../../global';
 
 /**
  * Generated class for the EventcreatePage page.
@@ -18,13 +19,14 @@ import { minEventSecretLength } from '../../global';
 })
 export class EventCreatePage implements OnInit {
 
-  eventForm : FormGroup;
+  eventForm: FormGroup;
   secretFieldDisabled = false;
   private secretPlaceholder = '#hello.#';
 
   originalEvent: any;
   pageTitle = 'Create Event';
   submitActionTitle = 'Create';
+  minPrice = event.minPrice;
 
   constructor(
     public navCtrl: NavController,
@@ -34,6 +36,7 @@ export class EventCreatePage implements OnInit {
   ) {
     this.eventForm = this.formBuilder.group({
       name: ['', Validators.required],
+      price: ['', Validators.compose([Validators.required, Validators.min(this.minPrice)])],
       secret: ['', Validators.minLength(minEventSecretLength)],
       isPublic: false,
     });
@@ -50,14 +53,15 @@ export class EventCreatePage implements OnInit {
 
       this.eventForm.setValue({
         name: this.originalEvent.name,
+        price: this.originalEvent.price,
         isPublic: this.originalEvent.isPublic,
-        secret: !this.originalEvent.isPublic?this.secretPlaceholder:'',
+        secret: !this.originalEvent.isPublic ? this.secretPlaceholder : '',
       });
     }
   }
 
   ngOnInit() {
-    let field = this.eventForm.get('isPublic');
+    const field = this.eventForm.get('isPublic');
     if (field) {
       field.valueChanges.subscribe((val) => {
         this.secretFieldDisabled = val;
@@ -72,7 +76,7 @@ export class EventCreatePage implements OnInit {
 
   async update() {
     let updated = this.eventForm.value;
-    updated = Object.assign({}, updated);
+    updated = { ...updated };
 
     if (updated.secret === this.secretPlaceholder) {
       updated.secret = '';
@@ -82,7 +86,7 @@ export class EventCreatePage implements OnInit {
       info: {
         id: this.originalEvent.id,
         ...updated,
-      }
+      },
     });
 
     this.navCtrl.pop();

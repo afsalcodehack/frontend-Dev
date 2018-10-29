@@ -7,6 +7,11 @@
       </ion-item>
 
       <ion-item>
+        <ion-label for="price" floating>{{ 'Price' | translate }} (EUR)</ion-label>
+        <ion-input id="price" class="validate" type="number" step="0.01" [min]="minPrice" formControlName="price"></ion-input>
+      </ion-item>
+
+      <ion-item>
         <ion-label for="secret" floating>{{ 'Optional Secret Key' | translate }}</ion-label>
         <ion-input id="secret" class="validate" type="password" formControlName="secret" [disabled]="secretFieldDisabled"></ion-input>
       </ion-item>

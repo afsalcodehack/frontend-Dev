@@ -3,7 +3,10 @@ overrides: ionic.yaml
 package_manager: pnpm
 
 app_title: Picshare
-home_page: event-front
+home_page: &home_page
+  event-front
+
+theme: picshare-theme
 
 features:
   payment: true
@@ -21,6 +24,13 @@ menu_pages:
   - logout
   - settings
   - about
+
+consent_message_free_pages:
+  - *home_page
+  - debug
+  - about
+  - login
+  - settings
 
 colors:
   primary: green

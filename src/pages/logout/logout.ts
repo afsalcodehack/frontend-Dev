@@ -13,7 +13,7 @@ export class LogoutPage {
 
   ionViewDidLoad() {
 
-    if(this.up.logout()) {
+    if (this.up.logout()) {
       this.navCtrl.setRoot('root');
     }
   }

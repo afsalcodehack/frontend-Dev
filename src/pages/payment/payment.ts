@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
-import { StripeService, Elements, Element as StripeElement, ElementsOptions, ElementOptions } from "ngx-stripe";
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { StripeProvider } from '../../providers/stripe/stripe';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AlertController, LoadingController, NavController, NavParams } from 'ionic-angular';
+import { Element as StripeElement, ElementOptions, Elements, ElementsOptions, StripeService } from 'ngx-stripe';
 import { LanguageProvider } from '../../providers/language/language';
+import { StripeProvider } from '../../providers/stripe/stripe';
 
 @Component({
   selector: 'page-payment',
@@ -28,10 +28,10 @@ export class PaymentPage {
         fontFamily: 'sans-serif',
         fontSize: '16px',
         '::placeholder': {
-          color: '#999'
-        }
-      }
-    }
+          color: '#999',
+        },
+      },
+    },
   };
 
   paymentForm: FormGroup;
@@ -60,7 +60,7 @@ export class PaymentPage {
     }
 
     const loading = this.loadingCtrl.create({
-      content: 'Preparing payment...'
+      content: 'Preparing payment...',
     });
 
     loading.present();
@@ -69,7 +69,7 @@ export class PaymentPage {
     const elementsOptions: ElementsOptions = { locale };
 
     this.stripeService.elements(elementsOptions)
-    .subscribe(elements => {
+    .subscribe((elements) => {
       this.elements = elements;
       // Only mount the element the first time
       if (!this.card) {
@@ -78,31 +78,31 @@ export class PaymentPage {
         this.card.on('ready', () => {
           this.stripeReady = true;
           loading.dismiss();
-        })
-        this.card.on('change', status => {
+        });
+        this.card.on('change', (status) => {
           this.stripeStatus = status;
-        })
+        });
       }
     });
   }
 
   pay() {
     const loading = this.loadingCtrl.create({
-      content: 'Processing payment...'
+      content: 'Processing payment...',
     });
 
     loading.present();
 
     const email_field = this.paymentForm.get('email');
-    if (!email_field) return;
+    if (!email_field) { return; }
 
     const email = email_field.value;
     this.stripeService
       .createToken(this.card, {})
-      .subscribe(async result => {
+      .subscribe(async (result) => {
         if (result.token) {
           await this.stripeProvider.charge(
-            this.item, email, result.token.id
+            this.item, email, result.token.id,
           );
 
           loading.dismiss();

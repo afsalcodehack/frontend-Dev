@@ -65,7 +65,7 @@ test:tslint:
   script:
     - pnpm install --no-save
         tslint codelyzer tslint-eslint-rules
-    - pnpx ionic-app-scripts lint --bailOnLintError true
+    - pnpm run lint
 
 build:dev:web:
   <<: *collect_artifacts
@@ -74,6 +74,12 @@ build:dev:web:
     - change-environment offline
     - build-www
     - mv www www-dev-offline
+
+build:prod:web:
+  <<: *collect_artifacts
+  stage: build
+  script:
+    - build-www --prod
 
 build:dev:android:
   <<: *collect_artifacts
@@ -84,14 +90,9 @@ build:dev:android:
     - npm config set shrinkwrap-only true
     - ionic cordova platform add android
     - npm config set shrinkwrap-only false
+    - git checkout shrinkwrap.yaml
     - ionic cordova build android $BUILD_FLAGS
     - ls -al $ANDROID_ARTIFACT_DIR
-
-build:prod:web:
-  <<: *collect_artifacts
-  stage: build
-  script:
-    - build-www --prod
 
 build:prod:android:
   <<: *collect_artifacts

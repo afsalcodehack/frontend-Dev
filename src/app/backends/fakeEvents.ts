@@ -1,5 +1,5 @@
-import { backendEventListener } from "../backend";
-import { appTitle } from "../../global";
+import { appTitle } from '../../global';
+import { backendEventListener } from '../backend';
 
 export const events = [
   { id: 1, name: 'CEBIT', isPublic: false, price: 5.99, currency: 'usd', secret: 'hello' },
@@ -8,7 +8,7 @@ export const events = [
   { id: 4, name: 'TechCrunch', isPublic: true, price: 9.99, currency: 'usd' },
 ];
 
-export const wikiUrl = "https://upload.wikimedia.org/wikipedia/commons/";
+export const wikiUrl = 'https://upload.wikimedia.org/wikipedia/commons/';
 const thumbUrl = `${wikiUrl}thumb/`;
 
 const imageUrls = [
@@ -22,7 +22,7 @@ const imageUrls = [
 ];
 
 const getImgUrl = (i) => `${wikiUrl}${imageUrls[i]}`;
-const getThumbUrl = (i) => `${thumbUrl}${imageUrls[i]}/640px-${imageUrls[i].replace(/.*\//g, '')}`
+const getThumbUrl = (i) => `${thumbUrl}${imageUrls[i]}/640px-${imageUrls[i].replace(/.*\//g, '')}`;
 
 export const album = {
   images: [
@@ -79,7 +79,7 @@ export const album = {
 };
 
 export const forkAndCleanEvent = (event) => {
-  event = Object.assign({}, event);
+  event = { ...event };
 
   if (event['secret']) {
     event.isPublic = false;
@@ -91,8 +91,8 @@ export const forkAndCleanEvent = (event) => {
 
 backendEventListener('payment:success')
   .filter(({ item_type }) => item_type === 'image')
-  .subscribe(data => {
-    const photo = album.images.find(image => image.fullResUrl === data.item_id);
+  .subscribe((data) => {
+    const photo = album.images.find((image) => image.fullResUrl === data.item_id);
     if (!photo) {
       return;
     }

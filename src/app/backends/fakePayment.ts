@@ -1,4 +1,4 @@
-import { backendEvent } from "../backend";
+import { backendEvent } from '../backend';
 
 export const handlePayment = ({ body }) => {
   backendEvent.next({ name: 'payment:success', data: body });

@@ -44,7 +44,9 @@ describe('Event front page when logged in', () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 120000;
     loginPage = new LoginPage();
     loginPage.navigateTo().then(() => {
-      loginPage.logIn();
+      browser.sleep(5000).then(() => {
+        loginPage.logIn();
+      });
     });
   });
 
