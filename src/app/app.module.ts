@@ -61,6 +61,7 @@ import { LanguageProvider } from '../providers/language/language';
 import { PageLocationProvider } from '../providers/page-location/page-location';
 import { ProductProvider } from '../providers/product/product';
 import { StripeProvider } from '../providers/stripe/stripe';
+import { ThemeProvider } from '../providers/theme/theme';
 import { UserProvider } from '../providers/user/user';
 
 import { AppContentComponent } from '../components/app-content/app-content';
@@ -173,6 +174,7 @@ export const createTranslateLoader = (http: Http) => {
     CurrencyExchangeProvider,
     UserProvider,
     LanguageProvider,
+    ThemeProvider,
     Globalization,
     DeviceProvider,
     {
