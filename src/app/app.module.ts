@@ -1,5 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
+import { Injector } from '@angular/core';
 import { Http, HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AuthHttp } from 'angular2-jwt';
@@ -192,4 +193,9 @@ export const createTranslateLoader = (http: Http) => {
 })
 export class AppModule {
   public static gaEnabled = false;
+  public static injector: Injector;
+
+  constructor(injector: Injector) {
+    AppModule.injector = injector;
+  }
 }
