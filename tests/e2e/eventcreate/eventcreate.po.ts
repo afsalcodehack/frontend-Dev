@@ -18,7 +18,7 @@ export class EventCreatePage {
     if (secretKey) {
       element(by.css('input[type="password"]')).sendKeys(secretKey);
     }
-    if (isPublic) {
+    if (!isPublic) {
       element(by.css('button[role="checkbox"]')).click();
     }
     const submitButton = element(by.css('button[type="submit"]'));

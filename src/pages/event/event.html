@@ -1,9 +1,9 @@
 <app-content [title]="event.name">
-  <ion-buttons end header *ngIf="loggedIn">
+  <ng-container navButtons *ngIf="loggedIn">
     <button ion-button icon-only (click)="editEventInfo()">
       <ion-icon name="create"></ion-icon>
     </button>
-  </ion-buttons>
+  </ng-container>
   <ion-grid no-padding>
     <ng-container *ngFor="let collection of getAlbumCollections(event.album) | mapToIterable">
       <ion-row>
@@ -23,7 +23,7 @@
   </ion-grid>
 </app-content>
 
-<ion-fab bottom right>
+<ion-fab bottom right *ngIf="loggedIn">
   <div *ngIf="!deviceStatus.isCordova">
     <label ion-fab for="file-upload">
       <ion-icon name="add"></ion-icon>

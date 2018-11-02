@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { EventCreatePage } from '../../pages/eventcreate/eventcreate';
+import { EventListPage } from '../../pages/eventlist/eventlist';
 import { DeviceProvider } from '../../providers/device/device';
 import { EventProvider } from '../../providers/event/event';
 import { ImageUploadProvider } from '../../providers/image-upload/image-upload';
@@ -33,13 +34,18 @@ export class EventPage {
   ) {
   }
 
-  async ionViewDidLoad() {
+  async ionViewDidEnter() {
     this.userProvider.isAuthenticated().then((loggedIn) => {
       this.loggedIn = !!loggedIn;
     });
 
-    const id = this.navParams.get('id');
-    this.event = await this.eventProvider.getEvent(id);
+    if (!this.navParams.get('token')) {
+      this.navCtrl.setRoot(EventListPage);
+    }
+
+    const id = parseInt(this.navParams.get('id'), 10);
+    const response = await this.eventProvider.getEvent(id);
+    this.event = response['result'];
   }
 
   getAlbumCollections(album) {

@@ -48,53 +48,83 @@ export class EventListPage {
     });
   }
 
-  async ionViewDidLoad() {
-     this.events = await this.eventProvider.getEvents();
+  async ionViewDidEnter() {
+    this.events = await this.eventProvider.getEvents();
+  }
+
+  privateEventSecretModal(message, handler) {
+    return this.alertCtrl.create({
+      title: 'Secret Event',
+      message,
+      inputs: [
+        {
+          name: 'secret',
+          type: 'password',
+          placeholder: 'Secret',
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Submit',
+          handler,
+        },
+      ],
+    });
+  }
+
+  getAccessTokenAndNavigateToEvent(id, secret, on_ok_false) {
+    return this.eventProvider.getAccessToken(id, secret).then((res) => {
+      if (res['ok']) {
+        this.navCtrl.push(EventPage, {
+          id,
+          token: 'dummy-token',
+        });
+      } else {
+        on_ok_false(res);
+      }
+    });
   }
 
   eventSelected(event) {
-    const openEventPage = () => {
-      this.navCtrl.push(EventPage, {
-        id: event.id,
-      });
-    };
-
     if (!this.loggedIn && !event.isPublic) {
-      const alert = this.alertCtrl.create({
-        title: 'Secret Event',
-        message: 'Access to this event is protected by a secret key.',
-        inputs: [
-          {
-            name: 'secret',
-            type: 'password',
-            placeholder: 'Secret',
-          },
-        ],
-        buttons: [
-          {
-            text: 'Cancel',
-            role: 'cancel',
-          },
-          {
-            text: 'Submit',
-            handler: (data) => {
-              this.eventProvider.getAccessToken(event.id, data.secret)
-                .then((res) => {
-                  if (res['ok']) {
-                    openEventPage();
-                  } else {
-                    this.eventSelected(event);
-                  }
-                });
-            },
-          },
-        ],
-      });
+      const alert = this.privateEventSecretModal(
+        'Access to this event is protected by a secret key.', (data) => {
+          this.getAccessTokenAndNavigateToEvent(event.id, data.secret, () => {
+            this.eventSelected(event);
+          });
+        });
 
       alert.present();
     } else {
-      openEventPage();
+      this.navCtrl.push(EventPage, {
+        id: event.id,
+        token: 'dummy-access-token',
+      });
     }
+  }
+
+  openPrivateEventBySecret() {
+    const alert = this.privateEventSecretModal(
+      'Enter Secret key of the event you want to visit.', (modal) => {
+        this.eventProvider.search({ secret: modal.secret }).then((result) => {
+          if (result['ok']) {
+            if (result['result'].length > 0) {
+              const id = result['result'][0];
+              this.getAccessTokenAndNavigateToEvent(id, modal.secret, () => {
+                this.eventSelected(event);
+              });
+            } else {
+              this.openPrivateEventBySecret();
+            }
+          }
+        });
+      });
+
+    alert.present();
   }
 
   create() {

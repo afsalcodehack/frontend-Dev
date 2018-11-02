@@ -2,6 +2,10 @@
   <ng-content select="[header]"></ng-content>
 </ng-template>
 
+<ng-template #navButtonsTpl>
+  <ng-content select="[navButtons]"></ng-content>
+</ng-template>
+
 <ion-header *ngIf="deviceStatus.mobile">
   <ion-navbar class="alignment-titlebar">
     <button ion-button menuToggle>
@@ -14,6 +18,9 @@
       {{ title | translate }}
     </ion-title>
     <ng-container *ngTemplateOutlet="headerTpl"></ng-container>
+    <ion-buttons end *ngIf="[navButtons]">
+      <ng-container *ngTemplateOutlet="navButtonsTpl"></ng-container>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 <ion-content>
@@ -23,6 +30,9 @@
     </button>
     <ion-title *ngIf="title">{{ title | translate }}</ion-title>
     <ng-container *ngTemplateOutlet="headerTpl"></ng-container>
+    <ion-buttons end *ngIf="[navButtons]">
+      <ng-container *ngTemplateOutlet="navButtonsTpl"></ng-container>
+    </ion-buttons>
   </ion-navbar>
 
   <div [class.ion-content-custom]="padding">

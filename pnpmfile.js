@@ -36,6 +36,8 @@ function readPackage(pkg) {
   if (pkg.dependencies['@ionic/app-scripts']) {
     Object.assign(pkg.dependencies, {
       '@angular-devkit/build-optimizer': '0.0.35',
+      'rangestr': '2.0.0',
+      'seedrandom': '2.4.4',
     });
   }
 

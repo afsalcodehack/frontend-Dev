@@ -38,6 +38,7 @@ describe('Event create page when logged in', () => {
     page.create(name, price).then(() => {
       eventListPage = new EventListPage();
       eventPage = new EventPage();
+      browser.sleep(5000);
       eventListPage.openPublicEvent(name).then(() => {
         // should be able to buy the unpurchased picture
         eventPage.getFirstImageBtnText().then((text) => {
