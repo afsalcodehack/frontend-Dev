@@ -1,7 +1,7 @@
-import { backendUrl, appTitle } from '../global'
+import { appTitle, backendUrl } from '../global';
 
-import { Subject } from "rxjs";
-import { filter, map } from "rxjs/operators";
+import { Subject } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 export const backendEvent = new Subject<{name: string, data?: any }>();
 export const backendEventListener = (name: string) => backendEvent.asObservable().pipe(
@@ -9,18 +9,18 @@ export const backendEventListener = (name: string) => backendEvent.asObservable(
   map((payload) => payload.data),
 );
 
-import { EndPoint, Backend } from '../models/backend'
+import { Backend, EndPoint } from '../models/backend';
+import { album, events, forkAndCleanEvent, generateSecretKey } from './backends/fakeEvents';
 import { handlePayment } from './backends/fakePayment';
 import { products } from './backends/fakeProducts';
-import { handleRegistration, handleLogin } from './backends/fakeUserAuth';
-import { events, album, forkAndCleanEvent } from './backends/fakeEvents';
+import { handleLogin, handleRegistration } from './backends/fakeUserAuth';
 
 export const backend = new Backend(
   backendUrl,
   [
-    new EndPoint('get-user-info', true, {'token': 'fake token'}),
+    new EndPoint('get-user-info', true, { token: 'fake token' }),
     new EndPoint('update-user-info', true),
-    new EndPoint('image-upload', false, (req) => ({ url: req.body.src })),
+    new EndPoint('image-upload', true, (req) => ({ url: req.body.src })),
     // rest-auth
     new EndPoint('rest-auth/registration', true, handleRegistration),
     new EndPoint('rest-auth/login', true, handleLogin),
@@ -34,8 +34,18 @@ export const backend = new Backend(
     }),
     new EndPoint('event', false, (req) => {
       let event = events.find((el) => el.id === req.body.id);
+      if (!event) {
+        return {
+          ok: false,
+          result: null,
+        };
+      }
+
       event = forkAndCleanEvent(event);
-      return { album, ...event };
+      return {
+        ok: true,
+        result: { album, ...event },
+      };
     }),
     new EndPoint('event/create', false, {}, (req) => {
       const newEvent = req.body;
@@ -43,8 +53,18 @@ export const backend = new Backend(
     }),
     new EndPoint('event/update', false, (req) => {
       if (req.body['info']) {
-        const event = events.find(el => el.id === req.body.info.id);
-        Object.assign(event, req.body.info);
+        const event = events.find((el) => el.id === req.body.info.id) || {};
+        const info = req.body.info;
+
+        if (info.isPublic) {
+          info.secret = null;
+        }
+
+        if (!info.secret && !info.isPublic) {
+          info.isPublic = true;
+        }
+
+        Object.assign(event, info);
       }
 
       if (req.body['url']) {
@@ -71,9 +91,26 @@ export const backend = new Backend(
 
       return { ok: false };
     }),
+    new EndPoint('event/secret-key', false, (req) => {
+      return { ok: true, result: generateSecretKey() };
+    }),
+    new EndPoint('event/search', false, (req) => {
+      const secret = req.body['secret'];
+
+      if (secret) {
+        return {
+          ok: true,
+          result: events
+            .filter((event) => event['secret'] === secret)
+            .map((event) => event.id),
+        };
+      }
+
+      return { ok: false, result: null };
+    }),
     // product
     new EndPoint('products', false, products),
     // stripe
     new EndPoint('payment', false, {}, handlePayment),
-  ]
-)
+  ],
+);
