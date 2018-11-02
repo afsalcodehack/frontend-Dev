@@ -82,6 +82,7 @@ copy:
   - src/pages/debug/: src/pages/debug/
   - src/pipes/: src/pipes/**
   - src/providers/: src/providers/**
+  - src/decorators/: src/decorators/**
   - src/theme/picshare-theme.scss: src/theme/picshare-theme.scss
   - tests/e2e/: tests/e2e/**
   - jasmine.json: jasmine.json

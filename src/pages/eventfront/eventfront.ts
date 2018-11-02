@@ -5,7 +5,9 @@ import { UserProvider } from '../../providers/user/user';
 import { EventCreatePage } from '../eventcreate/eventcreate';
 import { EventListPage } from '../eventlist/eventlist';
 import { LoginPage } from '../login/login';
+import { PageTrack } from '../../decorators/PageTrack';
 
+@PageTrack()
 @Component({
   selector: 'page-eventfront',
   templateUrl: 'eventfront.html',

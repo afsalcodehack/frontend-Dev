@@ -4,6 +4,7 @@ import { EventProvider } from '../../providers/event/event';
 import { UserProvider } from '../../providers/user/user';
 import { EventPage } from '../event/event';
 import { EventCreatePage } from '../eventcreate/eventcreate';
+import { PageTrack } from '../../decorators/PageTrack';
 
 /**
  * Generated class for the EventlistPage page.
@@ -12,6 +13,7 @@ import { EventCreatePage } from '../eventcreate/eventcreate';
  * Ionic pages and navigation.
  */
 
+@PageTrack()
 @Component({
   selector: 'page-event-list',
   templateUrl: 'eventlist.html',

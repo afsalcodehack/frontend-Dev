@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, NavController, NavParams } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/user';
+import { PageTrack } from '../../decorators/PageTrack';
 
+@PageTrack()
 @Component({
   selector: 'page-passwordreset',
   templateUrl: 'passwordreset.html',

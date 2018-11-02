@@ -90,6 +90,7 @@ build:dev:android:
     - npm config set shrinkwrap-only true
     - ionic cordova platform add android
     - npm config set shrinkwrap-only false
+    - git checkout shrinkwrap.yaml
     - ionic cordova build android $BUILD_FLAGS
     - ls -al $ANDROID_ARTIFACT_DIR
 
@@ -114,7 +115,7 @@ verify:e2e:
     - . "$HOME/.nvm/nvm.sh"  # This loads nvm
     - nvm install 8
     - npm install http-server jasmine-spec-reporter minimist protractor
-                     ts-node '@types/jasmine'
+                     ts-node '@types/jasmine' typescript
     - export PATH=$CI_PROJECT_DIR/.ci/bin:$PATH
     - npm run e2e-update
   script: test-e2e www-dev-offline

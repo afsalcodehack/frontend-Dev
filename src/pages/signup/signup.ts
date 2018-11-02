@@ -4,7 +4,9 @@ import { NavController, NavParams } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/user';
 import { LoginPage } from '../login/login';
 import { PasswordresetPage } from '../passwordreset/passwordreset';
+import { PageTrack } from '../../decorators/PageTrack';
 
+@PageTrack()
 @Component({
   selector: 'page-signup',
   templateUrl: 'signup.html',

@@ -12,7 +12,9 @@ import {
 import { DeviceProvider } from '../../providers/device/device';
 import { ImageUploadProvider } from '../../providers/image-upload/image-upload';
 import { UserProvider } from '../../providers/user/user';
+import { PageTrack } from '../../decorators/PageTrack';
 
+@PageTrack()
 @Component({
   selector: 'page-profile',
   templateUrl: 'profile.html',

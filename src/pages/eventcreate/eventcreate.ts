@@ -5,6 +5,7 @@ import { minEventSecretLength } from '../../global';
 import { event } from '../../app/constants';
 import { EventProvider } from '../../providers/event/event';
 import { EventListPage } from '../eventlist/eventlist';
+import { PageTrack } from '../../decorators/PageTrack';
 
 /**
  * Generated class for the EventcreatePage page.
@@ -13,6 +14,7 @@ import { EventListPage } from '../eventlist/eventlist';
  * Ionic pages and navigation.
  */
 
+@PageTrack()
 @Component({
   selector: 'page-event-create',
   templateUrl: 'eventcreate.html',

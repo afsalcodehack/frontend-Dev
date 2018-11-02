@@ -4,7 +4,9 @@ import { AlertController, LoadingController, NavController, NavParams } from 'io
 import { Element as StripeElement, ElementOptions, Elements, ElementsOptions, StripeService } from 'ngx-stripe';
 import { LanguageProvider } from '../../providers/language/language';
 import { StripeProvider } from '../../providers/stripe/stripe';
+import { PageTrack } from '../../decorators/PageTrack';
 
+@PageTrack()
 @Component({
   selector: 'page-payment',
   templateUrl: 'payment.html',

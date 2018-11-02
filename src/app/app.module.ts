@@ -190,4 +190,6 @@ export const createTranslateLoader = (http: Http) => {
     ProductProvider,
   ],
 })
-export class AppModule {}
+export class AppModule {
+  public static gaEnabled = false;
+}

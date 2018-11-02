@@ -5,6 +5,7 @@ import { maxPasswordLength, minPasswordLength } from '../../global';
 import { UserProvider } from '../../providers/user/user';
 import { PasswordresetPage } from '../passwordreset/passwordreset';
 import { SignupPage } from '../signup/signup';
+import { PageTrack } from '../../decorators/PageTrack';
 
 /**
  * Generated class for the LoginPage page.
@@ -12,7 +13,7 @@ import { SignupPage } from '../signup/signup';
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
+@PageTrack()
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',

@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { ProductProvider } from '../../providers/product/product';
 import { PaymentPage } from '../payment/payment';
+import { PageTrack } from '../../decorators/PageTrack';
 
+@PageTrack()
 @Component({
   selector: 'page-product',
   templateUrl: 'product.html',

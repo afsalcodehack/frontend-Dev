@@ -5,6 +5,7 @@ import { DeviceProvider } from '../../providers/device/device';
 import { EventProvider } from '../../providers/event/event';
 import { ImageUploadProvider } from '../../providers/image-upload/image-upload';
 import { UserProvider } from '../../providers/user/user';
+import { PageTrack } from '../../decorators/PageTrack';
 
 /**
  * Generated class for the EventPage page.
@@ -12,7 +13,7 @@ import { UserProvider } from '../../providers/user/user';
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
+@PageTrack()
 @Component({
   selector: 'page-event',
   templateUrl: 'event.html',

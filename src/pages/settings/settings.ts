@@ -5,7 +5,9 @@ import { LanguageProvider } from '../../providers/language/language';
 import { PageLocationProvider } from '../../providers/page-location/page-location';
 import { ThemeProvider } from '../../providers/theme/theme';
 import { lang } from './settings.constants';
+import { PageTrack } from '../../decorators/PageTrack';
 
+@PageTrack()
 @Component({
   selector: 'page-settings',
   templateUrl: 'settings.html',
