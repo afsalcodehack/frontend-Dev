@@ -41,7 +41,10 @@ exports.config = {
 
     return browser.get('/#/event')
       .then(() => browser.sleep(1000))
-      .then(() => browser.wait(EC.elementToBeClickable(okConsent), 6000))
+      .then(() => browser.wait(
+        EC.elementToBeClickable(okConsent),
+        30000,
+        'okConsent does not become clickable after 30 seconds'))
       .then(() => okConsent.click())
       .then(() => browser.sleep(1000));
   }
