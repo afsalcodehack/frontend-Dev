@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -e
+
+providers=ionic/src/providers
+all_providers=ionic/src/all_providers
+
+mkdir $all_providers
+mv $providers/* $all_providers
+
+for provider in "$@"; do
+  cp -r ${all_providers}/${provider} $providers/${provider}
+done
+
+rm -rf $all_providers

@@ -7,8 +7,9 @@ export function PageTrack(): ClassDecorator {
     const ionViewDidEnter = constructor.prototype.ionViewDidEnter;
 
     constructor.prototype.ionViewDidEnter = function (...args: any[]) {
-      if (AppModule.gaEnabled) {
-        const events = AppModule.injector.get(Events);
+      const injector = AppModule['injector'];
+      if (AppModule.gaEnabled && injector) {
+        const events = injector.get(Events);
         events.publish('view:enter', this.constructor.name);
         ionViewDidEnter && ionViewDidEnter.apply(this, args);
       }

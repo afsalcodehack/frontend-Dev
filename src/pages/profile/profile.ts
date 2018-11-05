@@ -55,7 +55,7 @@ export class ProfilePage {
     this.up.isAuthenticated().then((res) => {
       if (res) { return this.up.getUserInfo(); }
     }).then((res) => {
-      this.user = JSON.parse(res._body)['user'];
+      this.user = res;
     });
 
   }

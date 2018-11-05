@@ -9,3 +9,5 @@ export module event {
 export module title {
   export const separator = '-';
 }
+export module auth {
+}

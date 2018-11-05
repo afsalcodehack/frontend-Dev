@@ -81,7 +81,17 @@ copy:
   - src/pages/cookieconsent/: src/pages/cookieconsent/
   - src/pages/debug/: src/pages/debug/
   - src/pipes/: src/pipes/**
-  - src/providers/: src/providers/**
+  - src/providers/cookie-consent/: src/providers/cookie-consent/
+  - src/providers/cur-exchange/: src/providers/cur-exchange/
+  - src/providers/device/: src/providers/device/
+  - src/providers/event/: src/providers/event/
+  - src/providers/image-upload/: src/providers/image-upload/
+  - src/providers/language/: src/providers/language/
+  - src/providers/page-location/: src/providers/page-location/
+  - src/providers/product/: src/providers/product/
+  - src/providers/theme/: src/providers/theme/
+  - src/providers/user/: src/providers/user/
+  - src/providers/backendless.ts: src/providers/backendless.ts
   - src/decorators/: src/decorators/**
   - src/theme/picshare-theme.scss: src/theme/picshare-theme.scss
   - tests/e2e/: tests/e2e/**

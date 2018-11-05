@@ -10,7 +10,7 @@
   </ion-list>
 </app-content>
 
-<ion-fab bottom right *ngIf="loggedIn">
+<ion-fab bottom right *ngIf="loggedIn && user.role === 'photographer'">
   <button ion-fab (click)="create()">
     <ion-icon name="add"></ion-icon>
   </button>

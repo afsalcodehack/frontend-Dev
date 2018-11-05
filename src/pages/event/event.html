@@ -1,5 +1,5 @@
 <app-content [title]="event.name">
-  <ng-container navButtons *ngIf="loggedIn">
+  <ng-container navButtons *ngIf="loggedIn && user.role === 'photographer'">
     <button ion-button icon-only (click)="editEventInfo()">
       <ion-icon name="create"></ion-icon>
     </button>
@@ -23,7 +23,7 @@
   </ion-grid>
 </app-content>
 
-<ion-fab bottom right *ngIf="loggedIn">
+<ion-fab bottom right *ngIf="loggedIn && user.role === 'photographer'">
   <div *ngIf="!deviceStatus.isCordova">
     <label ion-fab for="file-upload">
       <ion-icon name="add"></ion-icon>
