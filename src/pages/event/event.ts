@@ -34,7 +34,7 @@ export class EventPage {
   ) {
   }
 
-  async ionViewDidEnter() {
+  async ionViewDidLoad() {
     this.userProvider.isAuthenticated().then((loggedIn) => {
       this.loggedIn = !!loggedIn;
     });
