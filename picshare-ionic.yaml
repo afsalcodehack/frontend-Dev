@@ -11,6 +11,11 @@ theme: picshare-theme
 features:
   payment: true
 
+auth:
+  roles:
+    - photographer
+    - customer
+
 pages:
   search: false
   service: false

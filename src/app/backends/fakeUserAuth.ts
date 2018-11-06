@@ -26,7 +26,9 @@ const fakeUsers = [
   },
 ];
 
-localStorage.setItem('users', JSON.stringify(fakeUsers));
+if (!localStorage.getItem('users')) {
+  localStorage.setItem('users', JSON.stringify(fakeUsers));
+}
 
 const getStoredUsers = () => {
   const serialised_users = localStorage.getItem('users');
@@ -51,6 +53,7 @@ export const handleRegistration = (request) => {
     email,
     password,
     verified: true, // omit the verification step because it is hard to mock
+    role: auth.roles[1],
     token: getFakeJwtToken(users.length),
   });
   localStorage.setItem('users', JSON.stringify(users));
@@ -92,5 +95,5 @@ export const handleLogin = (request) => {
 
 export const handleGetUserInfo = (req) => {
   const reqToken = req.headers.get('Authorization').replace('JWT ', '');
-  return fakeUsers.find((user) => user.token === reqToken);
+  return getStoredUsers().find((user) => user.token === reqToken);
 };
