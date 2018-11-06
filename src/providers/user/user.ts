@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import { AuthHttp } from 'angular2-jwt';
 import { Events } from 'ionic-angular';
 
 import { backend } from '../../app/backend';
@@ -20,7 +21,7 @@ export class UserProvider {
   getUserInfoUrl = backend.paths['get-user-info'].toURL();
 
   constructor(public http: HttpClient, public storage: Storage,
-  public events: Events) {
+  public events: Events, public authHttp: AuthHttp) {
   }
 
   signupUser(user): Promise<any> {
@@ -65,7 +66,7 @@ export class UserProvider {
   }
 
   updateInfo(user): Promise<any> {
-    return this.http.post(this.changeuserdataUrl, user).toPromise()
+    return this.authHttp.post(this.changeuserdataUrl, user).toPromise()
     .then((res: any) => {
       return res;
     });
@@ -89,14 +90,14 @@ export class UserProvider {
   }
 
   getUserInfo(): any {
-    return this.http.post(this.getUserInfoUrl, {}).toPromise()
+    return this.authHttp.post(this.getUserInfoUrl, {}).toPromise()
     .then((res: any) => {
       return res;
     });
   }
 
   desktopImageSelect (headers, formData, param) {
-    return this.http.put(this.getUserInfoUrl, formData, {
+    return this.authHttp.put(this.getUserInfoUrl, formData, {
         headers,
       }).toPromise()
       .then((res: any) => {
@@ -106,7 +107,7 @@ export class UserProvider {
 
   verifyEmail(req): any {
     const key = req.key;
-    return this.http.post(this.verifyEmailUrl + key + '/', {}).toPromise()
+    return this.authHttp.post(this.verifyEmailUrl + key + '/', {}).toPromise()
     .then((res: any) => {
       return res;
     });

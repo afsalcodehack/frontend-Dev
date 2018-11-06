@@ -43,7 +43,7 @@ function readPackage(pkg) {
 
   if (pkg.dependencies['@auth0/angular-jwt']) {
     Object.assign(pkg.dependencies, {
-      'angular2-jwt': '0.2.3',
+      'angular2-jwt': '^0.2.3',
     });
   }
 

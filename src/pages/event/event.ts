@@ -23,7 +23,6 @@ export class EventPage {
 
   event = {};
   loggedIn = false;
-  user = {};
 
   constructor(
     public navCtrl: NavController,
@@ -38,11 +37,6 @@ export class EventPage {
   async ionViewDidEnter() {
     this.userProvider.isAuthenticated().then((loggedIn) => {
       this.loggedIn = !!loggedIn;
-      if (this.loggedIn) {
-        this.userProvider.getUserInfo().then((user) => {
-          this.user = user;
-        });
-      }
     });
 
     if (!this.navParams.get('token')) {

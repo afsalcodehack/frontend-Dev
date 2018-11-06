@@ -13,12 +13,12 @@ import { Backend, EndPoint } from '../models/backend';
 import { album, events, forkAndCleanEvent, generateSecretKey } from './backends/fakeEvents';
 import { handlePayment } from './backends/fakePayment';
 import { products } from './backends/fakeProducts';
-import { handleGetUserInfo, handleLogin, handleRegistration } from './backends/fakeUserAuth';
+import { handleLogin, handleRegistration } from './backends/fakeUserAuth';
 
 export const backend = new Backend(
   backendUrl,
   [
-    new EndPoint('get-user-info', true, handleGetUserInfo),
+    new EndPoint('get-user-info', true, { token: 'fake token' }),
     new EndPoint('update-user-info', true),
     new EndPoint('image-upload', true, (req) => ({ url: req.body.src })),
     // rest-auth

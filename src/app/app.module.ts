@@ -2,13 +2,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { Http, HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { AuthHttp } from 'angular2-jwt';
 
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { CacheModule } from 'ionic-cache';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
 
-import { IonicStorageModule, Storage } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { Camera } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
@@ -137,13 +137,6 @@ export const createTranslateLoader = (http: Http) => {
     IonicStorageModule.forRoot(),
     IonicImageViewerModule,
     NgxStripeModule.forRoot(ENV.STRIPE_KEY),
-    JwtModule.forRoot({
-      jwtOptionsProvider: {
-        provide: JWT_OPTIONS,
-        useFactory: authHttpServiceFactory,
-        deps: [Storage],
-      },
-    }),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -183,6 +176,11 @@ export const createTranslateLoader = (http: Http) => {
     ThemeProvider,
     Globalization,
     DeviceProvider,
+    {
+      provide: AuthHttp,
+      useFactory: authHttpServiceFactory,
+      deps: [Http],
+    },
     File,
     Transfer,
     Camera,

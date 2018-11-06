@@ -20,7 +20,6 @@ import { PageTrack } from '../../decorators/PageTrack';
 })
 export class EventListPage {
   loggedIn: boolean;
-  user = {};
   events = [];
 
   constructor(
@@ -46,11 +45,6 @@ export class EventListPage {
   setStatus(): void {
     this.up.isAuthenticated().then((loggedIn) => {
       this.loggedIn = !!loggedIn;
-      if (this.loggedIn) {
-        this.up.getUserInfo().then((user) => {
-          this.user = user;
-        });
-      }
     });
   }
 
