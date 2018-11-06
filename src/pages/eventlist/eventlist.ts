@@ -48,7 +48,7 @@ export class EventListPage {
     });
   }
 
-  async ionViewDidEnter() {
+  async ionViewDidLoad() {
     this.events = await this.eventProvider.getEvents();
   }
 
