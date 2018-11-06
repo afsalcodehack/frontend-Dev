@@ -1,5 +1,7 @@
 export module theme {
   export const availableThemes = [
+    'light-theme',
+    'dark-theme',
     'picshare-theme',
   ];
 }
@@ -10,4 +12,8 @@ export module title {
   export const separator = '-';
 }
 export module auth {
+  export const roles = [
+    'photographer',
+    'customer',
+  ];
 }
