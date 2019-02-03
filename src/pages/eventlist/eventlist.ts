@@ -1,17 +1,13 @@
 import { Component } from '@angular/core';
-import { AlertController, Events, NavController, NavParams } from 'ionic-angular';
+import { Events, NavController, NavParams } from 'ionic-angular';
+
+import { PageTrack } from '../../decorators/PageTrack';
 import { EventProvider } from '../../providers/event/event';
+import { I18nAlertProvider } from '../../providers/i18n-alert/i18n-alert';
 import { UserProvider } from '../../providers/user/user';
+
 import { EventPage } from '../event/event';
 import { EventCreatePage } from '../eventcreate/eventcreate';
-import { PageTrack } from '../../decorators/PageTrack';
-
-/**
- * Generated class for the EventlistPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @PageTrack()
 @Component({
@@ -23,7 +19,7 @@ export class EventListPage {
   events = [];
 
   constructor(
-    public alertCtrl: AlertController,
+    public alertCtrl: I18nAlertProvider,
     public navCtrl: NavController,
     public navParams: NavParams,
     public up: UserProvider,
@@ -49,82 +45,55 @@ export class EventListPage {
   }
 
   async ionViewDidLoad() {
-    this.events = await this.eventProvider.getEvents();
+     this.events = await this.eventProvider.getEvents();
   }
 
-  privateEventSecretModal(message, handler) {
-    return this.alertCtrl.create({
-      title: 'Secret Event',
-      message,
-      inputs: [
-        {
-          name: 'secret',
-          type: 'password',
-          placeholder: 'Secret',
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-        },
-        {
-          text: 'Submit',
-          handler,
-        },
-      ],
-    });
-  }
+  async eventSelected(event) {
+    const openEventPage = (secret= null) => {
+      this.navCtrl.push(EventPage, {
+        id: event.id,
+        secret,
+      });
+    };
 
-  getAccessTokenAndNavigateToEvent(id, secret, on_ok_false) {
-    return this.eventProvider.getAccessToken(id, secret).then((res) => {
-      if (res['ok']) {
-        this.navCtrl.push(EventPage, {
-          id,
-          token: 'dummy-token',
-        });
-      } else {
-        on_ok_false(res);
-      }
-    });
-  }
-
-  eventSelected(event) {
     if (!this.loggedIn && !event.isPublic) {
-      const alert = this.privateEventSecretModal(
-        'Access to this event is protected by a secret key.', (data) => {
-          this.getAccessTokenAndNavigateToEvent(event.id, data.secret, () => {
-            this.eventSelected(event);
-          });
-        });
+      const alert = await this.alertCtrl.create({
+        title: 'Secret Event',
+        message: 'Access to this event is protected by a secret key.',
+        inputs: [
+          {
+            id: 'secret-input',
+            name: 'secret',
+            type: 'password',
+            placeholder: 'Secret',
+          },
+        ],
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+          },
+          {
+            cssClass: 'secret-submit',
+            text: 'Submit',
+            handler: (data) => {
+              this.eventProvider.getAccessToken(event.id, data.secret)
+                .then((res) => {
+                  if (res['ok']) {
+                    openEventPage(data.secret);
+                  } else {
+                    this.eventSelected(event);
+                  }
+                });
+            },
+          },
+        ],
+      });
 
       alert.present();
     } else {
-      this.navCtrl.push(EventPage, {
-        id: event.id,
-        token: 'dummy-access-token',
-      });
+      openEventPage();
     }
-  }
-
-  openPrivateEventBySecret() {
-    const alert = this.privateEventSecretModal(
-      'Enter Secret key of the event you want to visit.', (modal) => {
-        this.eventProvider.search({ secret: modal.secret }).then((result) => {
-          if (result['ok']) {
-            if (result['result'].length > 0) {
-              const id = result['result'][0];
-              this.getAccessTokenAndNavigateToEvent(id, modal.secret, () => {
-                this.eventSelected(event);
-              });
-            } else {
-              this.openPrivateEventBySecret();
-            }
-          }
-        });
-      });
-
-    alert.present();
   }
 
   create() {

@@ -18,8 +18,14 @@ if [ -d './node_modules/.bin' ]; then
     export PATH="$PATH:./node_modules/.bin"
 fi
 
-http-server "$wwwroot" -p 8100 &
+if [ -z "$PROTRACTOR_RETRIES" ]; then
+    PROTRACTOR_RETRIES=3
+fi
+
+http-server-spa "$wwwroot" index.html 8100 &
 
 sleep 10
 
-exec protractor ./tests/e2e/protractor.conf.js
+exec protractor-flake --parser standard \
+    --max-attempts="$PROTRACTOR_RETRIES" -- \
+    ./tests/e2e/protractor.conf.js

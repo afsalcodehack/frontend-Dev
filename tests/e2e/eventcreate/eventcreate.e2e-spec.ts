@@ -1,9 +1,9 @@
 import { browser } from 'protractor';
 
-import { EventCreatePage } from './eventcreate.po';
-import { LoginPage } from '../login/login.po';
 import { EventPage } from '../event/event.po';
 import { EventListPage } from '../eventlist/eventlist.po';
+import { LoginPage } from '../login/login.po';
+import { EventCreatePage } from './eventcreate.po';
 
 describe('Event create page when logged in', () => {
   let page: EventCreatePage;
@@ -14,16 +14,7 @@ describe('Event create page when logged in', () => {
   beforeAll(() => {
     loginPage = new LoginPage();
     loginPage.navigateTo().then(() => {
-      browser.sleep(5000).then(() => {
-        loginPage.logIn();
-      });
-    });
-  });
-
-  beforeEach(() => {
-    page = new EventCreatePage();
-    page.navigateTo().then(() => {
-      browser.sleep(3000);
+      loginPage.logIn();
     });
   });
 
@@ -32,23 +23,42 @@ describe('Event create page when logged in', () => {
     loginPage.logOut();
   });
 
-  it('should create a public event', () => {
-    const name: string = 'testEvent';
-    const price: number = 1.5;
+  beforeEach(() => {
+    page = new EventCreatePage();
+    eventListPage = new EventListPage();
+    eventPage = new EventPage();
+    page.navigateTo();
+  });
+
+  it('should create a public event', async () => {
+    const name = 'testEvent';
+    const price = 1.5;
     page.create(name, price).then(() => {
-      eventListPage = new EventListPage();
-      eventPage = new EventPage();
-      browser.sleep(5000);
       eventListPage.openPublicEvent(name).then(() => {
-        // should be able to buy the unpurchased picture
+        eventPage.getPageTitleText().then((text) => {
+          expect(text).toEqual(name);
+        });
+      });
+    });
+  });
+
+  it('should check the first image is buyable', async () => {
+    const name = 'testEvent';
+    const price = 1.5;
+    page.create(name, price).then(() => {
+      eventListPage.openPublicEvent(name).then(() => {
         eventPage.getFirstImageBtnText().then((text) => {
           expect(text).toEqual(`BUY (${price}$)`);
         });
-        // should be able to navigate back to event page
-        browser.sleep(3000);
-        eventPage.navigateBack();
-        browser.sleep(3000);
-        // should be able to download the purchased picture
+      });
+    });
+  });
+
+  it('should check the second image is downloadable', async () => {
+    const name = 'testEvent';
+    const price = 1.5;
+    page.create(name, price).then(() => {
+      eventListPage.openPublicEvent(name).then(() => {
         eventPage.getSecondImageBtnText().then((text) => {
           expect(text).toEqual('VIEW FULL SIZE');
         });

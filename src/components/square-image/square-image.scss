@@ -1,4 +1,21 @@
 square-image {
+  cursor: pointer;
+  display: block;
+  transition-duration: 0.3s;
+  transition-property: box-shadow, transform;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  @media only screen and (min-width: 992px) {
+    &:hover {
+      box-shadow: 0 10px 32px rgba(0, 0, 0, 0.3);
+      transform: translateY(-3px);
+    }
+  }
+
+  &:active {
+    opacity: 0.8;
+  }
+
   .image-container {
     overflow: hidden;
     padding-bottom: 100%;

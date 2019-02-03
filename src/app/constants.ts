@@ -1,6 +1,6 @@
 export module theme {
   export const availableThemes = [
-    'picshare-theme',
+    'picllary-theme',
   ];
 }
 export module event {
@@ -8,4 +8,18 @@ export module event {
 }
 export module title {
   export const separator = '-';
+}
+export module auth {
+  export const roles = [
+    'photographer',
+    'customer',
+  ];
+  export const roleNames = {
+    photographer: 'Photographer',
+    customer: 'Customer',
+  };
+}
+export module locale {
+  export const dateFormat = 'MM/DD/YYYY';
+  export const timePickerFormat = 'hh:mm A';
 }

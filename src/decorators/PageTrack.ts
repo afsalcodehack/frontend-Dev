@@ -1,5 +1,6 @@
 /* tslint:disable:only-arrow-functions */
 import { Events } from 'ionic-angular';
+
 import { AppModule } from '../app/app.module';
 
 export function PageTrack(): ClassDecorator {
@@ -11,8 +12,10 @@ export function PageTrack(): ClassDecorator {
       if (AppModule.gaEnabled && injector) {
         const events = injector.get(Events);
         events.publish('view:enter', this.constructor.name);
-        ionViewDidEnter && ionViewDidEnter.apply(this, args);
+        if (ionViewDidEnter) {
+          ionViewDidEnter.apply(this, args);
+        }
       }
-    }
-  }
+    };
+  };
 }

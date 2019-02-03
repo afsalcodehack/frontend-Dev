@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+
 import { PageTrack } from '../../decorators/PageTrack';
 
 @PageTrack()

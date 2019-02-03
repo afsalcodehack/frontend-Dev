@@ -1,15 +1,22 @@
-import { Http } from '@angular/http';
 import { Storage } from '@ionic/storage';
-import { AuthConfig, AuthHttp } from 'angular2-jwt';
+import { ENV } from '../config/environment';
 
-const storage = new Storage({});
+let API_HOST;
+if (ENV.API_URL.length > 0) {
+  if (ENV.API_URL[0] === '/') {
+    // relative url -> full url
+    API_HOST = new URL(window.location.protocol + '//' + window.location.host + ENV.API_URL);
+  } else {
+    API_HOST = new URL(ENV.API_URL);
+  }
+} else {
+  API_HOST = '';
+}
 
-export const authHttpServiceFactory = (http: Http) => {
-  return new AuthHttp(new AuthConfig({
-    tokenName: 'token',
-    headerPrefix: 'JWT',
-    globalHeaders: [{ Accept: 'application/json', 'Content-Type': 'application/json' }],
-    noJwtError: true,
-    tokenGetter: (() => storage.get('token').then((token: string) => token)),
-  }), http);
+export const authHttpServiceFactory = (storage: Storage) => {
+  return {
+    authScheme: 'JWT ',
+    whitelistedDomains: [API_HOST, /localhost(?:$|:\d+)/],
+    tokenGetter: () => storage.get('token'),
+  };
 };

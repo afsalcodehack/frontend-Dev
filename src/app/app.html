@@ -2,14 +2,14 @@
 
 <div *ngIf="deviceStatus.desktop">
   <ion-header>
-    <div class="alignment-navbar navbar" color= "secondary">
+    <div class="alignment-navbar navbar" color="secondary">
       <div class="logo">
         <a (click)="openPage(pages[0])" class="logo-inner">
           <img class="logo-img" [src]="'/assets/imgs/' + selectedTheme + '-logo.png'" [alt]="appTitle">
           <span class="logo-text">{{ appTitle }}</span>
         </a>
       </div>
-      <span *ngFor="let p of pages; let i = index;">
+      <span *ngFor="let p of pages">
         <a (click)="openPage(p)" [id]="p.id" color="secondary" *ngIf="p.status">{{ p.title | translate }}</a>
       </span>
     </div>
@@ -23,13 +23,13 @@
   <ion-menu [content]="content">
     <ion-header>
       <ion-toolbar>
-        <p class="toolbar-title">COOKIECUTTER</p>
+        <p class="toolbar-title">{{ appTitle }}</p>
       </ion-toolbar>
     </ion-header>
 
     <ion-content>
       <ion-list>
-        <span *ngFor="let p of pages; let i = index;">
+        <span *ngFor="let p of pages">
           <button menuClose ion-item *ngIf="p.status" [class.divide]="p.divide" (click)="openPage(p)" no-lines>
             {{p.title | translate }}
           </button>

@@ -1,0 +1,9 @@
+.git
+.moban.yaml
+**/*.jj2
+node_modules
+platforms
+www
+plugins
+.e2e_node_modules
+e2e_backend_report

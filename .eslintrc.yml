@@ -1,0 +1,5 @@
+plugins:
+  - protractor
+extends: "plugin:protractor/recommended"
+rules:
+  protractor/no-by-xpath: 0

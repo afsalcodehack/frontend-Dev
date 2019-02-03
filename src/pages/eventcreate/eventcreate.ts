@@ -1,17 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController, NavParams } from 'ionic-angular';
-import { event } from '../../app/constants';
-import { EventProvider } from '../../providers/event/event';
-import { EventListPage } from '../eventlist/eventlist';
-import { PageTrack } from '../../decorators/PageTrack';
 
-/**
- * Generated class for the EventcreatePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { event } from '../../app/constants';
+
+import { minEventSecretLength } from '../../global';
+
+import { PageTrack } from '../../decorators/PageTrack';
+import { EventProvider } from '../../providers/event/event';
+
+import { EventListPage } from '../eventlist/eventlist';
 
 @PageTrack()
 @Component({
@@ -21,7 +19,8 @@ import { PageTrack } from '../../decorators/PageTrack';
 export class EventCreatePage implements OnInit {
 
   eventForm: FormGroup;
-  private secretKey: string | null = null;
+  secretFieldDisabled = false;
+  private secretPlaceholder = '#hello.#';
 
   originalEvent: any;
   pageTitle = 'Create Event';
@@ -37,8 +36,8 @@ export class EventCreatePage implements OnInit {
     this.eventForm = this.formBuilder.group({
       name: ['', Validators.required],
       price: ['', Validators.compose([Validators.required, Validators.min(this.minPrice)])],
-      secret: { value: null, disabled: true },
-      isPublic: true,
+      secret: ['', Validators.minLength(minEventSecretLength)],
+      isPublic: false,
     });
   }
 
@@ -46,9 +45,7 @@ export class EventCreatePage implements OnInit {
     const editId = this.navParams.get('id');
 
     if (editId) {
-      const response = await this.eventProvider.getEvent(editId);
-      this.originalEvent = response['result'];
-      this.secretKey = this.originalEvent.secret || null;
+      this.originalEvent = await this.eventProvider.getEvent(editId);
 
       this.submitActionTitle = 'Update';
       this.pageTitle = this.originalEvent.name;
@@ -57,47 +54,49 @@ export class EventCreatePage implements OnInit {
         name: this.originalEvent.name,
         price: this.originalEvent.price,
         isPublic: this.originalEvent.isPublic,
-        secret: this.secretKey,
+        secret: !this.originalEvent.isPublic ? this.secretPlaceholder : '',
       });
     }
-  }
-
-  private generateAndAssignSecretKey() {
-    this.eventProvider.getNewSecretKey().then((newKey) => {
-      this.secretKey = newKey.result;
-    });
   }
 
   ngOnInit() {
     const field = this.eventForm.get('isPublic');
     if (field) {
-      field.valueChanges.subscribe((visible) => {
-        if (!visible) {
-          if (this.secretKey === null) {
-            this.generateAndAssignSecretKey();
-          }
-        }
+      field.valueChanges.subscribe((val) => {
+        this.secretFieldDisabled = val;
       });
     }
   }
 
   async create() {
-    await this.eventProvider.createEvent(this.eventForm.value);
-    this.navCtrl.push(EventListPage);
+    try {
+      await this.eventProvider.createEvent(this.eventForm.value);
+      this.navCtrl.push(EventListPage);
+    } catch (err) {
+      console.log('create event error:', err);
+    }
   }
 
   async update() {
     let updated = this.eventForm.value;
-    updated = { ...updated, secret: this.secretKey };
+    updated = { ...updated };
 
-    this.eventProvider.updateEvent({
-      info: {
-        id: this.originalEvent.id,
-        ...updated,
-      },
-    });
+    if (updated.secret === this.secretPlaceholder) {
+      updated.secret = '';
+    }
 
-    this.navCtrl.pop();
+    try {
+      this.eventProvider.updateEvent({
+        info: {
+          id: this.originalEvent.id,
+          ...updated,
+        },
+      });
+      this.navCtrl.pop();
+    } catch (err) {
+      console.log('update event error', err);
+    }
+
   }
 
   async createOrUpdate() {

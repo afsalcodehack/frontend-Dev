@@ -1,3 +1,17 @@
+booking/
+bookingconfirmation/
+bookingdetail/
+bookinglist/
+bookingpayment/
+categories/
+emailinvite/
 map/
+orderlist/
+product/
+productgallery/
 search/
 service/
+servicecreate/
+stafforderactions/
+stafforderrelease/
+stafforderreturn/

@@ -4,15 +4,19 @@ import { Camera } from '@ionic-native/camera';
 import { Storage } from '@ionic/storage';
 import {
   ActionSheetController,
-  AlertController,
   NavController,
   NavParams,
   Platform,
 } from 'ionic-angular';
+
+import { PageTrack } from '../../decorators/PageTrack';
 import { DeviceProvider } from '../../providers/device/device';
+import { I18nAlertProvider } from '../../providers/i18n-alert/i18n-alert';
 import { ImageUploadProvider } from '../../providers/image-upload/image-upload';
 import { UserProvider } from '../../providers/user/user';
-import { PageTrack } from '../../decorators/PageTrack';
+
+import { backend } from '../../app/backend';
+import { auth } from '../../app/constants';
 
 @PageTrack()
 @Component({
@@ -27,6 +31,7 @@ export class ProfilePage {
   generated_image_name: any;
   selectedFiles: any;
 
+  private userInfoUrl = backend.paths['get-user-info'].toURL();
   private changePasswordForm: FormGroup;
   private user: any;
 
@@ -34,7 +39,7 @@ export class ProfilePage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private up: UserProvider,
-    public alertCtrl: AlertController,
+    public alertCtrl: I18nAlertProvider,
     public fb: FormBuilder,
     public deviceStatus: DeviceProvider,
     public imageUploadProvider: ImageUploadProvider,
@@ -55,7 +60,7 @@ export class ProfilePage {
     this.up.isAuthenticated().then((res) => {
       if (res) { return this.up.getUserInfo(); }
     }).then((res) => {
-      this.user = JSON.parse(res._body)['user'];
+      this.user = res;
     });
 
   }
@@ -90,7 +95,7 @@ export class ProfilePage {
     this.imageUploadProvider.presentActionSheet((promise) => {
       promise.then((res) => {
             this.lastImage = res;
-            this.user.image = this.imageUploadProvider.pathForImage(res);
+            this.user.image = res;
             return this.storage.get('token');
         }).then((val) => {
           this.authToken = val;
@@ -100,28 +105,17 @@ export class ProfilePage {
 
   uploadImage() {
     // File for Upload
-    const targetPath = this.imageUploadProvider.pathForImage(this.lastImage);
+    const targetPath = this.lastImage;
 
     const params = this.user;
-
     delete params['image'];
 
-    const options = {
-      fileKey: 'image',
-      chunkedMode: false,
-      httpMethod : 'PUT',
-      mimeType: 'multipart/form-data',
-      params,
-      headers: { Authorization: 'JWT ' + this.authToken },
-    };
-
-    this.imageUploadProvider.uploadImage(this.authToken, targetPath, options, null).then((res) => {
-      console.log(JSON.stringify(res));
-    });
+    this.imageUploadProvider.mobileImageUpload(targetPath, this.userInfoUrl, this.authToken, { params })
+      .then(() => this.user.image = { '360p': targetPath });
   }
 
-  showAlertChangePassword() {
-    const alert = this.alertCtrl.create({
+  async showAlertChangePassword() {
+    const alert = await this.alertCtrl.create({
     title: 'Successfully Changed',
     subTitle: 'Your password has been changed successfully.',
     buttons: [ {
@@ -134,8 +128,8 @@ export class ProfilePage {
     alert.present();
   }
 
-  showAlertUserDetails() {
-    const alert = this.alertCtrl.create({
+  async showAlertUserDetails() {
+    const alert = await this.alertCtrl.create({
     title: 'Successfully Changed',
     subTitle: 'Details Updated.',
     buttons: [ {
@@ -149,20 +143,33 @@ export class ProfilePage {
   }
 
   onImageSelect(event) {
-    const file = event.srcElement.files;
-    const formData = new FormData();
-    const headers = new Headers();
-    formData.append('image', file[0], file[0].name);
-    const keys = Object.keys(this.user);
-    delete keys['image'];
+    const file = event.srcElement.files[0];
+    const fileMap = { image: file };
 
-    keys.forEach((key) => {
-      formData.append(key, this.user[key]);
+    const params = { ...this.user };
+    delete params.image;
+
+    return this.imageUploadProvider.desktopImageUpload(this.userInfoUrl, fileMap, params, 'put')
+      .then((res) => res['image'] ? res.image : this.fileToImgObject(file))
+      .then((res) => this.user.image = res);
+  }
+
+  private fileToImgObject(file): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onloadend = () => resolve({ '360p': reader.result });
+      reader.onerror = reject;
+
+      reader.readAsDataURL(file);
     });
+  }
 
-    this.up.desktopImageSelect(headers, formData, null).then((res) => {
-
-    });
+  getRoleName() {
+    // Don't show role if they're a normal user
+    if (this.user.role !== auth.roles[0]) {
+      return auth.roleNames[this.user.role];
+    }
   }
 
 }

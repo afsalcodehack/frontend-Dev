@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { title } from '../../app/constants';
+import { appTitle as globalAppTitle } from '../../global';
 import { DeviceProvider } from '../../providers/device/device';
 import { PageLocationProvider } from '../../providers/page-location/page-location';
-import { appTitle as globalAppTitle } from '../../global';
-import { title } from '../../app/constants';
 import { ThemeProvider } from '../../providers/theme/theme';
 
 @Component({

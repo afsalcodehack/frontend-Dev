@@ -1,11 +1,16 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { TranslateService } from 'ng2-translate/ng2-translate';
+
+import * as moment from 'moment';
+import 'moment/min/locales';
+
+import { PageTrack } from '../../decorators/PageTrack';
 import { LanguageProvider } from '../../providers/language/language';
 import { PageLocationProvider } from '../../providers/page-location/page-location';
 import { ThemeProvider } from '../../providers/theme/theme';
+
 import { lang } from './settings.constants';
-import { PageTrack } from '../../decorators/PageTrack';
 
 @PageTrack()
 @Component({
@@ -41,6 +46,7 @@ export class SettingsPage {
     this.translate.use(this.selectedLanguage);
     this.lp.saveLanguage(this.selectedLanguage);
     lang.sysOptions.systemLanguage = this.selectedLanguage;
+    moment.locale(`${this.selectedLanguage}-${this.selectedLanguage}`);
   }
 
   toggleTheme() {

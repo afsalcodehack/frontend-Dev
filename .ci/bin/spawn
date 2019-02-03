@@ -13,15 +13,19 @@ rm -rf "$project_name"
 mkdir "$project_name"
 cd "$project_name"
 
+# The first moban creates only .moban.yaml
+# and sets an error code
+
+set +e
 project_name=${project_name} initrepo=true \
     moban -cd ../ionic-template/ \
           -td ../ionic-template/templates \
           -c ionic.yaml \
           -t moban.yaml.jj2 \
           -o .moban.yaml
+set -e
 
-moban
-
-cp ../ionic-template/cookiecutter-ionic.yaml ${project_name}-ionic.yaml
+# Running moban a second time creates the {project}-{type}.yaml
+# and removes a few items from .moban.yaml
 
 moban

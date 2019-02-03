@@ -1,0 +1,74 @@
+overrides: ionic.yaml
+
+package_manager: pnpm
+
+app_title: Picllary
+home_page: &home_page
+  event-front
+
+theme: picllary-theme
+stripe_key: pk_test_mtBKhwAg0R3fWQ7NAzulGRuF
+include_fake_backends: true
+
+features:
+  payment: true
+  moment: true
+
+auth:
+  roles:
+    photographer: Photographer
+    customer: Customer
+
+pages:
+  booking: false
+  booking-list: false
+  booking-confirmation: false
+  booking-payment: false
+  booking-detail: false
+  categories: false
+  email-invite: false
+  event:
+    sync: true
+  event-front:
+    label: Home
+    sync: true
+  event-create:
+    sync: true
+  event-list:
+    sync: true
+  order-list: false
+  payment:
+    sync: true
+  product: false
+  product-gallery: false
+  search: false
+  service: false
+  service-create: false
+  staff-order-actions: false
+  staff-order-release: false
+  staff-order-return: false
+  verifyemail:
+    sync: true
+
+menu_pages:
+  - event-front
+  - event-list
+  - login
+  - logout
+  - settings
+  - about
+
+consent_message_free_pages:
+  - *home_page
+  - debug
+  - about
+  - login
+  - settings
+
+colors:
+  primary: green
+  secondary: aqua
+  danger: '#f53d3d'
+  light: '#fff'
+  dark: '#222'
+  light-grey: '#f2f2f2'

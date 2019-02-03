@@ -1,14 +1,16 @@
-<app-content title="Login">
-  {{ message }}
+<app-content [title]="'Login'">
+  <div class="login-error-msg">
+    <p ion-text [color]="messageColor">{{ message }}</p>
+  </div>
   <form [formGroup]="loginForm" (ngSubmit)="logForm()">
     <ion-list>
       <ion-item>
         <ion-label for="email" floating>{{ 'Email' | translate }}</ion-label>
-        <ion-input id="email" type="email" class="validate" formControlName="email"></ion-input>
+        <ion-input id="email" type="email" class="validate" formControlName="email" (ionChange)="cleanupErrorMessage()"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label for="pwd" floating>{{ 'Password' | translate }}</ion-label>
-        <ion-input id="pwd" type="password" class="validate" formControlName="password"></ion-input>
+        <ion-input id="pwd" type="password" class="validate" formControlName="password" (ionChange)="cleanupErrorMessage()"></ion-input>
       </ion-item>
 
     </ion-list>
@@ -18,6 +20,11 @@
       {{ 'Login' | translate }}
     </button>
   </form>
+  <button class="netlify_identity-button" (click) = "loginWithNetlify()" ion-button block>
+    {{ 'Login with Google' | translate }}
+  </button>
+  <button class="google-login-button" (click)="socialSignIn()" ion-button block>Signin in with Google</button>
+
   <button (click) = "signup()" ion-button block clear>
     {{ 'Sign Up' | translate }}
   </button>

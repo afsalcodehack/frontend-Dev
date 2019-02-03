@@ -1,0 +1,32 @@
+#!/bin/sh
+
+set -x -e
+
+if [ ! -d www ]; then
+    echo "Unable to deploy as the directory './www' does not exist"
+    exit 1
+fi
+
+NETLIFY_ARGS=$1
+if [ -z $CI ]; then
+    # If the script is called outside CI, always assume draft
+    NETLIFY_ARGS="$NETLIFY_ARGS --draft"
+else
+    if [ $CI_COMMIT_REF_NAME != 'master' ]; then
+        NETLIFY_ARGS="$NETLIFY_ARGS --draft"
+    fi
+    NETLIFY_ARGS="$NETLIFY_ARGS --message jobID=${CI_JOB_ID}.commitSha=${CI_COMMIT_SHA}.commitRef=$CI_COMMIT_REF_SLUG"  # noqa
+fi
+
+set +x
+echo "Running: netlifyctl deploy --publish-directory www $NETLIFY_ARGS"
+
+if [ ! -z $NETLIFY_ACCESS_TOKEN ]; then
+    echo "Added netlify access token from the environment variable"
+    NETLIFY_ARGS="$NETLIFY_ARGS --access-token $NETLIFY_ACCESS_TOKEN"
+elif [ ! -z $CI ]; then
+    echo "NETLIFY_ACCESS_TOKEN is required for CI builds"
+    exit 1
+fi
+
+netlifyctl deploy --publish-directory www $NETLIFY_ARGS  # noqa

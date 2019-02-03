@@ -1,8 +1,8 @@
-overrides: picshare-ionic.yaml
+overrides: picllary-ionic.yaml
 
-project_name: picshare
-name: picshare-ionic
-theme: picshare-theme
+project_name: picllary
+name: picllary-ionic
+theme: picllary-theme
 
 # Remove lock_moban to customise this file
 lock_moban: true
@@ -16,10 +16,19 @@ configuration:
 targets:
   - .moban.yaml: moban.yaml.jj2
   - README.md: README.md.jj2
+  - .coafile: coafile.jj2
   - .gitlab-ci.yml: gitlab-ci.yml.jj2
-  - netlify.toml: netlify.toml.jj2
   - tsconfig.json: tsconfig.json.jj2
   - package.json: package.json.jj2
+  - environments/backendless.ts: env/base.ts.jj2
+  - environments/backendless.netlify.toml: netlify/base.toml.jj2
+  - environments/dev.ts: env/base.ts.jj2
+  - environments/dev.netlify.toml: netlify/base.toml.jj2
+  - environments/ionic-serve-dev.ts: env/base.ts.jj2
+  - environments/local.ts: env/base.ts.jj2
+  - environments/local.netlify.toml: netlify/base.toml.jj2
+  - netlify.toml: netlify/base.toml.jj2
+  - src/config/environment.ts: env/base.ts.jj2
   - src/app/main.ts: app/main.ts.jj2
   - src/global.ts: global.ts.jj2
   - src/index.html: index.html.jj2
@@ -31,6 +40,7 @@ targets:
   - src/providers/.gitignore: app/gitignore.jj2
   - config.xml: config.xml.jj2
   - config/copy.config.js: config/copy.config.js.jj2
+  - config/webpack.config.js: config/webpack.config.js.jj2
   - ionic.config.json: ionic.config.json.jj2
   - src/theme/colors.scss: colors.scss.jj2
   - src/theme/site_variables.scss: theme_variables.scss.jj2
@@ -38,29 +48,35 @@ targets:
   - src/assets/i18n/en.json: i18n/en.json.jj2
   - src/assets/i18n/de.json: i18n/de.json.jj2
 copy:
-  - src/config/environment.ts: environments/local.ts
   - .gitignore: .gitignore
+  - .dockerignore: .dockerignore
   - pnpmfile.js: pnpmfile.js
-  - .coafile: .coafile
+  - .eslintrc.yml: .eslintrc.yml
   - .sass-lint.yml: .sass-lint.yml
   - .editorconfig: .editorconfig
   - tslint.json: tslint.json
   - .ci/bin/: .ci/bin/
-  - environments/: environments/**
   - src/models/: src/models/**
   - ionic.starter.json: ionic.starter.json
   - resources/: resources/**
   - resources/android/: resources/android/**
   - resources/ios/: resources/ios/**
-  - README.md: README.md
   - src/manifest.json: src/manifest.json
   - src/app/authHttpServiceFactory.ts: src/app/authHttpServiceFactory.ts
   - src/app/app.html: src/app/app.html
   - src/app/app.scss: src/app/app.scss
+  - src/app/utils.ts: src/app/utils.ts
   - src/app/backends/: src/app/backends/
-  - src/components/: src/components/**
-  - src/config/environment.ts: src/config/environment.ts
+  - src/components/event-square-image/: src/components/event-square-image/
+  - src/components/locale-datetime/: src/components/locale-datetime/
+  - src/components/square-image/: src/components/square-image/
+  - src/components/app-content/: src/components/app-content/
+  - src/pages/event/: src/pages/event/
   - src/pages/eventfront/: src/pages/eventfront/
+  - src/pages/eventcreate/: src/pages/eventcreate/
+  - src/pages/eventlist/: src/pages/eventlist/
+  - src/pages/payment/: src/pages/payment/
+  - src/pages/verifyemail/: src/pages/verifyemail/
   - src/pages/about/: src/pages/about/
   - src/pages/home/: src/pages/home/
   - src/pages/settings/: src/pages/settings/
@@ -73,15 +89,10 @@ copy:
   - src/pages/profile/: src/pages/profile/
   - src/pages/tandc/: src/pages/tandc/
   - src/pages/not-found/: src/pages/not-found/
-  - src/pages/product/: src/pages/product/
-  - src/pages/event/: src/pages/event/
-  - src/pages/eventlist/: src/pages/eventlist/
-  - src/pages/eventcreate/: src/pages/eventcreate/
-  - src/pages/payment/: src/pages/payment/
   - src/pages/cookieconsent/: src/pages/cookieconsent/
   - src/pages/debug/: src/pages/debug/
   - src/pipes/: src/pipes/**
-  - src/providers/cookie-consent/: src/providers/cookie-consent/
+  - src/providers/categories/: src/providers/categories/
   - src/providers/cur-exchange/: src/providers/cur-exchange/
   - src/providers/device/: src/providers/device/
   - src/providers/event/: src/providers/event/
@@ -91,8 +102,18 @@ copy:
   - src/providers/product/: src/providers/product/
   - src/providers/theme/: src/providers/theme/
   - src/providers/user/: src/providers/user/
+  - src/providers/scripts/: src/providers/scripts/
+  - src/providers/booking/: src/providers/booking/
+  - src/providers/service/: src/providers/service/
+  - src/providers/i18n-alert/: src/providers/i18n-alert/
+  - src/providers/stripe/: src/providers/stripe/
+  - src/providers/cookie-consent/: src/providers/cookie-consent/
+  - src/providers/acceptlanguage.ts: src/providers/acceptlanguage.ts
   - src/providers/backendless.ts: src/providers/backendless.ts
+  - src/app/backend.ts: src/app/backend.ts
+  - src/app/backends/: src/app/backends/
   - src/decorators/: src/decorators/**
-  - src/theme/picshare-theme.scss: src/theme/picshare-theme.scss
+  - src/theme/picllary-theme.scss: src/theme/picllary-theme.scss
   - tests/e2e/: tests/e2e/**
   - jasmine.json: jasmine.json
+  - types/: types/**

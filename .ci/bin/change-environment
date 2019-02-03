@@ -5,6 +5,8 @@ set -e
 ENVIRONMENT="$1"
 SOURCE_FILE="environments/$ENVIRONMENT.ts"
 TARGET_FILE="src/config/environment.ts"
+SOURCE_FILE_NETLIFY="environments/$ENVIRONMENT.netlify.toml"
+TARGET_FILE_NETLIFY="netlify.toml"
 
 usage() {
     echo "usage: $0 environment" >&2
@@ -21,3 +23,11 @@ if [ ! -f "$SOURCE_FILE" ]; then
 fi
 
 cp -fv "$SOURCE_FILE" "$TARGET_FILE"
+
+if [ ! -f "$SOURCE_FILE_NETLIFY" ]; then
+    echo "$0: $SOURCE_FILE_NETLIFY: No such file." >&2
+    SOURCE_FILE_NETLIFY='environments/dev.netlify.toml'
+    echo "Falling back to '$SOURCE_FILE_NETLIFY'" >&2
+fi
+
+cp -fv "$SOURCE_FILE_NETLIFY" "$TARGET_FILE_NETLIFY"

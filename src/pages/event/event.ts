@@ -1,19 +1,16 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { EventCreatePage } from '../../pages/eventcreate/eventcreate';
-import { EventListPage } from '../../pages/eventlist/eventlist';
+
+import { PageTrack } from '../../decorators/PageTrack';
+import { backendUrl } from '../../global';
 import { DeviceProvider } from '../../providers/device/device';
 import { EventProvider } from '../../providers/event/event';
 import { ImageUploadProvider } from '../../providers/image-upload/image-upload';
 import { UserProvider } from '../../providers/user/user';
-import { PageTrack } from '../../decorators/PageTrack';
+import { EventListPage } from '../eventlist/eventlist';
 
-/**
- * Generated class for the EventPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { EventCreatePage } from '../eventcreate/eventcreate';
+
 @PageTrack()
 @Component({
   selector: 'page-event',
@@ -21,7 +18,12 @@ import { PageTrack } from '../../decorators/PageTrack';
 })
 export class EventPage {
 
-  event = {};
+  event: any = {};
+  id: number;
+  secret: string;
+  backendUrl = backendUrl[backendUrl.length - 1] === '/'
+               ? backendUrl.slice(0, -1)
+               : backendUrl;
   loggedIn = false;
 
   constructor(
@@ -34,26 +36,51 @@ export class EventPage {
   ) {
   }
 
+  async ionViewWillEnter() {
+    this.init();
+  }
+
   async ionViewDidLoad() {
+    this.init();
+  }
+
+  async init() {
     this.userProvider.isAuthenticated().then((loggedIn) => {
       this.loggedIn = !!loggedIn;
     });
 
-    if (!this.navParams.get('token')) {
-      this.navCtrl.setRoot(EventListPage);
+    this.id = this.navParams.get('id');
+    this.secret = this.navParams.get('secret');
+    this.loadData();
+  }
+
+  async loadData() {
+    try {
+      this.event = await this.eventProvider.getEvent(this.id, { secret: this.secret });
+      this.event.album.images.forEach((photo) => {
+        // real backend only returns relative path of photo
+        // e.g. /real.jpg
+        // fake backend provides full path of photo
+        // e.g. https://www.example.com/fake.jpg
+        if (!photo.fullResUrl.includes('http')) {
+          photo.fullResUrl = this.backendUrl + photo.fullResUrl;
+        }
+        if (!photo.thumbUrl.includes('http')) {
+          photo.thumbUrl = this.backendUrl + photo.thumbUrl;
+        }
+      });
+    } catch (err) {
+      console.log('get event error:', err);
+      this.navCtrl.push(EventListPage);
     }
 
-    const id = parseInt(this.navParams.get('id'), 10);
-    const response = await this.eventProvider.getEvent(id);
-    this.event = response['result'];
   }
 
   getAlbumCollections(album) {
     const collections = {};
-
     if (album) {
       album['images'].forEach((photo) => {
-        let time = photo['createdAt'];
+        let time = new Date(photo['createdAt']).getTime();
 
         // group images by hour
         time = time - time % 3600000;
@@ -69,9 +96,9 @@ export class EventPage {
     return collections;
   }
 
-  uploadImage(src) {
-    return this.userProvider.uploadImage({ src })
-      .then((res) => this.eventProvider.updateEvent({ url: res.url }))
+  addImageToEvent(url) {
+    return this.eventProvider.updateEvent({ url })
+      .then(() => this.loadData())
       .catch(() => {
         console.log('failed uploading');
       });
@@ -79,21 +106,27 @@ export class EventPage {
 
   uploadSelectedImage(event) {
     const file = event.srcElement.files[0];
-    const reader = new FileReader();
+    const fileMap = { src: file };
 
-    reader.onloadend = () => {
-      this.uploadImage(reader.result);
-    };
+    const params = { event_id: this.event.id, filename: 'default.jpg' };
+    this.imageUploadProvider.desktopImageUpload(null, fileMap, params, 'post')
+      .then((res) => console.log(res))
+      .catch((err) => console.error(err))
+      .then(() => {
+        const reader = new FileReader();
 
-    reader.readAsDataURL(file);
+        reader.onloadend = () => {
+          this.addImageToEvent(reader.result);
+        };
+
+        reader.readAsDataURL(file);
+      });
   }
 
   openSheetAndUpload() {
     this.imageUploadProvider.presentActionSheet((promise) => {
       promise.then((src) => {
-        if (src) {
-          this.uploadImage(src);
-        }
+        this.addImageToEvent(src);
       }, () => {
         console.log('failed selecting image');
       });

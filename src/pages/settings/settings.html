@@ -1,22 +1,22 @@
-<app-content title="Settings">
-	<ion-list>
-		<ion-item-group radio-group (ionChange)="applyLanguage()" [(ngModel)]="selectedLanguage">
-			<ion-item-divider color="light">{{ 'Language' | translate }}</ion-item-divider>
-			<ion-item *ngFor="let lang of languages">
-				<ion-label>{{lang.name}}</ion-label>
-				<ion-radio [value]="lang.code"></ion-radio>
-			</ion-item>
-		</ion-item-group>
-		<ion-item-group radio-group (ionChange)="toggleTheme()" [(ngModel)]="selectedTheme">
-			<ion-item-divider color="light">{{ 'Theme' | translate }}</ion-item-divider>
-			<ion-item *ngFor="let theme of themes">
-				<ion-label>{{theme}}</ion-label>
-				<ion-radio [value]="theme"></ion-radio>
-			</ion-item>
-		</ion-item-group>
+<app-content [title]="'Settings'">
+  <ion-list>
+    <ion-item-group radio-group (ionChange)="applyLanguage()" [(ngModel)]="selectedLanguage">
+      <ion-item-divider color="light">{{ 'Language' | translate }}</ion-item-divider>
+      <ion-item *ngFor="let lang of languages">
+        <ion-label>{{lang.name}}</ion-label>
+        <ion-radio [value]="lang.code"></ion-radio>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group radio-group (ionChange)="toggleTheme()" [(ngModel)]="selectedTheme">
+      <ion-item-divider color="light">{{ 'Theme' | translate }}</ion-item-divider>
+      <ion-item *ngFor="let theme of themes">
+        <ion-label>{{theme}}</ion-label>
+        <ion-radio [value]="theme"></ion-radio>
+      </ion-item>
+    </ion-item-group>
     <ion-item-group>
       <ion-item-divider color="light">{{ 'About' | translate }}</ion-item-divider>
       <a button block outline [href]="this.pageLocation.location('tandc')">{{ 'Terms and Conditions' | translate }}</a>
     </ion-item-group>
-	</ion-list>
+  </ion-list>
 </app-content>

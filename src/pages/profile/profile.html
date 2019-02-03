@@ -1,10 +1,11 @@
-<app-content title="Profile Details">
+<app-content [title]="'Profile Details'">
   <div *ngIf="user">
 
     <div class="profile-card center">
       <div>
         <img src="{{ user['image']['360p'] }}" class="profile-card-image" *ngIf="user.image">
-        <img *ngIf="!user.image" src="https://upload.wikimedia.org/wikipedia/en/b/b1/Portrait_placeholder.png" class="profile-card-image" alt="Contact Person">
+        <img *ngIf="!user.image" src="/assets/imgs/user.png" class="profile-card-image" alt="Contact Person">
+        <p *ngIf="getRoleName()">{{ getRoleName() }}</p>
       </div>
       <br>
       <div>
@@ -21,7 +22,7 @@
             <label for="custom-file-input" ion-button class="default-button" color="light">
               <ion-icon name="camera"></ion-icon>
             </label>
-            <input (change)="onImageSelect($event)" type="file" accept="image/*" id="custom-file-input" class="hide"/>
+            <input (change)="onImageSelect($event)" type="file" accept="image/*" id="custom-file-input" class="hide">
           </div>
         </ion-buttons>
       </div>
@@ -50,7 +51,7 @@
 
     </ion-list>
 
-    <button  ion-button block (click)="userDetails()" class="btn center waves-effect white black-text" [disabled]="!user || !user.email">
+    <button ion-button block (click)="userDetails()" class="btn center waves-effect white black-text" [disabled]="!user || !user.email">
       <span class="btn-text">{{ 'Change Details' | translate }}</span>
     </button>
 

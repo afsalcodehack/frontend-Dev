@@ -5,6 +5,9 @@ module.exports = {
   },
 }
 
+// All of these should be fixed upstream.
+// https://gitlab.com/viperdev/template/ionic/issues/77
+
 function readPackage(pkg) {
   if (!pkg.dependencies) return pkg;
 
@@ -13,7 +16,14 @@ function readPackage(pkg) {
   if (pkg.private) {
     Object.assign(pkg.dependencies, {
       setimmediate: '1.0.5',
+      // These are needed for mtw, and could be ngx-masonry or ngx-quill.
+      // However they are also part of the dependencies of template
+      // repo, so it does not hurt to have them added globally.
+      'base64-js': '*',
+      ieee754: '*',
     });
+  } else if (pkg.optionalDependencies) {
+    pkg.optionalDependencies = {};
   }
 
   // transpile fails due to:
@@ -21,7 +31,7 @@ function readPackage(pkg) {
   if (pkg.dependencies['@ionic/storage']) {
     Object.assign(pkg.dependencies, {
       localforage: '1.7.2',
-      'localforage-cordovasqlitedriver': '1.6.0',
+      'localforage-cordovasqlitedriver': '1.7.0',
     });
   }
 
@@ -36,14 +46,57 @@ function readPackage(pkg) {
   if (pkg.dependencies['@ionic/app-scripts']) {
     Object.assign(pkg.dependencies, {
       '@angular-devkit/build-optimizer': '0.0.35',
-      'rangestr': '2.0.0',
-      'seedrandom': '2.4.4',
     });
   }
 
-  if (pkg.dependencies['@auth0/angular-jwt']) {
+  if (pkg.dependencies['buffer']) {
     Object.assign(pkg.dependencies, {
-      'angular2-jwt': '^0.2.3',
+      'base64-js': '*',
+      'ieee754': '*',
+    });
+  }
+
+  if (pkg.dependencies['ngx-masonry']) {
+    Object.assign(pkg.dependencies, {
+      'masonry-layout': '*',
+      'imagesloaded': '*',
+    });
+  }
+
+  if (pkg.dependencies['masonry-layout']) {
+    Object.assign(pkg.dependencies, {
+      'get-size': '*',
+      'outlayer': '*',
+    });
+  }
+
+  if (pkg.dependencies['imagesloaded']) {
+    Object.assign(pkg.dependencies, {
+      'ev-emitter': '*',
+    });
+  }
+
+  if (pkg.dependencies['outlayer']) {
+    Object.assign(pkg.dependencies, {
+      'fizzy-ui-utils': '*',
+    });
+  }
+
+  if (pkg.dependencies['fizzy-ui-utils']) {
+    Object.assign(pkg.dependencies, {
+      'desandro-matches-selector': '*',
+    });
+  }
+
+  if (pkg.dependencies['ngx-quill']) {
+    Object.assign(pkg.dependencies, {
+      'quill': '*',
+    });
+  }
+
+  if (pkg.name === '@agm/snazzy-info-window') {
+    Object.assign(pkg.dependencies, {
+      '@agm/core': '*',
     });
   }
 

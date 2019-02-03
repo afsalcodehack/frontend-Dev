@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { logoutWithNetlify, netlifyCurrentUser } from '../../app/app.component';
 import { UserProvider } from '../../providers/user/user';
 
 @Component({
@@ -12,8 +13,10 @@ export class LogoutPage {
   }
 
   ionViewDidLoad() {
-
-    if (this.up.logout()) {
+    if (netlifyCurrentUser()) {
+      logoutWithNetlify();
+      this.navCtrl.setRoot('root');
+    } else if (this.up.logout()) {
       this.navCtrl.setRoot('root');
     }
   }

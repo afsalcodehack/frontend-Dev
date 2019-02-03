@@ -1,8 +1,6 @@
 import { appTitle } from '../../global';
 import { backendEventListener } from '../backend';
 
-import rndstr from 'rndstr';
-
 export const events = [
   { id: 1, name: 'CEBIT', isPublic: false, price: 5.99, currency: 'usd', secret: 'hello' },
   { id: 2, name: 'PyCon', isPublic: true, price: 2.99, currency: 'usd' },
@@ -83,17 +81,12 @@ export const album = {
 export const forkAndCleanEvent = (event) => {
   event = { ...event };
 
-  // When not logged in as event owner
-  // at least delete event.secret;
+  if (event['secret']) {
+    event.isPublic = false;
+    delete event.secret;
+  }
 
   return event;
-};
-
-export const generateSecretKey = () => {
-  return rndstr({
-    length: 6,
-    chars: 'a-z0-9',
-  }).toUpperCase();
 };
 
 backendEventListener('payment:success')

@@ -244,6 +244,16 @@ ion-item.item-input {
   }
 }
 
+ion-navbar.toolbar-ios, ion-title.title-ios {
+  // sass-lint:disable-block no-duplicate-properties
+  // iOS 11.2 brought the change from ``constant`` to ``env`` function for
+  // evaluating constants but older devices still use ``constant``. So, it is
+  // neccessary to use duplicate properties, however only one will be picked up
+  // based on the iOS version.
+  padding-top: constant(safe-area-inset-top);
+  padding-top: env(safe-area-inset-top);
+}
+
 ion-title {
   .logo {
     margin-right: 10px;
@@ -252,4 +262,21 @@ ion-title {
 
 .clickable {
   cursor: pointer;
+}
+
+.no-text-decor {
+  text-transform: none;
+}
+
+.opaque {
+  opacity: 1.0 !important;
+}
+
+.extra-margin-top {
+  margin-top: 38px !important;
+}
+
+.item-md h3 {
+  font-size: 1.17em !important;
+  font-weight: bold !important;
 }

@@ -1,7 +1,11 @@
-import { Component, ViewChild, Renderer2, ElementRef } from '@angular/core';
+import { HttpParams } from '@angular/common/http';
+import { AfterViewInit, Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 
 import { Events, Nav, Platform, PopoverController } from 'ionic-angular';
 import { CacheService } from 'ionic-cache';
+
+import * as moment from 'moment';
+import 'moment/min/locales';
 
 import { TranslateService } from 'ng2-translate/ng2-translate';
 
@@ -9,33 +13,46 @@ import { Globalization } from '@ionic-native/globalization';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
+import { AboutPage } from '../pages/about/about';
 import { CookieConsentPage } from '../pages/cookieconsent/cookieconsent';
 import { DebugPage } from '../pages/debug/debug';
 import { EventFrontPage } from '../pages/eventfront/eventfront';
 import { LoginPage } from '../pages/login/login';
 import { LogoutPage } from '../pages/logout/logout';
+import { PasswordresetconfirmPage } from '../pages/passwordresetconfirm/passwordresetconfirm';
 import { ProfilePage } from '../pages/profile/profile';
-import { SignupPage } from '../pages/signup/signup';
-
-import { AboutPage } from '../pages/about/about';
-import { EventListPage } from '../pages/eventlist/eventlist';
 import { SettingsPage } from '../pages/settings/settings';
+import { SignupPage } from '../pages/signup/signup';
+import { VerifyemailPage } from '../pages/verifyemail/verifyemail';
+
+import { EventListPage } from '../pages/eventlist/eventlist';
 
 import { CookieConsentProvider } from '../providers/cookie-consent/cookie-consent';
 import { DeviceProvider } from '../providers/device/device';
 import { LanguageProvider } from '../providers/language/language';
 import { UserProvider } from '../providers/user/user';
 
+import { ENV } from '../config/environment';
 import { appTitle as globalAppTitle } from '../global';
 import { lang } from '../pages/settings/settings.constants';
 
 const _ = (a) => a;
 
+export const loginWithNetlify = () => {
+};
+
+export const netlifyCurrentUser = () => {
+  return false;
+};
+
+export const logoutWithNetlify = () => {
+};
+
 @Component({
   templateUrl: 'app.html',
 })
-export class MyApp {
-  selectedTheme = 'picshare-theme';
+export class MyApp implements AfterViewInit {
+  selectedTheme = 'picllary-theme';
   rootPage: any = EventFrontPage;
   pages: {title: string, id: string, component: any, status: any, divide: any}[];
   appTitle = globalAppTitle;
@@ -68,28 +85,32 @@ export class MyApp {
     public renderer: Renderer2,
     public elRef: ElementRef,
   ) {
-
+    this.initializeApp();
     const url = new URL(window.location.href);
-
-    if (url.hash.indexOf('verify-email?key') > -1) {
-      const key = url.hash.split('=')[1];
-      this.up.verifyEmail({ key }).then((req) => {
-        this.nav.setRoot(LoginPage, { message: 'Email Verified Successfully!' });
+    const urlParams = new HttpParams({ fromString: url.href.split('?')[1] });
+    if (urlParams.get('key') && url.href.indexOf('verify-email') > -1) {
+      platform.ready().then(() => {
+        this.nav.setRoot(VerifyemailPage, { key: urlParams.get('key') });
+      });
+    } else if (urlParams.get('uid') && urlParams.get('token') && url.href.indexOf('reset-password') > -1) {
+      platform.ready().then(() => {
+        this.nav.setRoot(PasswordresetconfirmPage, { uid: urlParams.get('uid'), token: urlParams.get('token') });
       });
     }
 
-    this.initializeApp();
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       const ionApp = this.renderer.parentNode(elRef.nativeElement);
       this.renderer.addClass(ionApp, this.selectedTheme);
       translate.setDefaultLang(lang.defaultLanguage);
+      moment.locale(`${lang.defaultLanguage}-${lang.defaultLanguage}`);
 
       this.lp.getLanguage().then((res) => {
         if (res) {
           translate.use(res);
           lang.sysOptions.systemLanguage = res;
+          moment.locale(`${res}-${res}`);
         } else {
           let language;
           if ((window as any).cordova) {
@@ -124,6 +145,14 @@ export class MyApp {
       { title: _('About'), id: 'about', component: AboutPage, status: false, divide: false },
     ];
 
+    if (ENV.PRODUCTION) {
+      this.pages.forEach((el, l) => {
+        if (el.id === 'debug') {
+          this.pages.splice(l, 0);
+        }
+      });
+    }
+
     events.subscribe('user:logout', () => {
       this.setStatus();
     });
@@ -145,22 +174,8 @@ export class MyApp {
   }
 
   ngAfterViewInit() {
-    const updateCurrentPage = (pageComponent) => {
-      this.currentPageComponent = pageComponent;
-      this.showConsentIfRequired();
-    }
+    this.nav.viewDidEnter.subscribe((ctrl) => this.updateCurrentPage(ctrl.component));
 
-    this.nav.ngAfterViewInit().then(() => {
-      this.setStatus().then(() => {
-        // Run every time page changes
-        this.nav.viewDidEnter.subscribe((ctrl) => {
-          updateCurrentPage(ctrl.component);
-        });
-
-        // Run for root page
-        updateCurrentPage(this.nav.getActive().component);
-      });
-    });
   }
 
   openPage(page) {
@@ -188,9 +203,14 @@ export class MyApp {
     });
   }
 
+  updateCurrentPage(pageComponent) {
+    this.currentPageComponent = pageComponent;
+    this.showConsentIfRequired();
+  }
+
   showConsentIfRequired() {
-    if(this.currentPageComponent) {
-      if(this.consentMessageFreePages.indexOf(this.currentPageComponent) === -1) {
+    if (this.currentPageComponent && this.loggedIn !== undefined) {
+      if (this.consentMessageFreePages.indexOf(this.currentPageComponent) === -1) {
         if (!this.deviceStatus.isCordova && !this.loggedIn) {
           this.ccp.getConsent().then((consent) => {
             if (!consent && !this.ccp.requesting) {
@@ -229,5 +249,8 @@ export class MyApp {
 
       this.showConsentIfRequired();
     });
+  }
+
+  socialSignIn() {
   }
 }

@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController, NavController, NavParams } from 'ionic-angular';
-import { UserProvider } from '../../providers/user/user';
+import { NavController, NavParams } from 'ionic-angular';
+
 import { PageTrack } from '../../decorators/PageTrack';
+import { I18nAlertProvider } from '../../providers/i18n-alert/i18n-alert';
+import { UserProvider } from '../../providers/user/user';
+import { LoginPage } from '../login/login';
 
 @PageTrack()
 @Component({
@@ -12,13 +15,12 @@ import { PageTrack } from '../../decorators/PageTrack';
 export class PasswordresetconfirmPage {
 
   private passwordresetconfirmForm: FormGroup;
-  private metadata: any;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private up: UserProvider,
-    public alertCtrl: AlertController,
+    public alertCtrl: I18nAlertProvider,
     public fb: FormBuilder,
   ) {
     this.passwordresetconfirmForm = this.fb.group({
@@ -27,15 +29,10 @@ export class PasswordresetconfirmPage {
     });
   }
 
-  ionViewDidLoad() {
-    const splitURL = document.URL.split('confirm/');
-    this.metadata = splitURL[1].split('/');
-  }
-
   resetPasswordConfirm() {
     // Sending hidden uid and token via POST.
-    this.passwordresetconfirmForm.value['uid'] = this.metadata[0];
-    this.passwordresetconfirmForm.value['token'] = this.metadata[1];
+    this.passwordresetconfirmForm.value['uid'] = this.navParams.get('uid');
+    this.passwordresetconfirmForm.value['token'] = this.navParams.get('token');
     const data = this.passwordresetconfirmForm.value;
     this.up.resetPasswordConfirm(data)
       .then(() => {
@@ -45,17 +42,17 @@ export class PasswordresetconfirmPage {
       });
   }
 
-  showAlert() {
-  const alert = this.alertCtrl.create({
-    title: 'Reset Successful',
-    subTitle: 'Your password reset has been successful.',
-    buttons: [ {
-      text: 'OK',
-      handler: (data) => {
-      this.navCtrl.setRoot('root');
-      },
-    }],
-  });
+  async showAlert() {
+    const alert = await this.alertCtrl.create({
+      title: 'Reset Successful',
+      subTitle: 'Your password reset has been successful.',
+      buttons: [ {
+        text: 'OK',
+        handler: (data) => {
+          this.navCtrl.push(LoginPage, { message: 'Please login to continue' });
+        },
+      }],
+    });
     alert.present();
   }
 

@@ -44,7 +44,7 @@ export class CookieConsentPage {
     this.events.subscribe('consent:forceClose', () => this.close());
   }
 
-  dismiss(consent=true) {
+  dismiss(consent = true) {
     return this.ccp.setConsent(consent).then(() => this.close());
   }
 

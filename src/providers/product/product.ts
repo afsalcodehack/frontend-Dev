@@ -5,13 +5,18 @@ import { backend } from '../../app/backend';
 @Injectable()
 export class ProductProvider {
 
-  productlistUrl = backend.paths['products'].toURL();
+  productDetailUrl = backend.paths['product'].toURL();
+  productListUrl = backend.paths['products'].toURL();
 
   constructor(public http: HttpClient) {
   }
 
   getProducts(): Promise<any> {
-    return this.http.get(this.productlistUrl).toPromise();
+    return this.http.get(this.productListUrl).toPromise();
+  }
+
+  getProduct(id: number | string, opts= {}): Promise<any> {
+    return this.http.post(this.productDetailUrl, { id, ...opts }).toPromise();
   }
 
 }

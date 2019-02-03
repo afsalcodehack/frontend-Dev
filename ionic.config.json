@@ -1,11 +1,21 @@
 {
-  "name": "picshare-ionic",
+  "name": "picllary-ionic",
   "app_id": "",
   "type": "ionic-angular",
   "telemetry": false,
   "daemon": {
     "updates": false
   },
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "http://localhost:8000/"
+    },
+    {
+      "path": "/api-dev",
+      "proxyUrl": "https://django-backend.template.viperdev.io/"
+    }
+  ],
   "yarn": false,
   "version": "3.20.0",
   "integrations": {

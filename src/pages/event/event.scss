@@ -1,4 +1,10 @@
-.collection-label {
-  font-size: small;
-  margin: 10px;
+page-event {
+  .collection-label {
+    font-size: small;
+    margin: 10px;
+  }
+
+  ion-col {
+    padding: 3px !important;
+  }
 }

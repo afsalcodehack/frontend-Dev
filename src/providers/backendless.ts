@@ -51,20 +51,28 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     const parsedUrl = url.parse(request.url);
     if (!parsedUrl.pathname) { return null; }
-    const component = backend.paths[parsedUrl.pathname];
+    let path = parsedUrl.pathname;
+    // These two prefixes are proxies for the backend,
+    // provided by netlify.toml and ionic.config.json.
+    if (path.startsWith('/api/')) {
+      path = path.substr(4);
+    } else if (path.startsWith('/api-dev/')) {
+      path = path.substr(8);
+    }
+    const component = backend.paths[path];
 
     if (component === undefined) {
-      console.log(`endpoint ${parsedUrl.pathname} is not in app.backend`);
+      console.log(`endpoint ${path} is not in app.backend`);
       return null;
     }
 
     if (!this.preferOffline && component.implemented) {
-      console.log(`implemented endpoint ${parsedUrl.pathname} is preferred`);
+      console.log(`implemented endpoint ${path} is preferred`);
       return null;
     }
 
     if (!component.fakeData) {
-      console.log(`no fake data for ${parsedUrl.pathname}`);
+      console.log(`no fake data for ${path}`);
       return null;
     }
 

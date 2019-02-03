@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e
+
+project_root="$1"
+
+for component in "${@:2}"; do
+  rm -rf "${project_root}/new_repo-empty/src/components/${component}"
+  rm -rf "${project_root}/new_repo-orig/src/components/${component}"
+done

@@ -1,7 +1,6 @@
 import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { ImageViewer, ImageViewerController } from 'ionic-img-viewer';
-import { PaymentPage } from '../../pages/payment/payment';
 
 @Component({
   selector: 'square-image',
@@ -10,7 +9,6 @@ import { PaymentPage } from '../../pages/payment/payment';
 export class SquareImageComponent {
 
   @Input() photo: any;
-  @Input() event: any;
 
   @ViewChild('navbarButtons') navbarButtons: TemplateRef<any>;
   @ViewChild('imageContent') imageContent: TemplateRef<any>;
@@ -30,20 +28,6 @@ export class SquareImageComponent {
     });
     this.viewer.present().then(() => this.opened = true);
     this.viewer.onWillDismiss(() => this.opened = false);
-  }
-
-  async buy() {
-    await this.viewer.dismiss();
-
-    this.navCtrl.push(PaymentPage, {
-      title: `a photo from ${this.event.name}`,
-      item: {
-        type: 'image',
-        id: this.photo.fullResUrl,
-        price: this.event.price,
-        currency: this.event.currency,
-      },
-    });
   }
 
 }

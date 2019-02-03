@@ -1,12 +1,17 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController, LoadingController, NavController, NavParams } from 'ionic-angular';
+import { Events, LoadingController, NavController, NavParams } from 'ionic-angular';
 import { Element as StripeElement, ElementOptions, Elements, ElementsOptions, StripeService } from 'ngx-stripe';
+
+import { PageTrack } from '../../decorators/PageTrack';
+import { I18nAlertProvider } from '../../providers/i18n-alert/i18n-alert';
 import { LanguageProvider } from '../../providers/language/language';
 import { StripeProvider } from '../../providers/stripe/stripe';
-import { PageTrack } from '../../decorators/PageTrack';
 
 @PageTrack()
+@IonicPage({
+  name: 'payment',
+})
 @Component({
   selector: 'page-payment',
   templateUrl: 'payment.html',
@@ -19,6 +24,7 @@ export class PaymentPage {
   item: any;
   stripeStatus: any;
   stripeReady = false;
+  chargeID: any;
 
   cardOptions: ElementOptions = {
     style: {
@@ -45,11 +51,13 @@ export class PaymentPage {
     private formBuilder: FormBuilder,
     public stripeProvider: StripeProvider,
     public loadingCtrl: LoadingController,
-    public alertCtrl: AlertController,
+    public alertCtrl: I18nAlertProvider,
     public languageProvider: LanguageProvider,
+    public events: Events,
   ) {
     this.title = this.navParams.get('title');
     this.item = this.navParams.get('item');
+    this.chargeID = this.navParams.get('chargeID');
 
     this.paymentForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -88,7 +96,7 @@ export class PaymentPage {
     });
   }
 
-  pay() {
+  async pay() {
     const loading = this.loadingCtrl.create({
       content: 'Processing payment...',
     });
@@ -109,23 +117,25 @@ export class PaymentPage {
 
           loading.dismiss();
 
-          const successAlert = this.alertCtrl.create({
+          const successAlert = await this.alertCtrl.create({
             title: 'Payment Success',
-            subTitle: `You have purchased ${this.title}`,
+            subTitle: 'You have purchased {{ product }}',
             buttons: ['OK'],
-          });
+          }, { subTitle: { product: this.title }});
 
           successAlert.present();
 
           successAlert.onDidDismiss(() => {
-            this.navCtrl.setRoot(this.navCtrl.getPrevious());
+            this.navCtrl.setRoot(this.navCtrl.getPrevious())
+              .then(() => this.events.publish('payment:charged', { chargeID: this.chargeID }));
           });
         } else if (result.error) {
           // Error creating the token
-          this.alertCtrl.create({
+          const alert = await this.alertCtrl.create({
             title: 'Payment Error',
             message: result.error.message,
-          }).present();
+          });
+          alert.present();
           console.error(result.error);
           loading.dismiss();
         }

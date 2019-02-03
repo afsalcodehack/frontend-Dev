@@ -36,11 +36,13 @@
   </ion-navbar>
 
   <div [class.ion-content-custom]="padding">
-    <ng-content></ng-content>
+    <div class="content-wrapper">
+      <ng-content></ng-content>
+    </div>
   </div>
 
   <ion-toolbar color="light" class="ion-content-custom" *ngIf="deviceStatus.desktop">
     <a class="href-title-left" [href]="this.pageLocation.location('tandc')">{{ 'Terms and Conditions' | translate }}</a>
-    <a class="href-title-right">{{ '© Cookiecutter 2018' | translate }}</a>
+    <a class="href-title-right">{{ '© ' + appTitle + ' 2018' | translate }}</a>
   </ion-toolbar>
 </ion-content>

@@ -1,7 +1,5 @@
-<app-content title="Event">
-  <button ion-button (click)="openPrivateEventBySecret()" full>
-    {{ 'Open Private Event' | translate }}
-  </button>
+<app-content [title]="'Event'">
+  <button *ngIf="loggedIn" ion-button (click)="create()">{{ 'Create' | translate }}</button>
   <ion-list>
     <button ion-item *ngFor="let event of events" (click)="eventSelected(event)">
       <ion-icon name="lock" *ngIf="!event.isPublic" item-end></ion-icon>
@@ -9,9 +7,3 @@
     </button>
   </ion-list>
 </app-content>
-
-<ion-fab bottom right *ngIf="loggedIn">
-  <button ion-fab (click)="create()">
-    <ion-icon name="add"></ion-icon>
-  </button>
-</ion-fab>

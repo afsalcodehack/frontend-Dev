@@ -63,3 +63,11 @@ testem.log
 # e2e
 /e2e/*.js
 /e2e/*.map
+/e2e_report/
+
+# backend e2e
+/backend_e2e_report/
+/.e2e_node_modules/
+
+# macOS sed hacks
+*.bak

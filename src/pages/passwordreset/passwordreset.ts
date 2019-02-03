@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController, NavController, NavParams } from 'ionic-angular';
-import { UserProvider } from '../../providers/user/user';
+import { NavController, NavParams } from 'ionic-angular';
+
 import { PageTrack } from '../../decorators/PageTrack';
+import { I18nAlertProvider } from '../../providers/i18n-alert/i18n-alert';
+import { UserProvider } from '../../providers/user/user';
 
 @PageTrack()
 @Component({
@@ -17,11 +19,11 @@ export class PasswordresetPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private up: UserProvider,
-    public alertCtrl: AlertController,
+    public alertCtrl: I18nAlertProvider,
     public fb: FormBuilder,
   ) {
     this.passwordresetForm = this.fb.group({
-    email: ['', Validators.required],
+      email: ['', Validators.required],
     });
   }
 
@@ -35,17 +37,17 @@ export class PasswordresetPage {
       });
   }
 
-  showAlert() {
-  const alert = this.alertCtrl.create({
-    title: 'Reset Initiated',
-    subTitle: 'Password reset e-mail has been sent.',
-    buttons: [ {
-      text: 'OK',
-      handler: (data) => {
-      this.navCtrl.setRoot('root');
-      },
-    }],
-  });
+  async showAlert() {
+    const alert = await this.alertCtrl.create({
+      title: 'Reset Initiated',
+      subTitle: 'Password reset e-mail has been sent.',
+      buttons: [{
+        text: 'OK',
+        handler: (data) => {
+          this.navCtrl.setRoot('root');
+        },
+      }],
+    });
     alert.present();
   }
 

@@ -1,6 +1,7 @@
 import { browser, by, element, ExpectedConditions } from 'protractor';
 
 const EC = ExpectedConditions;
+const loginFormLocator = by.css('input[type="email"]');
 
 export class LoginPage {
   navigateTo() {
@@ -11,18 +12,20 @@ export class LoginPage {
     return browser.wait(
       EC.textToBePresentInElement(pageTitle, 'Login'),
       30000,
-      'redirect to login page fails after 30 seconds'
-    );
+      'redirect to login page fails after 30 seconds',
+    ).then(() => {
+      browser.wait(EC.visibilityOf(element(loginFormLocator)), 3000, 'Could not find login form');
+    });
   }
 
   fillCredentials(email, password) {
-    element(by.css('input[type="email"]')).sendKeys(email);
+    element(loginFormLocator).sendKeys(email);
     element(by.css('input[type="password"]')).sendKeys(password);
     const loginButton = element(by.css('button[type="submit"]'));
     browser.wait(
       EC.elementToBeClickable(loginButton),
       30000,
-      'login button does not become clickable within 30 seconds'
+      'login button does not become clickable within 30 seconds',
     );
     return loginButton.click();
   }
@@ -44,12 +47,12 @@ export class LoginPage {
       browser.wait(
         EC.not(EC.textToBePresentInElement(pageTitle, 'Login')),
         60000,
-        'login fails within 60 seconds'
+        'login fails within 60 seconds',
       );
     });
   }
 
   logOut() {
-    return element(by.css('.navbar')).element(by.id('logout')).click();
+    return element(by.css('.navbar')).element(by.id('logout')).click();  // Ignore ESLintBear (protractor/no-repetitive-locators)
   }
 }

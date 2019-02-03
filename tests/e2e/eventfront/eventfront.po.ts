@@ -1,8 +1,12 @@
-import { browser, by, element } from 'protractor';
+import { browser, by, element, ExpectedConditions } from 'protractor';
+
+const EC = ExpectedConditions;
+const toolbarTitleLocator = by.css('.toolbar-title-md');
 
 export class EventFrontPage {
   navigateTo() {
-    return browser.get('/#/event-front');
+    browser.get('/event-front');
+    return browser.wait(EC.visibilityOf(element(toolbarTitleLocator)), 3000, 'Event front page did not load in time');
   }
 
   getButtons() {
@@ -14,10 +18,10 @@ export class EventFrontPage {
   }
 
   getSecondButton() {
-    return this.getButtons().all(by.css('.button-inner')).get(1);
+    return this.getButtons().all(by.css('.button-inner')).get(1);  // Ignore ESLintBear (protractor/no-repetitive-locators)
   }
 
   getPageTitleText() {
-    return element.all(by.css('.toolbar-title-md')).last().getText();
+    return element.all(toolbarTitleLocator).last().getText();
   }
 }

@@ -4,4 +4,6 @@ set -e -x
 
 cat src/config/environment.ts
 
+sed -i.bak '/cordova\.js/d' src/index.html && rm src/index.html.bak
+
 exec npm run build -- "$@"

@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { Events, NavController } from 'ionic-angular';
 
+import { PageTrack } from '../../decorators/PageTrack';
 import { UserProvider } from '../../providers/user/user';
+
 import { EventCreatePage } from '../eventcreate/eventcreate';
 import { EventListPage } from '../eventlist/eventlist';
 import { LoginPage } from '../login/login';
-import { PageTrack } from '../../decorators/PageTrack';
 
 @PageTrack()
 @Component({

@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e -x
+
+index=www/index.html
+
+cp $index www/index-orig.html
+
+sed -i.bak 's/"\/assets\//"\.\/assets\//g' $index
+sed -i.bak 's/"\/build\//"\.\/build\//g' $index
+sed -i.bak 's/\/cordova\.js/\.\/cordova\.js/g' $index && rm "$index.bak"

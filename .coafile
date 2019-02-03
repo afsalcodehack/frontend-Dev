@@ -1,14 +1,32 @@
 [all]
-files = **.js, **.ts, **.css, **.scss, **.json
+files =
+  **.js, **.ts, **.css, **.scss, **.json, **.yml, **.yaml,
+  **.jj2,
+  **.html,
+  config/**,
+  src/**,
+  templates/**,
+  tests/**,
+  tools/**,
+  .ci/bin/**
+
 # note ignore inheritance is broken
 ignore =
   .cache/,
   .git/,
   .pnpm-store/,
   .npm/,
+  .e2e_node_modules/,
   node_modules/,
+  backend_e2e_report/,
+  e2e_report/,
+  platforms/,
   www/,
   dist/,
+  src/**.png,
+  src/**.jpg,
+  src/**.ico,
+
 
 language = JavaScript
 use_spaces = True
@@ -18,6 +36,35 @@ indent_size = 2
 bears = SpaceConsistencyBear
 ignore_length_regex = https?://
 
+[all.tslint]
+bears = TSLintBear
+files = **.ts
+ignore =
+  .cache/,
+  .git/,
+  .pnpm-store/,
+  .npm/,
+  .e2e_node_modules/,
+  node_modules/,
+  backend_e2e_report/,
+  e2e_report/,
+  platforms/,
+  www/,
+  dist/,
+  src/**.png,
+  src/**.jpg,
+  src/**.ico,
+
+  # No fixing type definitions
+  types/,
+
+[all.eslint]
+bears = ESLintBear
+files = tests/**.ts
+
+language = Typescript
+eslint_config = .eslintrc.yml
+
 [all.linelength]
 bears = LineLengthBear
 ignore =
@@ -25,15 +72,25 @@ ignore =
   .git/,
   .pnpm-store/,
   .npm/,
+  .e2e_node_modules/,
   node_modules/,
+  backend_e2e_report/,
+  e2e_report/,
+  platforms/,
   www/,
   dist/,
-  src/assets/i18n/**,
+  src/**.png,
+  src/**.jpg,
+  src/**.ico,
+
+  src/assets/i18n/,
   config/copy.config.js,
   src/app/app.component.ts,
   src/pages/profile/profile.ts,
   src/app/backend.ts,
-  src/app/data/dummy.ts
+  src/app/data/dummy.ts,
+  src/assets/css/netlify-identity.css,
+
 max_line_length = 200
 
 [all.linelength.i18n]
@@ -55,6 +112,12 @@ files = **.scss
 
 sasslint_config = .sass-lint.yml
 
+[all.html]
+bears = HTMLLintBear
+files = **.html
+
+htmllint_ignore = capitalization,optional_tag,names,boolean_attribute
+
 [all.json]
 bears = JSONFormatBear
 files = **.json
@@ -62,21 +125,31 @@ escape_unicode = False
 
 [all.yaml]
 bears = YAMLLintBear
-files = **.yml
+files = **.yml, **.yaml
+max_line_length = 200
 
 [all.sh]
 bears = ShellCheckBear
 files = .ci/bin/**
 ignore =
-  .ci/bin/npm,
-  .ci/bin/npx,
   .cache/,
   .git/,
-  .pnpm-store/
+  .pnpm-store/,
   .npm/,
+  .e2e_node_modules/,
   node_modules/,
+  backend_e2e_report/,
+  e2e_report/,
+  platforms/,
   www/,
-  dist/
+  dist/,
+  src/**.png,
+  src/**.jpg,
+  src/**.ico,
+
+  .ci/bin/npm,
+  .ci/bin/npx,
+
 indent_size = 4
 shell = sh
 

@@ -1,4 +1,8 @@
 {
+  "extends": [
+    "tslint-eslint-rules",
+    "codelyzer"
+  ],
   "rules": {
     "align": [
       true,
@@ -16,17 +20,12 @@
       true,
       "check-space"
     ],
-    "component-class-suffix": true,
     "component-selector": [
       true,
       "element",
-      "app",
       "kebab-case"
     ],
     "curly": true,
-    "deprecation": {
-      "severity": "warn"
-    },
     "directive-class-suffix": true,
     "directive-selector": [
       true,
@@ -99,12 +98,7 @@
     "no-trailing-whitespace": true,
     "no-unnecessary-initializer": true,
     "no-unused-expression": true,
-    "no-unused-variable": [
-      true
-    ],
-    "no-use-before-declare": true,
     "no-var-keyword": true,
-    "no-void-expression": true,
     "object-curly-spacing": [
       true,
       "always",
@@ -185,9 +179,5 @@
       "check-type",
       "check-typecast"
     ]
-  },
-  "rulesDirectory": [
-    "node_modules/tslint-eslint-rules/dist/rules",
-    "node_modules/codelyzer"
-  ]
+  }
 }

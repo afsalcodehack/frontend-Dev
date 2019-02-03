@@ -1,4 +1,4 @@
-<app-content title="Debug">
+<app-content [title]="Debug">
   <ion-list no-padding>
     <ion-list-header no-margin>
       Local Storage
@@ -12,8 +12,57 @@
 
     <ion-item *ngFor="let record of records">
       <h2>{{ record.key }}</h2>
-      <p text-wrap>{{ record.val }}</p>
+      <pre>{{ record.val }}</pre>
       <ion-icon item-end name="close" class="clickable" (click)="clearSingleRecord(record.key)"></ion-icon>
+    </ion-item>
+
+    <ng-container *ngIf="dp.isCordova">
+      <ion-list-header>
+        Device Information
+      </ion-list-header>
+
+      <ion-item *ngFor="let field of deviceInfo() | mapToIterable">
+        <h2>{{ field.key }}</h2>
+        <pre>{{ field.val }}</pre>
+      </ion-item>
+    </ng-container>
+
+    <ng-container *ngIf="isNetlify">
+      <ion-list-header>
+        Build Information
+      </ion-list-header>
+
+      <ion-item *ngFor="let field of buildInfo() | mapToIterable">
+        <h2>{{ field.key }}</h2>
+        <pre>{{ field.val }}</pre>
+      </ion-item>
+    </ng-container>
+
+    <ion-list-header>
+      Launchers
+    </ion-list-header>
+
+    <ion-item *ngFor="let field of launchers() | mapToIterable">
+      <h2>{{ field.key }}</h2>
+      <button ion-button item-end (click)="field.val()">
+        Launch
+      </button>
+    </ion-item>
+  </ion-list>
+
+  <ion-list no-padding>
+    <ion-list-header no-margin>
+      {{ 'Launchers' |  translate }}
+    </ion-list-header>
+
+    <ion-item detail-push (click)="openI18nAlert()">
+      <h2>{{ 'i18n alert' | translate }}</h2>
+      <ion-icon item-end name="ios-arrow-forward"></ion-icon>
+    </ion-item>
+
+    <ion-item detail-push (click)="openI18nAlert(false)">
+      <h2>{{ 'no title - i18n alert' | translate }}</h2>
+      <ion-icon item-end name="ios-arrow-forward"></ion-icon>
     </ion-item>
   </ion-list>
 </app-content>

@@ -16,7 +16,7 @@
       </ion-row>
       <ion-row>
         <ion-col *ngFor="let photo of collection.val" col-4>
-          <square-image [photo]="photo" [event]="event"></square-image>
+          <event-square-image [photo]="photo" [event]="event"></event-square-image>
         </ion-col>
       </ion-row>
     </ng-container>
@@ -28,7 +28,7 @@
     <label ion-fab for="file-upload">
       <ion-icon name="add"></ion-icon>
     </label>
-    <input type="file" accept="image/*" id="file-upload" class="hide" (change)="uploadSelectedImage($event)"/>
+    <input type="file" accept="image/*" id="file-upload" class="hide" (change)="uploadSelectedImage($event)">
   </div>
   <button ion-fab *ngIf="deviceStatus.isCordova" (click)="openSheetAndUpload()">
     <ion-icon name="add"></ion-icon>

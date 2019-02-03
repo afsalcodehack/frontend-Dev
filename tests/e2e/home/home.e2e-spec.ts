@@ -8,7 +8,7 @@ describe('Home page', () => {
     page.navigateTo();
   });
 
-  it('should display welcome text', () => {
+  it('should display welcome text', async () => {
     page.getContentText().then((text) => {
       expect(text).toEqual('Hello World!');
     });

@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController, NavParams } from 'ionic-angular';
+
+import { PageTrack } from '../../decorators/PageTrack';
 import { UserProvider } from '../../providers/user/user';
+
 import { LoginPage } from '../login/login';
 import { PasswordresetPage } from '../passwordreset/passwordreset';
-import { PageTrack } from '../../decorators/PageTrack';
 
 @PageTrack()
 @Component({
