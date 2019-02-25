@@ -11,14 +11,14 @@
         <ion-input id="price" class="validate" type="number" step="0.01" [min]="minPrice" formControlName="price"></ion-input>
       </ion-item>
 
-      <ion-item>
+      <ion-item *ngIf="!eventForm.value.isPublic">
         <ion-label for="secret" floating>{{ 'Optional Secret Key' | translate }}</ion-label>
-        <ion-input id="secret" class="validate" type="password" formControlName="secret" [disabled]="secretFieldDisabled"></ion-input>
+        <ion-input id="secret" class="validate" formControlName="secret"></ion-input>
       </ion-item>
 
-      <ion-item>
+      <ion-item no-padding>
         <ion-label>{{ 'Public' | translate }}</ion-label>
-        <ion-checkbox color="dark" formControlName="isPublic"></ion-checkbox>
+        <ion-toggle color="dark" formControlName="isPublic"></ion-toggle>
       </ion-item>
     </ion-list>
 

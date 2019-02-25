@@ -59,7 +59,17 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     } else if (path.startsWith('/api-dev/')) {
       path = path.substr(8);
     }
-    const component = backend.paths[path];
+    let component = backend.paths[path];
+
+    if (component === undefined) {
+      console.log(`Checking if a path begins with '${path}'`);
+      for (const e in backend.paths) {
+        if (path.startsWith(e)) {
+          component = backend.paths[e];
+          break;
+        }
+      }
+    }
 
     if (component === undefined) {
       console.log(`endpoint ${path} is not in app.backend`);

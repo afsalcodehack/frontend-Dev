@@ -22,4 +22,6 @@ export module auth {
 export module locale {
   export const dateFormat = 'MM/DD/YYYY';
   export const timePickerFormat = 'hh:mm A';
+  export const ISO8601Format = 'YYYY-MM-DD';
+  export const flatpickrDateFormat = 'm/d/Y';
 }

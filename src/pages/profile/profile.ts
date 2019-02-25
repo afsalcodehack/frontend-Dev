@@ -7,6 +7,7 @@ import {
   NavController,
   NavParams,
   Platform,
+  ToastController,
 } from 'ionic-angular';
 
 import { PageTrack } from '../../decorators/PageTrack';
@@ -30,6 +31,11 @@ export class ProfilePage {
   image: any;
   generated_image_name: any;
   selectedFiles: any;
+  editMode = false;
+  id: number;
+
+  // should be set true if editing the profile is allowed
+  profileOwner = true;
 
   private userInfoUrl = backend.paths['get-user-info'].toURL();
   private changePasswordForm: FormGroup;
@@ -47,7 +53,9 @@ export class ProfilePage {
     public camera: Camera,
     public platform: Platform,
     public storage: Storage,
+    public toastCtrl: ToastController,
   ) {
+    this.id = parseInt(this.navParams.get('id'), 10);
     this.changePasswordForm = this.fb.group({
       old_password: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(20)])],
       new_password1: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(20)])],
@@ -56,13 +64,25 @@ export class ProfilePage {
 
   }
 
-  ionViewDidLoad() {
-    this.up.isAuthenticated().then((res) => {
-      if (res) { return this.up.getUserInfo(); }
-    }).then((res) => {
-      this.user = res;
+  showToast(toastText: string) {
+    const toast = this.toastCtrl.create({
+      message: toastText,
+      duration: 3000,
     });
+    toast.present();
+  }
 
+  ionViewDidLoad() {
+    this.id = parseInt(this.navParams.get('id'), 10);
+    this.up.isAuthenticated().then(async (loggedIn) => {
+      const user = await this.up.getUserInfo();
+      if (!this.id) {
+        this.navCtrl.setRoot('profile', { id: user.id });
+      } else {
+        this.profileOwner = loggedIn && user.id === this.id;
+        this.user = await this.up.getUserDetail(this.id);
+      }
+    }).catch(console.error);
   }
 
   changePassword() {
@@ -94,12 +114,12 @@ export class ProfilePage {
   presentActionSheetAndUpload() {
     this.imageUploadProvider.presentActionSheet((promise) => {
       promise.then((res) => {
-            this.lastImage = res;
-            this.user.image = res;
-            return this.storage.get('token');
-        }).then((val) => {
-          this.authToken = val;
-        });
+        this.lastImage = res;
+        this.user.image = res;
+        return this.storage.get('token');
+      }).then((val) => {
+        this.authToken = val;
+      });
     });
   }
 
@@ -116,13 +136,13 @@ export class ProfilePage {
 
   async showAlertChangePassword() {
     const alert = await this.alertCtrl.create({
-    title: 'Successfully Changed',
-    subTitle: 'Your password has been changed successfully.',
-    buttons: [ {
-      text: 'OK',
-      handler: (data) => {
-      this.navCtrl.setRoot(ProfilePage);
-      },
+      title: 'Successfully Changed',
+      subTitle: 'Your password has been changed successfully.',
+      buttons: [{
+        text: 'OK',
+        handler: (data) => {
+          this.navCtrl.setRoot(ProfilePage);
+        },
       }],
     });
     alert.present();
@@ -130,13 +150,13 @@ export class ProfilePage {
 
   async showAlertUserDetails() {
     const alert = await this.alertCtrl.create({
-    title: 'Successfully Changed',
-    subTitle: 'Details Updated.',
-    buttons: [ {
-      text: 'OK',
-      handler: (data) => {
-        this.navCtrl.setRoot(ProfilePage);
-      },
+      title: 'Successfully Changed',
+      subTitle: 'Details Updated.',
+      buttons: [{
+        text: 'OK',
+        handler: (data) => {
+          this.navCtrl.setRoot(ProfilePage);
+        },
       }],
     });
     alert.present();

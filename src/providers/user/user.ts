@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Events } from 'ionic-angular';
@@ -19,8 +19,11 @@ export class UserProvider {
   imageUploadUrl = backend.paths['image-upload'].toURL();
   getUserInfoUrl = backend.paths['get-user-info'].toURL();
   getUserJWTUrl = backend.paths['api-token-oauth'].toURL();
+  userListUrl = backend.paths['users'].toURL();
   convertTokenUrl = backend.paths['auth/convert-token'].toURL();
-  emailInviteUrl = backend.paths['email-invite'].toURL();
+  emailInviteUrl = backend.paths['email-invite/invitations/create-and-send'].toURL();
+  emailInviteAcceptUrl = backend.paths['email-invite/invitations/accept-invite'].toURL();
+  userListByLocationUrl = backend.paths['map-pins/users'].toURL();
 
   constructor(public http: HttpClient, public storage: Storage,
   public events: Events) {
@@ -114,6 +117,19 @@ export class UserProvider {
     });
   }
 
+  getUserDetail(id: number): any {
+    return this.http.get(this.userListUrl + `${id}/`).toPromise();
+  }
+
+  getUserListByLocation(bounds: any): Promise<any> {
+    const params = new HttpParams()
+      .set('latNE', bounds.latNE)
+      .set('lngNE', bounds.lngNE)
+      .set('latSW', bounds.latSW)
+      .set('lngSW', bounds.lngSW);
+    return this.http.get(this.userListByLocationUrl, { params }).toPromise();
+  }
+
   verifyEmail(req): any {
     const key = req.key;
     return this.http.post(this.verifyEmailUrl + key + '/', {}).toPromise()
@@ -129,4 +145,10 @@ export class UserProvider {
     });
   }
 
+  acceptInvite(key): any {
+    return this.http.get(this.emailInviteAcceptUrl + key + '/').toPromise()
+    .then((res: any) => {
+      return res;
+    });
+  }
 }

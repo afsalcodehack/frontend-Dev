@@ -50,7 +50,7 @@ test:lint:
   stage: test
   cache: {}
   before_script: []
-  script: coala --ci --verbose --flush-cache
+  script: coala --ci --flush-cache --log-level WARNING
 
 build:dev:web:
   <<: *collect_artifacts
@@ -59,12 +59,14 @@ build:dev:web:
     - change-environment backendless
     - build-www
     - mv www www-dev-backendless
+  retry: 2
 
 build:prod:web:
   <<: *collect_artifacts
   stage: build
   script:
     - build-www --prod
+  retry: 2
 
 verify:e2e:
   stage: verify

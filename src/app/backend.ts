@@ -1,3 +1,4 @@
+
 import { appTitle, backendUrl } from '../global';
 
 import { Subject } from 'rxjs';
@@ -14,10 +15,18 @@ import { bookings, getOrderFromId, orders, toPayableOrder, updateOrderItemStatus
 import { categories } from './backends/fakeCategories';
 import { album, events, forkAndCleanEvent } from './backends/fakeEvents';
 import { handlePayment } from './backends/fakePayment';
+import { paymentRecords } from './backends/fakePaymentRecords';
 import { pickups } from './backends/fakePickups';
 import { products } from './backends/fakeProducts';
+import { recommendations } from './backends/fakeRecommendations';
 import { services } from './backends/fakeServices';
-import { handleGetUserInfo, handleLogin, handleRegistration } from './backends/fakeUserAuth';
+import {
+  handleGetUserDetails,
+  handleGetUserInfo,
+  handleGetUserListByLocation,
+  handleLogin,
+  handleRegistration,
+} from './backends/fakeUserAuth';
 import { looseMatch, matchId } from './utils';
 
 import { isInsideBounds } from './backends/map.functions';
@@ -37,6 +46,7 @@ export const backend = new Backend(
     new EndPoint('rest-auth/password/reset/confirm', true),
     new EndPoint('rest-auth/password/change', true),
     new EndPoint('rest-auth/registration/account-confirm-email', true),
+    new EndPoint('email-invite/invitations/accept-invite', true),
     // event
     new EndPoint('events', true, () => {
       return events.map((event) => forkAndCleanEvent(event));
@@ -98,6 +108,12 @@ export const backend = new Backend(
 
       return { ok: false };
     }),
+    // payment-record
+    new EndPoint('payment-records', false, paymentRecords),
+    new EndPoint('payment-record', false, (req) => {
+      const paymentRecord = paymentRecords.find(matchId(req.body.id));
+      return paymentRecord;
+    }),
     // pickup
     new EndPoint('pickups', false, pickups),
     new EndPoint('pickup', false, (req) => {
@@ -134,8 +150,8 @@ export const backend = new Backend(
                 if (item.boardType === boardType &&
                   item.timeslot.startTime === timeslot.startTime &&
                   item.timeslot.endTime === timeslot.endTime) {
-                    orderQuantity++;
-                  }
+                  orderQuantity++;
+                }
               });
             }
           });
@@ -170,12 +186,13 @@ export const backend = new Backend(
 
     // stripe
     new EndPoint('payment', false, {}, handlePayment),
-    // localizzer services
+    new EndPoint('map-pins/recommendations', true, () => {
+      return recommendations;
+    }),
+    // service services
     // Expects latNE, lngNE, latSW, and lngSW as query parameters
     // Returns all services in the bounds described by the two corners
-    new EndPoint('map-pins', false, (req) => {
-      console.log('map-pins', req);
-
+    new EndPoint('map-pins/services', true, (req) => {
       const params = req.params.map;
       const northEast = {
         lat: params.get('latNE')[0],
@@ -187,14 +204,21 @@ export const backend = new Backend(
       };
 
       return services.filter((service) => {
-        return isInsideBounds(service.location, northEast, southWest);
+        const point = {
+          lat: Number(service.latitude),
+          lng: Number(service.longitude),
+        };
+        return isInsideBounds(point, northEast, southWest);
       });
     }),
-    new EndPoint('get-categories', false, (req) => {
+    new EndPoint('map-pins/categories', true, (req) => {
       return categories;
     }),
-    new EndPoint('email-invite', false, (req) => {
-      return { status : 'success' };
+    new EndPoint('email-invite/invitations/create-and-send', true, (res) => {
+      return { detail: 'Invite sent' };
     }),
+    // Users
+    new EndPoint('users', true, handleGetUserDetails),
+    new EndPoint('map-pins/users', true, handleGetUserListByLocation),
   ],
 );

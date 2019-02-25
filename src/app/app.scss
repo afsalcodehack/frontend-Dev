@@ -38,13 +38,6 @@ ion-item.item-input {
   padding-left: 0;
 }
 
-.fab {
-  bottom: 10px !important;
-  margin-left: 1em;
-  margin-top: 1em;
-  right: 10px !important;
-}
-
 .description {
   white-space: pre-wrap;
 }
@@ -57,7 +50,7 @@ ion-item.item-input {
 }
 
 .divide {
-  border-bottom: 1px solid color($colors, secondary) !important;
+  border-bottom: 1px solid color($colors, secondary);
 }
 
 .unit-col .item {
@@ -93,6 +86,12 @@ ion-item.item-input {
   float: right;
   text-decoration: none;
 }
+
+.divider {
+  background-color: rgba(66, 65, 65,0.75);
+  height: 2px;
+}
+
 
 // Small devices (landscape phones, 235px and up)
 @media only screen and (min-width: 235px) {
@@ -279,4 +278,93 @@ ion-title {
 .item-md h3 {
   font-size: 1.17em !important;
   font-weight: bold !important;
+}
+
+.item-label-fixed {
+  ion-select {
+    max-width: none;
+    width: 100%;
+  }
+
+  ion-input,
+  ion-select,
+  ion-textarea {
+    background-color: color($colors, light-grey);
+    position: relative;
+  }
+}
+
+.item-md.item-label-fixed.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner,
+.item-md.item-label-fixed.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner,
+.list-md .item-input.item-label-fixed.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus):last-child,
+.list-md .item-input.item-label-fixed.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus):last-child {
+  border: 0;
+  box-shadow: none;
+
+  ion-input, ion-textarea {
+    box-shadow: inset -3px 0 0 0 #32db64;
+  }
+}
+
+.item-label-fixed ion-select.ng-valid {
+  box-shadow: inset -3px 0 0 0 #32db64;
+}
+
+.item-md.item-input.item-label-fixed.ng-invalid.ng-touched:not(.input-has-focus):not(.item-input-has-focus) .item-inner,
+.list-md .item-input.item-label-fixed.ng-invalid.ng-touched:not(.input-has-focus):not(.item-input-has-focus):last-child {
+  border: 0;
+  box-shadow: none;
+
+  ion-input, ion-select, ion-textarea {
+    box-shadow: inset -3px 0 0 0 color($colors, danger);
+  }
+}
+
+.item-label-fixed ion-select.ng-invalid {
+  box-shadow: inset -3px 0 0 0 color($colors, danger);
+}
+
+.item-md.item-input.item-label-fixed.item-input-has-focus .item-inner,
+.item-md.item-input.item-label-fixed.input-has-focus .item-inner,
+.list-md .item-input.item-label-fixed.item-input-has-focus:last-child,
+.list-md .item-input.item-label-fixed.input-has-focus:last-child {
+  border: 0;
+  box-shadow: none;
+
+  ion-input, ion-select, ion-textarea {
+    box-shadow: inset -3px 0 0 0 color($colors, primary);
+  }
+}
+
+.list-md .item-block.item-label-fixed.item-label-fixed .item-inner {
+  border: 0;
+  padding: 0;
+}
+
+ion-item.item-select.item-label-fixed {
+  padding-left: 0;
+}
+
+.item-label-fixed .input-wrapper {
+  margin-bottom: .5em;
+  padding: 0;
+  padding-left: 8px;
+}
+
+@media only screen and (max-width: 575px) {
+  .item-label-fixed {
+    ion-input,
+    ion-select,
+    ion-textarea {
+      flex-basis: 100%;
+    }
+
+    ion-label[fixed] {
+      flex-basis: 100%;
+    }
+
+    .input-wrapper {
+      flex-wrap: wrap;
+    }
+  }
 }

@@ -72,3 +72,21 @@ colors:
   light: '#fff'
   dark: '#222'
   light-grey: '#f2f2f2'
+
+providers:
+  - categories
+  - cur-exchange
+  - device
+  - event
+  - image-upload
+  - language
+  - page-location
+  - product
+  - theme
+  - user
+  - scripts
+  - booking
+  - service
+  # - recommendation
+  - i18n-alert
+  # - pickup

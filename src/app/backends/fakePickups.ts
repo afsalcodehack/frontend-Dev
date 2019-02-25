@@ -1,19 +1,6 @@
-enum Days {
-  Monday = 'Monday',
-  Tuesday = 'Tuesday',
-  Wednesday = 'Wednesday',
-  Thursday = 'Thursday',
-  Friday = 'Friday',
-  Saturday = 'Saturday',
-  Sunday = 'Sunday',
-}
+import { Days, Pickup, Status } from '../../models/pickups';
 
-enum Status {
-  Active = 'active',
-  Inactive = 'inactive',
-}
-
-export const pickups = [
+export const pickups: Pickup[] = [
   { id: 1,
     name: 'My Tuesday Pickup',
     business: 'Viper Development UG (haftungsbeschränkt)',
@@ -28,7 +15,7 @@ export const pickups = [
     day_of_week: Days.Tuesday,
     weight: 32.0,
     user_id: 3,
-    termination_date: new Date('January 18, 2019 00:00:00'),
+    termination_date: new Date(new Date().getTime() + 7 * 24 * 3600),
     status: Status.Active,
   },
   { id: 2,

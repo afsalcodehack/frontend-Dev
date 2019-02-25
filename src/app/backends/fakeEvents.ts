@@ -80,12 +80,6 @@ export const album = {
 
 export const forkAndCleanEvent = (event) => {
   event = { ...event };
-
-  if (event['secret']) {
-    event.isPublic = false;
-    delete event.secret;
-  }
-
   return event;
 };
 

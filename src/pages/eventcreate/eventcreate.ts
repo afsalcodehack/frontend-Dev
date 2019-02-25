@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController, NavParams } from 'ionic-angular';
 
@@ -16,11 +16,9 @@ import { EventListPage } from '../eventlist/eventlist';
   selector: 'page-event-create',
   templateUrl: 'eventcreate.html',
 })
-export class EventCreatePage implements OnInit {
+export class EventCreatePage {
 
   eventForm: FormGroup;
-  secretFieldDisabled = false;
-  private secretPlaceholder = '#hello.#';
 
   originalEvent: any;
   pageTitle = 'Create Event';
@@ -54,16 +52,7 @@ export class EventCreatePage implements OnInit {
         name: this.originalEvent.name,
         price: this.originalEvent.price,
         isPublic: this.originalEvent.isPublic,
-        secret: !this.originalEvent.isPublic ? this.secretPlaceholder : '',
-      });
-    }
-  }
-
-  ngOnInit() {
-    const field = this.eventForm.get('isPublic');
-    if (field) {
-      field.valueChanges.subscribe((val) => {
-        this.secretFieldDisabled = val;
+        secret: this.originalEvent.secret || '',
       });
     }
   }
@@ -78,12 +67,7 @@ export class EventCreatePage implements OnInit {
   }
 
   async update() {
-    let updated = this.eventForm.value;
-    updated = { ...updated };
-
-    if (updated.secret === this.secretPlaceholder) {
-      updated.secret = '';
-    }
+    const updated = this.eventForm.value;
 
     try {
       this.eventProvider.updateEvent({

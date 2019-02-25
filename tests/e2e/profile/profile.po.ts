@@ -7,7 +7,7 @@ export class ProfilePage {
   }
 
   getCurrentProfilePicture() {
-    return element(by.xpath("//img[@class='profile-card-image']")).getAttribute('src');
+    return element(by.xpath("//div[@class='profile-card__image']/img")).getAttribute('src');
   }
 
   selectProfilePicture() {
