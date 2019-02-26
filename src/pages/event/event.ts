@@ -113,13 +113,7 @@ export class EventPage {
       .then((res) => console.log(res))
       .catch((err) => console.error(err))
       .then(() => {
-        const reader = new FileReader();
-
-        reader.onloadend = () => {
-          this.addImageToEvent(reader.result);
-        };
-
-        reader.readAsDataURL(file);
+        this.loadData();
       });
   }
 
