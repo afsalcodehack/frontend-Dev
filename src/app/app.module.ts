@@ -235,7 +235,6 @@ export const nonMenuPages = {
   WelcomePage,
   PasswordresetPage,
   PasswordresetconfirmPage,
-  ProfilePage,
   TandcPage,
   NotFoundPage,
   CookieConsentPage,

@@ -141,6 +141,7 @@ export class MyApp implements AfterViewInit {
       { title: _('Signup/Login'), id: 'login', component: LoginPage, status: false, divide: false },
       { title: _('Logout'), id: 'logout', component: LogoutPage, status: false, divide: false },
       { title: _('Settings'), id: 'settings', component: SettingsPage, status: false, divide: false },
+      { title: _('Profile'), id: 'profile', component: ProfilePage, status: false, divide: false },
       { title: _('About'), id: 'about', component: AboutPage, status: false, divide: false },
     ];
 
