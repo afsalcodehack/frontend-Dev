@@ -29,6 +29,7 @@ export const album = {
     {
       createdAt: new Date(1537684843000),
       fullResUrl: getImgUrl(0),
+      shareUrl: getImgUrl(0),
       thumbUrl: getThumbUrl(0),
       addWatermark: appTitle,
       purchased: false,
@@ -36,6 +37,7 @@ export const album = {
     {
       createdAt: new Date(1537684843000),
       fullResUrl: getImgUrl(1),
+      shareUrl: getImgUrl(1),
       thumbUrl: getThumbUrl(1),
       addWatermark: '',
       purchased: true,
@@ -43,6 +45,7 @@ export const album = {
     {
       createdAt: new Date(1506151739000),
       fullResUrl: getImgUrl(2),
+      shareUrl: getImgUrl(2),
       thumbUrl: getThumbUrl(2),
       addWatermark: appTitle,
       purchased: false,
@@ -50,6 +53,7 @@ export const album = {
     {
       createdAt: new Date(1506151739000),
       fullResUrl: getImgUrl(3),
+      shareUrl: getImgUrl(3),
       thumbUrl: getThumbUrl(3),
       addWatermark: appTitle,
       purchased: false,
@@ -57,6 +61,7 @@ export const album = {
     {
       createdAt: new Date(1537684843000),
       fullResUrl: getImgUrl(4),
+      shareUrl: getImgUrl(4),
       thumbUrl: getThumbUrl(4),
       addWatermark: appTitle,
       purchased: false,
@@ -64,6 +69,7 @@ export const album = {
     {
       createdAt: new Date(1506151739000),
       fullResUrl: getImgUrl(5),
+      shareUrl: getImgUrl(5),
       thumbUrl: getThumbUrl(5),
       addWatermark: appTitle,
       purchased: false,
@@ -71,6 +77,7 @@ export const album = {
     {
       createdAt: new Date(1506151739000),
       fullResUrl: getImgUrl(6),
+      shareUrl: getImgUrl(6),
       thumbUrl: getThumbUrl(6),
       addWatermark: appTitle,
       purchased: false,

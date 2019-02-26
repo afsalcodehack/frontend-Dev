@@ -88,6 +88,7 @@ export const backend = new Backend(
         album.images.push({
           createdAt: new Date(),
           fullResUrl: req.body.url,
+          shareUrl: req.body.url,
           thumbUrl: req.body.url,
           addWatermark: appTitle,
           purchased: false,

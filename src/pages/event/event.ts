@@ -65,6 +65,9 @@ export class EventPage {
         if (!photo.fullResUrl.includes('http')) {
           photo.fullResUrl = this.backendUrl + photo.fullResUrl;
         }
+        if (!photo.shareUrl.includes('http')) {
+          photo.shareUrl = window.location.protocol + '//' + window.location.host + this.backendUrl + photo.shareUrl;
+        }
         if (!photo.thumbUrl.includes('http')) {
           photo.thumbUrl = this.backendUrl + photo.thumbUrl;
         }
