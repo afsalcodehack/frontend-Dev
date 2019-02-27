@@ -1,7 +1,6 @@
 stages:
   - test
   - build
-  - verify
 
 image: viperdev/ionic:xenial
 
@@ -67,41 +66,3 @@ build:prod:web:
   script:
     - build-www --prod
   retry: 2
-
-verify:e2e:
-  stage: verify
-  image: selenium/standalone-chrome:latest
-  dependencies:
-    - build:dev:web
-  artifacts:
-    name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
-    paths:
-      - e2e_report
-    when: always
-  cache:
-    key: e2e-pnpm
-    paths: *node_lock_cache_paths
-  variables:
-    PROTRACTOR_RETRIES: 4
-  before_script:
-    - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-    - . "$HOME/.nvm/nvm.sh"  # This loads nvm
-    - nvm install 8
-    - npm install -g pnpm
-    - pnpm install typescript
-                  eslint
-                  eslint-plugin-protractor
-                  http-server-spa
-                  jasmine-spec-reporter
-                  promise-retry
-                  protractor
-                  protractor-flake
-                  protractor-screenshoter-plugin
-                  request
-                  request-promise-any
-                  ts-node
-                  '@types/jasmine'
-                  '@types/node'
-    - export PATH=$CI_PROJECT_DIR/.ci/bin:$PATH
-    - pnpm run e2e-update
-  script: test-e2e www-dev-backendless

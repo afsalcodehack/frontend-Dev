@@ -19,6 +19,10 @@ auth:
     photographer: Photographer
     customer: Customer
 
+ci:
+  jobs:
+    e2e: false
+
 pages:
   booking: false
   booking-list: false
