@@ -1,6 +1,7 @@
 stages:
   - test
   - build
+  - deploy
 
 image: viperdev/ionic:xenial
 
@@ -66,3 +67,19 @@ build:prod:web:
   script:
     - build-www --prod
   retry: 2
+
+deploy:web_netlify:
+  stage: deploy
+  before_script:
+    - curl https://github.com/netlify/netlifyctl/releases/download/v0.4.0/netlifyctl-linux-amd64-0.4.0.tar.gz -LO
+    - tar xvf netlifyctl-linux-amd64-0.4.0.tar.gz
+    - export PATH=$CI_PROJECT_DIR:$CI_PROJECT_DIR/.ci/bin:$PATH
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
+    paths:
+      - netlifyctl-debug.log
+  script:
+    - change-environment "$CI_COMMIT_REF_NAME"
+    - deploy_netlify
+  dependencies:
+    - build:prod:web

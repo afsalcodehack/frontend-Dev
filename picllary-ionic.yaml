@@ -22,6 +22,7 @@ auth:
 ci:
   jobs:
     e2e: false
+    deploy_www_netlify: true
 
 pages:
   booking: false
@@ -95,3 +96,7 @@ providers:
   # - recommendation
   - i18n-alert
   # - pickup
+
+environments:
+  dev:
+    netlify_siteid: 2a1bf4fd-d168-41c7-bfca-57fc63cfcb0b

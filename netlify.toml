@@ -1,3 +1,6 @@
+[settings]
+  id = '2a1bf4fd-d168-41c7-bfca-57fc63cfcb0b'
+
 [build]
   command = 'export PATH=./.ci/bin/:"$PATH" && build-netlify'
   publish = 'www'

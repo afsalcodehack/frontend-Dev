@@ -125,3 +125,18 @@ A docker with all linters can be run using:
 ```sh
 $ docker run -v=$(pwd):/app --workdir=/app viperdev/coala-ngx coala --ci --verbose
 ```
+
+## Deploying to netlify for dev-testing
+
+Install [netlifyctl](https://github.com/netlify/netlifyctl) in your development
+machine and ensure the binary `netlifyctl` is in your PATH.
+
+Run `netlifyctl login` and login with the account that has access to the
+dev-netlify-sideId of the project. Or get the API-KEY for the
+dev-netlify-siteId.
+
+Build a prod version of the project with
+`pnpm run build --prod`.
+
+Deploy the build with `.ci/bin/deploy_netlify`. If using an api-key, run this
+command as `NETLIFY_ACCESS_TOKEN=APIKEY .ci/bin/deploy_netlify`.
