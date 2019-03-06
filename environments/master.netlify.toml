@@ -1,0 +1,19 @@
+[build]
+  command = 'export PATH=./.ci/bin/:"$PATH" && build-netlify'
+  publish = 'www'
+
+[[redirects]]
+  from = '/api/*'
+  to = 'https://api.picshare.viperdev.io/:splat'
+  status = 200
+  force = true
+
+[[redirects]]
+  from = '/*'
+  to = '/index.html'
+  status = 200
+
+[plugins.local.server]
+  static = true
+  lambda = false
+  port = 8100
