@@ -17,7 +17,7 @@ export class EventSquareImageComponent extends SquareImageComponent {
       title: `a photo from ${this.event.name}`,
       item: {
         type: 'image',
-        id: this.photo.fullResUrl,
+        id: this.photo.id,
         price: this.event.price,
         currency: this.event.currency,
       },

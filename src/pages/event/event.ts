@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
+import { Events } from 'ionic-angular';
 import { PageTrack } from '../../decorators/PageTrack';
 import { backendUrl } from '../../global';
 import { DeviceProvider } from '../../providers/device/device';
@@ -21,6 +22,8 @@ export class EventPage {
   event: any = {};
   id: number;
   secret: string;
+  // The chargeID is known if there was a payment in the current session
+  chargeID: string | null = null;
   backendUrl = backendUrl[backendUrl.length - 1] === '/'
                ? backendUrl.slice(0, -1)
                : backendUrl;
@@ -33,7 +36,15 @@ export class EventPage {
     public eventProvider: EventProvider,
     public userProvider: UserProvider,
     public imageUploadProvider: ImageUploadProvider,
+    public events: Events,
   ) {
+    this.events.subscribe('payment:charged', (chargeInfo) => {
+      // Save the latest chargeID in the localStorage so that it
+      // can be used as a temporary auth mechanism for this customer.
+      console.log("Completed charge on the event", this.event)
+      localStorage.setItem('chargeID', chargeInfo.chargeID);
+      this.init()
+    })
   }
 
   async ionViewWillEnter() {
@@ -45,6 +56,7 @@ export class EventPage {
   }
 
   async init() {
+    this.chargeID = localStorage.getItem('chargeID');
     this.userProvider.isAuthenticated().then((loggedIn) => {
       this.loggedIn = !!loggedIn;
     });
@@ -56,17 +68,18 @@ export class EventPage {
 
   async loadData() {
     try {
-      this.event = await this.eventProvider.getEvent(this.id, { secret: this.secret });
+      this.event = await this.eventProvider.getEvent(this.id, {
+        secret: this.secret,
+        chargeID: this.chargeID,
+      });
       this.event.album.images.forEach((photo) => {
         // real backend only returns relative path of photo
         // e.g. /real.jpg
         // fake backend provides full path of photo
         // e.g. https://www.example.com/fake.jpg
         if (!photo.fullResUrl.includes('http')) {
-          photo.fullResUrl = this.backendUrl + photo.fullResUrl;
-        }
-        if (!photo.shareUrl.includes('http')) {
-          photo.shareUrl = window.location.protocol + '//' + window.location.host + this.backendUrl + photo.shareUrl;
+          // photo.fullResUrl = this.backendUrl + photo.fullResUrl;
+          photo.fullResUrl = window.location.protocol + '//' + window.location.host + this.backendUrl + photo.fullResUrl;
         }
         if (!photo.thumbUrl.includes('http')) {
           photo.thumbUrl = this.backendUrl + photo.thumbUrl;
