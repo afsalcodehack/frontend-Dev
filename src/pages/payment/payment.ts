@@ -111,9 +111,10 @@ export class PaymentPage {
       .createToken(this.card, {})
       .subscribe(async (result) => {
         if (result.token) {
-          await this.stripeProvider.charge(
+          const paymentInfo = await this.stripeProvider.charge(
             this.item, email, result.token.id,
           );
+          console.log("Successful payment done", paymentInfo)
 
           loading.dismiss();
 
@@ -127,7 +128,7 @@ export class PaymentPage {
 
           successAlert.onDidDismiss(() => {
             this.navCtrl.setRoot(this.navCtrl.getPrevious())
-              .then(() => this.events.publish('payment:charged', { chargeID: this.chargeID }));
+              .then(() => this.events.publish('payment:charged', { chargeID: paymentInfo.chargeID }));
           });
         } else if (result.error) {
           // Error creating the token
