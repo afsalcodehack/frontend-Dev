@@ -88,7 +88,6 @@ export const backend = new Backend(
         album.images.push({
           createdAt: new Date(),
           fullResUrl: req.body.url,
-          shareUrl: req.body.url,
           thumbUrl: req.body.url,
           addWatermark: appTitle,
           purchased: false,
@@ -109,6 +108,7 @@ export const backend = new Backend(
 
       return { ok: false };
     }),
+    new EndPoint('photo', true),
     // payment-record
     new EndPoint('payment-records', false, paymentRecords),
     new EndPoint('payment-record', false, (req) => {
@@ -186,7 +186,7 @@ export const backend = new Backend(
     }),
 
     // stripe
-    new EndPoint('payment', false, {}, handlePayment),
+    new EndPoint('payment', true, {}, handlePayment),
     new EndPoint('map-pins/recommendations', true, () => {
       return recommendations;
     }),
