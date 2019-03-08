@@ -73,36 +73,16 @@
       </ion-item>
 
       <ion-item>
-        <ion-label floating>{{ 'Your City' | translate }}</ion-label>
-        <ion-input id="city" type="text" class="validate" [(ngModel)]="user.city"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label floating>{{ 'Your Country' | translate }}</ion-label>
-        <ion-input id="country" type="text" class="validate" [(ngModel)]="user.country"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label floating>{{ 'Profession' | translate }}</ion-label>
-        <ion-input id="profession" type="text" class="validate" [(ngModel)]="user.profession"></ion-input>
-      </ion-item>
-
-      <ion-item>
         <ion-label floating>{{ 'Email' | translate }}</ion-label>
-        <ion-input id="email" type="email" class="validate" email [(ngModel)]="user.email"></ion-input>
+        <ion-input id="email" type="text" class="validate" [(ngModel)]="user.email"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label floating>{{ 'Bio' | translate }}</ion-label>
-        <ion-textarea id="bio" type="text" class="validate" [(ngModel)]="user.bio"></ion-textarea>
+        <ion-label floating>{{ 'Stripe ID' | translate }}</ion-label>
+        <ion-input id="stripe_id" type="text" class="validate" [(ngModel)]="user.stripe_id"></ion-input>
       </ion-item>
 
-      <ion-item>
-        <ion-label>{{ 'Make location public' | translate}}</ion-label>
-        <ion-checkbox id="disclose_location" class="validate" [(ngModel)]="user.disclose_location"></ion-checkbox>
-      </ion-item>
-
-      <ion-item>
+        <ion-item>
         <button ion-button item-end outline (click)="editMode=!editMode">Cancel</button>
         <button ion-button item-end (click)="userDetails(); editMode=!editMode;">
           <span class="btn-text">{{ 'Change Details' | translate }}</span>

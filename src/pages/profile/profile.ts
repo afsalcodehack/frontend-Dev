@@ -80,7 +80,7 @@ export class ProfilePage {
         this.navCtrl.setRoot('profile', { id: user.id });
       } else {
         this.profileOwner = loggedIn && user.id === this.id;
-        this.user = await this.up.getUserDetail(this.id);
+        this.user = user;
       }
     }).catch(console.error);
   }
