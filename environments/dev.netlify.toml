@@ -7,7 +7,7 @@
 
 [[redirects]]
   from = '/api/*'
-  to = 'https://django-backend.template.viperdev.io/:splat'
+  to = 'https://api.picshare.viperdev.io/:splat'
   status = 200
   force = true
 

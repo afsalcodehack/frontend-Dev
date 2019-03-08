@@ -100,3 +100,6 @@ providers:
 environments:
   dev:
     netlify_siteid: 2a1bf4fd-d168-41c7-bfca-57fc63cfcb0b
+    api_url: https://api.picshare.viperdev.io/
+  ionic-serve-dev:
+    api_url: https://api.picshare.viperdev.io/

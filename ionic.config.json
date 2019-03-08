@@ -13,7 +13,7 @@
     },
     {
       "path": "/api-dev",
-      "proxyUrl": "https://django-backend.template.viperdev.io/"
+      "proxyUrl": "https://api.picshare.viperdev.io/"
     }
   ],
   "yarn": false,

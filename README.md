@@ -54,10 +54,10 @@ URL to one of the following named environments:
   - URL: None
 - dev:
   - Points to the development environment using the prod mode
-  - URL: https://django-backend.template.viperdev.io/
+  - URL: https://api.picshare.viperdev.io/
 - ionic-serve-dev:
   - Points to the development environment using the debug mode
-  - URL: https://django-backend.template.viperdev.io/
+  - URL: https://api.picshare.viperdev.io/
 - local:
   - Points to API assuming django-template is running on local machine
   - URL: http://localhost:8000/
