@@ -41,7 +41,7 @@ export class EventListPage {
   setStatus(): void {
     this.up.isAuthenticated().then((loggedIn) => {
       this.loggedIn = !!loggedIn;
-      this.loadData()
+      this.loadData();
     });
   }
 

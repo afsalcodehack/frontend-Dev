@@ -114,7 +114,7 @@ export class PaymentPage {
           const paymentInfo = await this.stripeProvider.charge(
             this.item, email, result.token.id,
           );
-          console.log("Successful payment done", paymentInfo)
+          console.log('Successful payment done', paymentInfo);
 
           loading.dismiss();
 

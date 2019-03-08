@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Events, NavController, NavParams } from 'ionic-angular';
 
-import { Events } from 'ionic-angular';
 import { PageTrack } from '../../decorators/PageTrack';
 import { backendUrl } from '../../global';
 import { DeviceProvider } from '../../providers/device/device';
@@ -41,10 +40,9 @@ export class EventPage {
     ionicEvents.subscribe('payment:charged', (chargeInfo) => {
       // Save the latest chargeID in the localStorage so that it
       // can be used as a temporary auth mechanism for this customer.
-      console.log("Completed charge on the event", this.event)
       localStorage.setItem('chargeID', chargeInfo.chargeID);
-      this.init()
-    })
+      this.init();
+    });
 
     ionicEvents.subscribe('user:logout', () => {
       this.setStatus();
@@ -67,13 +65,13 @@ export class EventPage {
     this.chargeID = localStorage.getItem('chargeID');
     this.id = this.navParams.get('id');
     this.secret = this.navParams.get('secret');
-    this.setStatus()
+    this.setStatus();
   }
 
   setStatus(): void {
     this.userProvider.isAuthenticated().then((loggedIn) => {
       this.loggedIn = !!loggedIn;
-      this.loadData()
+      this.loadData();
     });
   }
 
