@@ -41,11 +41,12 @@ export class EventListPage {
   setStatus(): void {
     this.up.isAuthenticated().then((loggedIn) => {
       this.loggedIn = !!loggedIn;
+      this.loadData()
     });
   }
 
-  async ionViewDidLoad() {
-     this.events = await this.eventProvider.getEvents();
+  async loadData() {
+    this.events = await this.eventProvider.getEvents();
   }
 
   async eventSelected(event) {

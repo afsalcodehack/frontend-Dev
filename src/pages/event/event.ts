@@ -36,15 +36,23 @@ export class EventPage {
     public eventProvider: EventProvider,
     public userProvider: UserProvider,
     public imageUploadProvider: ImageUploadProvider,
-    public events: Events,
+    public ionicEvents: Events,
   ) {
-    this.events.subscribe('payment:charged', (chargeInfo) => {
+    ionicEvents.subscribe('payment:charged', (chargeInfo) => {
       // Save the latest chargeID in the localStorage so that it
       // can be used as a temporary auth mechanism for this customer.
       console.log("Completed charge on the event", this.event)
       localStorage.setItem('chargeID', chargeInfo.chargeID);
       this.init()
     })
+
+    ionicEvents.subscribe('user:logout', () => {
+      this.setStatus();
+    });
+
+    ionicEvents.subscribe('user:login', () => {
+      this.setStatus();
+    });
   }
 
   async ionViewWillEnter() {
@@ -57,13 +65,16 @@ export class EventPage {
 
   async init() {
     this.chargeID = localStorage.getItem('chargeID');
-    this.userProvider.isAuthenticated().then((loggedIn) => {
-      this.loggedIn = !!loggedIn;
-    });
-
     this.id = this.navParams.get('id');
     this.secret = this.navParams.get('secret');
-    this.loadData();
+    this.setStatus()
+  }
+
+  setStatus(): void {
+    this.userProvider.isAuthenticated().then((loggedIn) => {
+      this.loggedIn = !!loggedIn;
+      this.loadData()
+    });
   }
 
   async loadData() {
@@ -78,7 +89,6 @@ export class EventPage {
         // fake backend provides full path of photo
         // e.g. https://www.example.com/fake.jpg
         if (!photo.fullResUrl.includes('http')) {
-          // photo.fullResUrl = this.backendUrl + photo.fullResUrl;
           photo.fullResUrl = window.location.protocol + '//' + window.location.host + this.backendUrl + photo.fullResUrl;
         }
         if (!photo.thumbUrl.includes('http')) {
