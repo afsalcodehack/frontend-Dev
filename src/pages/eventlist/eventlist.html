@@ -2,7 +2,9 @@
   <button *ngIf="loggedIn" ion-button (click)="create()">{{ 'Create' | translate }}</button>
   <ion-list>
     <button ion-item *ngFor="let event of events" (click)="eventSelected(event)">
+      <span item-end *ngIf="loggedIn">Sold: {{ event.numSold }} / Amount: {{ event.totalEarned || 0 }} {{ event.currency}}</span>
       <ion-icon name="lock" *ngIf="!event.isPublic" item-end></ion-icon>
+      <ion-icon name="arrow-forward" *ngIf="event.isPublic" item-end></ion-icon>
       {{ event.name }}
     </button>
   </ion-list>
