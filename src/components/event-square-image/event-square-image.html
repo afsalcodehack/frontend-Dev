@@ -4,7 +4,7 @@
       {{ 'Buy' | translate }} ({{ event.price }}$)
     </button>
     <a [href]="photo.fullResUrl" id="download" ion-button download *ngIf="photo.purchased">
-      {{ 'View Full Size' | translate }}
+      {{ 'Download' | translate }}
     </a>
     <div *ngIf="photo.purchased">
       <button mat-fab ion-button icon-only shareButton="facebook"
