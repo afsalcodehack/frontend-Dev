@@ -7,13 +7,6 @@
         <ion-radio [value]="lang.code"></ion-radio>
       </ion-item>
     </ion-item-group>
-    <ion-item-group radio-group (ionChange)="toggleTheme()" [(ngModel)]="selectedTheme">
-      <ion-item-divider color="light">{{ 'Theme' | translate }}</ion-item-divider>
-      <ion-item *ngFor="let theme of themes">
-        <ion-label>{{theme}}</ion-label>
-        <ion-radio [value]="theme"></ion-radio>
-      </ion-item>
-    </ion-item-group>
     <ion-item-group>
       <ion-item-divider color="light">{{ 'About' | translate }}</ion-item-divider>
       <a button block outline [href]="this.pageLocation.location('tandc')">{{ 'Terms and Conditions' | translate }}</a>
