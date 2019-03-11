@@ -28,6 +28,7 @@ export class EventListPage {
   ) {
     this.loggedIn = false;
     this.setStatus();
+    this.loadData();
 
     ionicEvents.subscribe('user:logout', () => {
       this.setStatus();
@@ -41,7 +42,6 @@ export class EventListPage {
   setStatus(): void {
     this.up.isAuthenticated().then((loggedIn) => {
       this.loggedIn = !!loggedIn;
-      this.loadData();
     });
   }
 
