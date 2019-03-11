@@ -94,14 +94,9 @@ page-profile {
   }
 
   @media (min-width: map-get($grid-breakpoints, lg)) {
-    .toolbar-title {
-      visibility: hidden;
-    }
-
     .container {
       padding-left: 32.5rem;
       padding-right: 32.5rem;
-      padding-top: 100px;
     }
 
     ion-fab[right] {

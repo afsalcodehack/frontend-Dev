@@ -31,7 +31,7 @@ export class ProfilePage {
   image: any;
   generated_image_name: any;
   selectedFiles: any;
-  editMode = false;
+  editMode = true;
   id: number;
 
   // should be set true if editing the profile is allowed

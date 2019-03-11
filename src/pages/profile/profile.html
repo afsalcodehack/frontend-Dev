@@ -1,66 +1,5 @@
 <app-content [title]="'Profile Details'">
-  <div class="profile--view" *ngIf="user && !editMode">
-    <div class="profile-wrapper">
-      <ion-card class="profile-card">
-        <div class="profile-card__image">
-          <img src="{{ user['image']['360p'] }}" *ngIf="user.image">
-          <img *ngIf="!user.image" src="/assets/imgs/user.png" alt="Contact Person">
-          <label *ngIf="!user.image && profileOwner" for="custom-file-input" round small ion-button>
-            <ion-icon name="camera"></ion-icon>
-          </label>
-          <label *ngIf="user.image && profileOwner" for="custom-file-input" round small ion-button class="change">
-            <ion-icon name="reverse-camera"></ion-icon>
-          </label>
-          <input (change)="onImageSelect($event)" type="file" accept="image/*" id="custom-file-input" hidden>
-        </div>
-        <div class="profile-card__meta" padding>
-          <div class="name">
-            <h1>{{ user.first_name}} {{ user.last_name}}</h1>
-          </div>
-          <div class="location">
-            <h2>{{ user.city }}, {{ user.country }}</h2>
-          </div>
-          <div class="profession">{{ user.profession }}</div>
-        </div>
-      </ion-card>
-    </div>
-    <div class="container">
-      <ion-fab right edge top *ngIf="profileOwner">
-        <button color="light" ion-fab mini title="{{ 'Edit profile' | translate }}" (click)="editMode = !editMode"><ion-icon name="create"></ion-icon></button>
-      </ion-fab>
-      <h2>{{ 'Bio' | translate }}</h2>
-      <p>{{ user.bio }}</p>
-    </div>
-  </div>
-
-  <div *ngIf="user && editMode && profileOwner" class="profile--edit container">
-    <div class="close-button">
-      <a (click)="editMode = !editMode">
-        <ion-icon name="close"></ion-icon>
-      </a>
-    </div>
-    <div class="image-container">
-      <img *ngIf="user.image" src="{{ user['image']['360p'] }}" class="profile-card__image">
-      <img *ngIf="!user.image" src="/assets/imgs/user.png" class="profile-card__image" alt="Contact Person">
-      <p *ngIf="getRoleName()">{{ getRoleName() }}</p>
-      <ion-buttons *ngIf="deviceStatus.isCordova">
-        <button ion-button icon-left (click)="presentActionSheetAndUpload()">
-          <ion-icon name="camera"></ion-icon>Select Image
-        </button>
-        <button ion-button icon-left (click)="uploadImage()" [disabled]="lastImage === null">
-          <ion-icon name="cloud-upload"></ion-icon>Upload
-        </button>
-      </ion-buttons>
-      <ion-buttons *ngIf="!deviceStatus.isCordova">
-        <div>
-          <label for="custom-file-input" ion-button class="default-button" color="light">
-            <ion-icon name="camera"></ion-icon>
-          </label>
-          <input (change)="onImageSelect($event)" type="file" accept="image/*" id="custom-file-input" class="hide">
-        </div>
-      </ion-buttons>
-    </div>
-
+  <div *ngIf="user && profileOwner" class="container">
     <ion-list>
       <ion-item>
         <ion-label floating>{{ 'First Name' | translate }}</ion-label>
@@ -82,9 +21,8 @@
         <ion-input id="stripe_id" type="text" class="validate" [(ngModel)]="user.stripe_id"></ion-input>
       </ion-item>
 
-        <ion-item>
-        <button ion-button item-end outline (click)="editMode=!editMode">Cancel</button>
-        <button ion-button item-end (click)="userDetails(); editMode=!editMode;">
+      <ion-item>
+        <button ion-button item-end (click)="userDetails()">
           <span class="btn-text">{{ 'Change Details' | translate }}</span>
         </button>
       </ion-item>
