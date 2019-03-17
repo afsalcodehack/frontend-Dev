@@ -57,7 +57,7 @@ export class EventListPage {
       });
     };
 
-    if (!this.loggedIn && !event.isPublic) {
+    if (!event.isPublic && !event.isCreator) {
       const alert = await this.alertCtrl.create({
         title: 'Secret Event',
         message: 'Access to this event is protected by a secret key.',
