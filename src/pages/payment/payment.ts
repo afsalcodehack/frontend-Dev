@@ -7,6 +7,7 @@ import { PageTrack } from '../../decorators/PageTrack';
 import { I18nAlertProvider } from '../../providers/i18n-alert/i18n-alert';
 import { LanguageProvider } from '../../providers/language/language';
 import { StripeProvider } from '../../providers/stripe/stripe';
+import { UserProvider } from '../../providers/user/user';
 
 @PageTrack()
 @IonicPage({
@@ -43,11 +44,13 @@ export class PaymentPage {
   };
 
   paymentForm: FormGroup;
+  user: any;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public stripeService: StripeService,
+    private up: UserProvider,
     private formBuilder: FormBuilder,
     public stripeProvider: StripeProvider,
     public loadingCtrl: LoadingController,
@@ -68,6 +71,10 @@ export class PaymentPage {
     if (!this.item) {
       return this.navCtrl.setRoot('root');
     }
+
+    this.up.isAuthenticated().then(async (loggedIn) => {
+      this.user = await this.up.getUserInfo();
+    }).catch(console.error);
 
     const loading = this.loadingCtrl.create({
       content: 'Preparing payment...',
