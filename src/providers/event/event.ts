@@ -10,6 +10,7 @@ export class EventProvider {
   eventcreateUrl = backend.paths['event/create'].toURL();
   eventUpdateUrl = backend.paths['event/update'].toURL();
   getAccessTokenUrl = backend.paths['event/access-token'].toURL();
+  sendPhotosByEmailUrl = backend.paths['photos/send_mail'].toURL();
 
   constructor(public http: HttpClient) {
   }
@@ -34,4 +35,7 @@ export class EventProvider {
     return this.http.post(this.getAccessTokenUrl, { id, secret }).toPromise();
   }
 
+  sendPhotosByEmail(email: string) {
+    return this.http.post(this.sendPhotosByEmailUrl, { email }).toPromise();
+  }
 }

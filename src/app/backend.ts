@@ -109,6 +109,7 @@ export const backend = new Backend(
       return { ok: false };
     }),
     new EndPoint('photo', true),
+    new EndPoint('photos/send_mail', true),
     // payment-record
     new EndPoint('payment-records', false, paymentRecords),
     new EndPoint('payment-record', false, (req) => {

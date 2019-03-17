@@ -1,9 +1,18 @@
-<app-content *ngIf="!loggedIn" title="Frontpage">
-  <button (click)="nav('event-list')" type="primary" ion-button block>
+<app-content *ngIf="!loggedIn && !isCustomer" title="Frontpage">
+  <button (click)="setCustomer()" type="primary" ion-button block>
     {{ 'Customer' | translate }}
   </button>
   <button (click)="nav('login')" type="primary" ion-button block>
     {{ 'Photographer' | translate }}
+  </button>
+</app-content>
+
+<app-content *ngIf="!loggedIn && isCustomer" title="Customer Frontpage">
+  <button (click)="nav('event-list')" type="primary" ion-button block>
+    {{ 'Browse Events' | translate }}
+  </button>
+  <button (click)="getPurchasedPhotos()" type="primary" ion-button block>
+    {{ 'Get purchased photos' | translate }}
   </button>
 </app-content>
 
