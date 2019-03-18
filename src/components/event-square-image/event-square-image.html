@@ -1,7 +1,7 @@
 <div class="image-container">
   <ng-template #navbarButtons>
     <button ion-button id="buy" (click)="buy()" *ngIf="!photo.purchased">
-      {{ 'Buy' | translate }} ({{ event.price }}$)
+      {{ 'Buy' | translate }} ({{ event.price }}€)
     </button>
     <a [href]="photo.fullResUrl" id="download" ion-button download *ngIf="photo.purchased">
       {{ 'Download' | translate }}
