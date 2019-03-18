@@ -7,7 +7,7 @@ home_page: &home_page
   event-front
 
 theme: picllary-theme
-stripe_key: pk_test_mtBKhwAg0R3fWQ7NAzulGRuF
+stripe_key: pk_live_EcQa5TUki7t5R2EEK1RATPyb
 include_fake_backends: true
 
 features:
