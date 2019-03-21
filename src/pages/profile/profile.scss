@@ -3,14 +3,21 @@ page-profile {
     padding: 0;
   }
 
+  .footer{
+    padding-left: 31.5rem;
+    padding-right: 32.5rem;
+
+  }
+
   .item-md {
     padding-left: 0;
   }
 
-  .container {
+  .container{
     padding: 1rem;
     position: relative;
   }
+
 
   .profile-wrapper {
     background-color: color($colors, primary);
@@ -28,7 +35,6 @@ page-profile {
       width: auto;
       z-index: 1;
     }
-
 
     .profile-card__image {
       border: 5px solid color($colors, light);
