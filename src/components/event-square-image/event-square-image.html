@@ -3,10 +3,10 @@
     <button ion-button id="buy" (click)="buy()" *ngIf="!photo.purchased">
       {{ 'Buy' | translate }} ({{ event.price }}€)
     </button>
-    <a [href]="photo.fullResUrl" id="download" ion-button download *ngIf="photo.purchased">
-      {{ 'Download' | translate }}
-    </a>
     <div *ngIf="photo.purchased">
+      <a [href]="photo.fullResUrl" id="download" ion-button download>
+        {{ 'Download' | translate }}
+      </a>
       <button mat-fab ion-button icon-only shareButton="facebook"
           [url]="photo.fullResUrl" title="A photo from {{event.name}}" [image]="photo.fullResUrl">
         <ion-icon name="logo-facebook"></ion-icon>
