@@ -18,6 +18,7 @@ import { LoginPage } from '../login/login';
 export class EventFrontPage {
   loggedIn: boolean;
   isCustomer: boolean;
+  pageTitle: string;
 
   constructor(
     public alertCtrl: I18nAlertProvider,
@@ -29,6 +30,7 @@ export class EventFrontPage {
   ) {
     this.loggedIn = false;
     this.isCustomer = false;
+    this.pageTitle = 'Frontpage';
     this.setStatus();
 
     events.subscribe('user:logout', () => {
@@ -43,6 +45,9 @@ export class EventFrontPage {
   setStatus(): void {
     this.up.isAuthenticated().then((loggedIn) => {
       this.loggedIn = !!loggedIn;
+      if (this.loggedIn) {
+        this.pageTitle = 'Photographer Frontpage';
+      }
     });
   }
 
@@ -63,6 +68,7 @@ export class EventFrontPage {
   }
 
   setCustomer(): void {
+    this.pageTitle = 'Customer Frontpage';
     this.isCustomer = true;
   }
 
