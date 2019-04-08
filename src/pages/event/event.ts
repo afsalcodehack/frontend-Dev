@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Events, NavController, NavParams } from 'ionic-angular';
+import { Events, LoadingController, NavController, NavParams } from 'ionic-angular';
 
 import { PageTrack } from '../../decorators/PageTrack';
 import { backendUrl } from '../../global';
@@ -33,6 +33,7 @@ export class EventPage {
     public navParams: NavParams,
     public deviceStatus: DeviceProvider,
     public eventProvider: EventProvider,
+    public loadingCtrl: LoadingController,
     public userProvider: UserProvider,
     public imageUploadProvider: ImageUploadProvider,
     public ionicEvents: Events,
@@ -133,11 +134,20 @@ export class EventPage {
     const fileMap = { src: file };
 
     const params = { event_id: this.event.id, filename: 'default.jpg' };
+    const loading = this.loadingCtrl.create({
+      content: 'Uploading image...',
+    });
+
+    loading.present();
+
     this.imageUploadProvider.desktopImageUpload(null, fileMap, params, 'post')
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res);
+      })
       .catch((err) => console.error(err))
       .then(() => {
         this.loadData();
+        loading.dismiss();
       });
   }
 
