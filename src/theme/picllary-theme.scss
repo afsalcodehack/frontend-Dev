@@ -65,7 +65,7 @@
     color: color($colors, dark);
   }
 
-  .button-md, .button-md:hover:not(.disable-hover), .button-md.activated {
+  .button, .button:hover:not(.disable-hover), .button.activated {
     background-color: color($colors, primary);
     color: color($colors, light);
   }
@@ -134,7 +134,7 @@
   }
 
   page-eventfront {
-    .button-md {
+    .button {
       margin: 1.7rem auto;
       max-width: 300px;
       width: 70%;
