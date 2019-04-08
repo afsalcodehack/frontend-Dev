@@ -5,5 +5,5 @@ export const ENV = {
   LOCATION_STRATEGY: 'path',
   PRODUCTION : false,
   API_URL    : '/api-dev/',
-  STRIPE_KEY : 'pk_live_l2mksVX4f2kuTnOVHeIVuL6W00jTrPmTnD',
+  STRIPE_KEY : 'pk_test_mtBKhwAg0R3fWQ7NAzulGRuF',
 };
