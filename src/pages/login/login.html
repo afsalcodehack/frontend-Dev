@@ -5,11 +5,11 @@
   <form [formGroup]="loginForm" (ngSubmit)="logForm()">
     <ion-list>
       <ion-item>
-        <ion-label for="email" floating>{{ 'Email' | translate }}</ion-label>
+        <ion-label for="email" stacked>{{ 'Email' | translate }}</ion-label>
         <ion-input id="email" type="email" class="validate" formControlName="email" (ionChange)="cleanupErrorMessage()"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label for="pwd" floating>{{ 'Password' | translate }}</ion-label>
+        <ion-label for="pwd" stacked>{{ 'Password' | translate }}</ion-label>
         <ion-input id="pwd" type="password" class="validate" formControlName="password" (ionChange)="cleanupErrorMessage()"></ion-input>
       </ion-item>
 
