@@ -272,7 +272,7 @@ ion-title {
   margin-top: 38px !important;
 }
 
-.item-md h3 {
+.item h3 {
   font-size: 1.17em !important;
   font-weight: bold !important;
 }
@@ -291,10 +291,10 @@ ion-title {
   }
 }
 
-.item-md.item-label-fixed.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner,
-.item-md.item-label-fixed.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner,
-.list-md .item-input.item-label-fixed.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus):last-child,
-.list-md .item-input.item-label-fixed.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus):last-child {
+.item.item-label-fixed.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner,
+.item.item-label-fixed.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner,
+.list .item-input.item-label-fixed.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus):last-child,
+.list .item-input.item-label-fixed.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus):last-child {
   border: 0;
   box-shadow: none;
 
@@ -307,8 +307,8 @@ ion-title {
   box-shadow: inset -3px 0 0 0 #32db64;
 }
 
-.item-md.item-input.item-label-fixed.ng-invalid.ng-touched:not(.input-has-focus):not(.item-input-has-focus) .item-inner,
-.list-md .item-input.item-label-fixed.ng-invalid.ng-touched:not(.input-has-focus):not(.item-input-has-focus):last-child {
+.item.item-input.item-label-fixed.ng-invalid.ng-touched:not(.input-has-focus):not(.item-input-has-focus) .item-inner,
+.list .item-input.item-label-fixed.ng-invalid.ng-touched:not(.input-has-focus):not(.item-input-has-focus):last-child {
   border: 0;
   box-shadow: none;
 
@@ -321,10 +321,10 @@ ion-title {
   box-shadow: inset -3px 0 0 0 color($colors, danger);
 }
 
-.item-md.item-input.item-label-fixed.item-input-has-focus .item-inner,
-.item-md.item-input.item-label-fixed.input-has-focus .item-inner,
-.list-md .item-input.item-label-fixed.item-input-has-focus:last-child,
-.list-md .item-input.item-label-fixed.input-has-focus:last-child {
+.item.item-input.item-label-fixed.item-input-has-focus .item-inner,
+.item.item-input.item-label-fixed.input-has-focus .item-inner,
+.list .item-input.item-label-fixed.item-input-has-focus:last-child,
+.list .item-input.item-label-fixed.input-has-focus:last-child {
   border: 0;
   box-shadow: none;
 
@@ -333,7 +333,7 @@ ion-title {
   }
 }
 
-.list-md .item-block.item-label-fixed.item-label-fixed .item-inner {
+.list .item-block.item-label-fixed.item-label-fixed .item-inner {
   border: 0;
   padding: 0;
 }

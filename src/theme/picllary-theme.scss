@@ -70,52 +70,52 @@
     color: color($colors, light);
   }
 
-  .fab-md, .fab-md:hover:not(.disable-hover), .fab-md.activated {
+  .fab, .fab:hover:not(.disable-hover), .fab.activated {
     background-color: color($colors, primary);
   }
 
-  .alert-md .alert-input:focus {
+  .alert .alert-input:focus {
     border-bottom: 2px solid color($colors, primary);
   }
 
-  .alert-md [aria-checked=true] .alert-radio-label {
+  .alert [aria-checked=true] .alert-radio-label {
     color: color($colors, primary);
   }
 
-  .alert-md [aria-checked=true] .alert-checkbox-icon {
+  .alert [aria-checked=true] .alert-checkbox-icon {
     background-color: color($colors, primary);
     border-color: color($colors, primary);
   }
 
-  .icon-md-primary {
+  .icon-primary {
     color: color($colors, primary);
   }
 
-  .item-md.item-input.input-has-focus .item-inner,.item-md.item-input.item-input-has-focus .item-inner {
+  .item.item-input.input-has-focus .item-inner,.item.item-input.item-input-has-focus .item-inner {
     -webkit-box-shadow: inset 0 -1px 0 0 color($colors, primary);
     border-bottom-color: color($colors, primary);
     box-shadow: inset 0 -1px 0 0 color($colors, primary);
   }
 
-  .list-md .item-input.input-has-focus:last-child,.list-md .item-input.item-input-has-focus:last-child {
+  .list .item-input.input-has-focus:last-child,.list .item-input.item-input-has-focus:last-child {
     -webkit-box-shadow: inset 0 -1px 0 0 color($colors, primary);
     border-bottom-color: color($colors, primary);
     box-shadow: inset 0 -1px 0 0 color($colors, primary);
   }
 
-  .item-radio-checked.item-md ion-label {
+  .item-radio-checked.item ion-label {
     color: color($colors, primary);
   }
 
-  .radio-md .radio-checked {
+  .radio .radio-checked {
     border-color: color($colors, primary);
   }
 
-  .radio-md .radio-inner {
+  .radio .radio-inner {
     background-color: color($colors, primary);
   }
 
-  .content-md .toolbar-md .back-button {
+  .content .toolbar .back-button {
     color: color($colors, dark);
 
     &:hover {
