@@ -250,6 +250,10 @@ ion-navbar.toolbar-ios, ion-title.title-ios {
   padding-top: env(safe-area-inset-top);
 }
 
+.toolbar-ios ion-title {
+  padding: 0 10px 1px 70px;
+}
+
 ion-title {
   .logo {
     margin-right: 10px;
