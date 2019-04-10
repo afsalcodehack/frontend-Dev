@@ -14,7 +14,7 @@ export class EventSquareImageComponent extends SquareImageComponent {
     await this.viewer.dismiss();
 
     this.navCtrl.push('payment', {
-      title: `a photo from ${this.event.name}`,
+      title: `${this.event.name}`,
       item: {
         type: 'image',
         id: this.photo.id,
