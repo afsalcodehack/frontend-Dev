@@ -127,7 +127,7 @@ export class PaymentPage {
 
           const successAlert = await this.alertCtrl.create({
             title: 'Payment Success',
-            subTitle: 'You have purchased {{product}}',
+            subTitle: 'You have purchased a photo from {{title}}',
             buttons: ['OK'],
           }, { subTitle: { product: this.title }});
 
