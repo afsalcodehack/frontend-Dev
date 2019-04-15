@@ -6,7 +6,6 @@
       <div class="logo">
         <a (click)="openPage(pages[0])" class="logo-inner">
           <img class="logo-img" [src]="'/assets/imgs/' + selectedTheme + '-logo.png'" [alt]="appTitle">
-          <span class="logo-text">{{ appTitle }}</span>
         </a>
       </div>
       <span *ngFor="let p of pages">
