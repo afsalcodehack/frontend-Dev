@@ -7,7 +7,7 @@
 
 [[redirects]]
   from = '/api/*'
-  to = 'https://api.picshare.viperdev.io/:splat'
+  to = 'https://api.picllary.de/:splat'
   status = 200
   force = true
 
