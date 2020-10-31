@@ -6,6 +6,7 @@
 
 .npm/
 .pnpm-store/
+.history/
 
 *~
 *.sw[mnpcod]

@@ -10,6 +10,7 @@ import { PageTrack } from '../../decorators/PageTrack';
 import { EventProvider } from '../../providers/event/event';
 
 import { EventListPage } from '../eventlist/eventlist';
+import { TranslateService } from 'ng2-translate';
 
 @PageTrack()
 @Component({
@@ -24,12 +25,14 @@ export class EventCreatePage {
   pageTitle = 'Create Event';
   submitActionTitle = 'Create';
   minPrice = event.minPrice;
-
+  message  = '';
+  messageColor = 'secondary';
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private formBuilder: FormBuilder,
     public eventProvider: EventProvider,
+    private translate: TranslateService,
   ) {
     this.eventForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -61,8 +64,14 @@ export class EventCreatePage {
     try {
       await this.eventProvider.createEvent(this.eventForm.value);
       this.navCtrl.push(EventListPage);
+      this.message = '';
     } catch (err) {
-      console.log('create event error:', err);
+      console.log(err.error.reason);
+      this.translate.get(err.error.reason)
+      .subscribe((translated_text) => {
+        this.message = translated_text;
+      });
+      this.messageColor = 'danger';
     }
   }
 

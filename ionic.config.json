@@ -1,6 +1,8 @@
 {
   "name": "picllary-ionic",
-  "app_id": "",
+  "integrations": {
+    "cordova": {}
+  },
   "type": "ionic-angular",
   "telemetry": false,
   "daemon": {
@@ -17,8 +19,5 @@
     }
   ],
   "yarn": false,
-  "version": "3.20.0",
-  "integrations": {
-    "cordova": {}
-  }
+  "version": "3.20.0"
 }

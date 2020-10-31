@@ -1,4 +1,11 @@
 <app-content [title]="'Event'">
+ 
+  <ng-container>
+    <ion-searchbar 
+    (ionChange)="setFilteredItems($event)"
+     showCancelButton="focus"></ion-searchbar>
+  </ng-container>
+  
   <button *ngIf="loggedIn" ion-button (click)="create()">{{ 'Create' | translate }}</button>
   <ion-list>
     <button ion-item *ngFor="let event of events" (click)="eventSelected(event)">

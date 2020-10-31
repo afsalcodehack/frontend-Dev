@@ -3,7 +3,9 @@
     <button ion-button icon-only (click)="editEventInfo()">
       <ion-icon name="create"></ion-icon>
     </button>
+    
   </ng-container>
+
   <ion-grid no-padding>
     <ng-container *ngFor="let collection of getAlbumCollections(event.album) | mapToIterable">
       <ion-row>

@@ -25,5 +25,10 @@
     <button type="submit" ion-button block [disabled]="!eventForm.valid">
       {{ submitActionTitle | translate }}
     </button>
+
+    <div class="login-error-msg">
+      <p ion-text [color]="messageColor">{{message}}</p>
+    </div>
+
   </form>
 </app-content>

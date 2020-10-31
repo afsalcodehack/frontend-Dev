@@ -17,13 +17,14 @@ import { EventCreatePage } from '../eventcreate/eventcreate';
 export class EventListPage {
   loggedIn: boolean;
   events = [];
-
+  eventSource = [];
   constructor(
     public alertCtrl: I18nAlertProvider,
     public navCtrl: NavController,
     public navParams: NavParams,
     public up: UserProvider,
     public ionicEvents: Events,
+    
     public eventProvider: EventProvider,
   ) {
     this.loggedIn = false;
@@ -46,7 +47,20 @@ export class EventListPage {
   }
 
   async loadData() {
-    this.events = await this.eventProvider.getEvents();
+     await this.eventProvider.getEvents().then( (list) => {
+      this.events = list;
+      this.eventSource = list;
+    });
+  }
+
+  setFilteredItems(event) {
+    this.events = this.filterItems(event.value);
+  }
+
+  filterItems(searchTerm) {
+    return this.eventSource.filter((item: any) => {
+      return item.name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+    });
   }
 
   async eventSelected(event) {
