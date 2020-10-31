@@ -23,7 +23,7 @@ export class LoginPage {
   messageColor = 'secondary';
   loginWithNetlify = loginWithNetlify;
 
-  private loginForm: FormGroup;
+  public loginForm: FormGroup;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,

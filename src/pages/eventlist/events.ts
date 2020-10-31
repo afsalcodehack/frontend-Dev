@@ -16,7 +16,7 @@ import { EventCreatePage } from '../eventcreate/eventcreate';
 })
 export class EventListPage {
   loggedIn: boolean;
-  events: any[] = [];
+  events = [];
   eventSource = [];
   constructor(
     public alertCtrl: I18nAlertProvider,

@@ -9,8 +9,8 @@ import { minEventSecretLength } from '../../global';
 import { PageTrack } from '../../decorators/PageTrack';
 import { EventProvider } from '../../providers/event/event';
 
-import { EventListPage } from '../eventlist/eventlist';
 import { TranslateService } from 'ng2-translate';
+import { EventListPage } from '../eventlist/eventlist';
 
 @PageTrack()
 @Component({
