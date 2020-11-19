@@ -5,14 +5,13 @@
     (ionChange)="setFilteredItems($event)"
      showCancelButton="focus"></ion-searchbar>
   </ng-container>
-  ][poiua BBB BV GHB.,,G,FGMFG,VMBVVVVVVVVVVVVVVVVVVVVVVVVVVVVB.BN..,BB,KK]T3333333333HGGHHXXXGGGHHGFRERT3YH4J5YJ,MJHYT,K5J43YTH4JRMT,M,JH
   <button *ngIf="loggedIn" ion-button (click)="create()">{{ 'Create' | translate }}</button>
   <ion-list>
     <button ion-item *ngFor="let event of events" (click)="eventSelected(event)">
       <span item-end *ngIf="loggedIn">Sold: {{ event.numSold }} / Amount: {{ event.totalEarned || 0 }} {{ event.currency}}</span>
       <ion-icon name="lock" *ngIf="!event.isPublic" item-end></ion-icon>
       <ion-icon name="arrow-forward" *ngIf="event.isPublic" item-end></ion-icon>
-      {{ event.name }}
+      {{ event.name }} test
     </button>
   </ion-list>
 </app-content>
