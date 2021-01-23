@@ -71,7 +71,6 @@ export class LoginPage {
       }, (ex) => {
           this.loginForm.reset();
           let error_msg;
-
           try {
             // If there's an error message from backend
             error_msg = ex.error.non_field_errors[0];

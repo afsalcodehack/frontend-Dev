@@ -15,7 +15,7 @@
     },
     {
       "path": "/api-dev",
-      "proxyUrl": "https://api.picllary.de/"
+      "proxyUrl": "https://picllary-test.herokuapp.com/"
     }
   ],
   "yarn": false,

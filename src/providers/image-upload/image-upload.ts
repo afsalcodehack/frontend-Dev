@@ -47,6 +47,7 @@ export class ImageUploadProvider {
   mobileImageUpload(fileURI, url, authToken, options = {}) {
     url = url || this.imageUploadUrl;
 
+
     let mergedOpts = {
       fileKey: 'image',
       chunkedMode: false,
@@ -97,19 +98,14 @@ export class ImageUploadProvider {
     const formData = new FormData();
     Object.keys(fileMap).forEach((key) => {
       const file = fileMap[key];
-      formData.append(key, file, file.name);
+      console.log(file);
+      formData.append('image', file, file.name);
     });
 
-    const params = parameters || {};
-    Object.keys(params).forEach((key) => {
-      formData.append(key, params[key]);
+    Object.keys(parameters).forEach((key) => {
+      formData.append(key, parameters[key]);
     });
-
-    const headers = new Headers();
-    headers.append('Content-Type', 'multipart/form-data');
-    headers.append('mimeType', 'multipart/form-data');
-
-    return this.http[method](url, formData, addHeaders ? { headers } : {})
+    return this.http.post(url, formData)
       .toPromise();
   }
 

@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { Http, HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -76,7 +76,9 @@ import { AppContentComponent } from '../components/app-content/app-content';
 import { EventSquareImageComponent } from '../components/event-square-image/event-square-image';
 import { LocaleDatetimeComponent } from '../components/locale-datetime/locale-datetime';
 import { SquareImageComponent } from '../components/square-image/square-image';
+
 import { MapToIterablePipe } from '../pipes/map-to-iterable/map-to-iterable';
+import { TokenInterceptor } from '../providers/token.interceptor';
 import { FilterByValuePipe } from './../pipes/filter-by-value/filter-by-value';
 
 const deepLinkConfig = {
@@ -195,7 +197,9 @@ export const ScriptStore: Script[] = [
     VerifyemailPage,
     WelcomePage,
   ],
-  providers: [
+  providers: [ { provide: HTTP_INTERCEPTORS,
+                 useClass: TokenInterceptor,
+                 multi: true },
     CookieConsentProvider,
     StatusBar,
     SplashScreen,

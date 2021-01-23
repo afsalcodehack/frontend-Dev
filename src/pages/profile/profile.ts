@@ -170,7 +170,7 @@ export class ProfilePage {
     delete params.image;
 
     return this.imageUploadProvider.desktopImageUpload(this.userInfoUrl, fileMap, params, 'put')
-      .then((res) => res['image'] ? res.image : this.fileToImgObject(file))
+      .then((res: any) => res['image'] ? res.image : this.fileToImgObject(file))
       .then((res) => this.user.image = res);
   }
 

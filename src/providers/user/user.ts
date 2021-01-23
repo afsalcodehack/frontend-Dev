@@ -62,7 +62,12 @@ export class UserProvider {
   }
 
   saveToken(token) {
+    localStorage.setItem('token', token);
     this.storage.set('token', token);
+
+    this.storage.get('token').then((data) => {
+      console.log(data);
+    });
   }
 
   resetPasswordInitiate(user): Promise<any> {
@@ -94,6 +99,7 @@ export class UserProvider {
   }
 
   isAuthenticated() {
+
     return this.storage.get('token');
   }
 
