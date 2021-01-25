@@ -104,6 +104,8 @@ export class UserProvider {
   }
 
   logout() {
+    console.log('toekn removed');
+    localStorage.removeItem('token');
     this.storage.remove('token');
     this.events.publish('user:logout');
     return true;
