@@ -4,7 +4,7 @@
   "author": "VIPERdev",
   "description": "Picllary",
   "homepage": "https://viperdev.io/",
-  "private": true,
+  "private": false,
   "scripts": {
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
