@@ -18,7 +18,7 @@ export class SignupPage {
   signup = false;
   user: any;
   private signupForm: FormGroup;
-  private loading: Loading = null;
+  private loading: Loading;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
