@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NavController, NavParams } from 'ionic-angular';
+import { Loading, LoadingController, NavController, NavParams } from 'ionic-angular';
 
 import { PageTrack } from '../../decorators/PageTrack';
 import { UserProvider } from '../../providers/user/user';
@@ -18,12 +18,13 @@ export class SignupPage {
   signup = false;
   user: any;
   private signupForm: FormGroup;
-
+  private loading: Loading = null;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private up: UserProvider,
     public fb: FormBuilder,
+    public loadingController: LoadingController
   ) {
 
     this.signupForm = this.fb.group({
@@ -34,6 +35,7 @@ export class SignupPage {
       termsAccepted: [false, Validators.requiredTrue],
     });
     this.user = {};
+
   }
 
   ionViewDidLoad() {
@@ -41,13 +43,23 @@ export class SignupPage {
     console.log('ionViewDidLoad SignupPage');
   }
 
+  async showOrHideLoading(isPending: boolean) {
+     this.loading = this.loadingController.create({
+      content: 'Please wait',
+    });
+    this.loading.present();
+  }
+
   create(): void {
+    this.showOrHideLoading(true);
     const data = this.signupForm.value;
     this.up.signupUser({ username: data['email'], email: data['email'], password: data['password1'] })
       .then((user) => {
+        this.loading.dismiss();
         this.signup = true;
         this.navCtrl.push(LoginPage, { message : user.detail });
       }, (error) => {
+        this.loading.dismiss();
         console.log(error);
       });
   }

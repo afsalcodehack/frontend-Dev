@@ -11,7 +11,7 @@
       <span item-end *ngIf="loggedIn">Sold: {{ event.numSold }} / Amount: {{ event.totalEarned || 0 }} {{ event.currency}}</span>
       <ion-icon name="lock" *ngIf="!event.isPublic" item-end></ion-icon>
       <ion-icon name="arrow-forward" *ngIf="event.isPublic" item-end></ion-icon>
-      {{ event.name }} test
+      {{ event.name }}
     </button>
     
   </ion-list>
