@@ -1,52 +1,72 @@
 <app-content [title]="'Profile Details'">
-  <div *ngIf="user && profileOwner" class="container">
-    <ion-list>
-      <ion-item>
-        <ion-label floating>{{ 'First Name' | translate }}</ion-label>
-        <ion-input id="first_name" type="text" class="validate" [(ngModel)]="user.first_name"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label floating>{{ 'Last Name' | translate }}</ion-label>
-        <ion-input id="last_name" type="text" class="validate" [(ngModel)]="user.last_name"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label floating>{{ 'Email' | translate }}</ion-label>
-        <ion-input id="email" type="text" class="validate" [(ngModel)]="user.email"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <button ion-button item-end (click)="userDetails()">
-          <span class="btn-text">{{ 'Change Details' | translate }}</span>
-        </button>
-      </ion-item>
-    </ion-list>
-
-    <form [formGroup]="changePasswordForm" (ngSubmit)="changePassword(); editMode=!editMode;">
+  <div style=" display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;">
+    <img [src]="imagePath" style="height: 150px; width: 150px;  border-radius: 50%; display: inline-block;" />
+    <div *ngIf="plataformName != 'mobileweb'">
+      <button ion-button icon-only clear (click)='presentActionSheet()' >
+        <ion-icon name="create" ></ion-icon>
+      </button>
+    </div>
+    <div  *ngIf="plataformName === 'mobileweb'"> 
+        <ion-input type="file" name="file"  (change)="imagePickerForBrowser($event)" ></ion-input>
+    </div>
+</div>
+    <form  [formGroup]="profileFormGroup" (ngSubmit)='save()' style="padding: 5%;">
       <ion-list>
-        <ion-item>
-          <ion-label floating>{{ 'Current Password' | translate }}</ion-label>
-          <ion-input id="old_pwd" type="password" class="validate" formControlName="old_password"></ion-input>
-        </ion-item>
 
-        <ion-item>
-          <ion-label floating>{{ 'New Password' | translate }}</ion-label>
-          <ion-input id="new_pwd1" type="password" class="validate" formControlName="new_password1"></ion-input>
-        </ion-item>
+    <ion-item>
+      <ion-label stacked>{{ 'First Name' | translate }}</ion-label>
+      <ion-input id="firstName" type="text" class="validate" formControlName="firstName" ></ion-input>
+    </ion-item>
 
-        <ion-item>
-          <ion-label floating>{{ 'Repeat New Password' | translate }}</ion-label>
-          <ion-input id="new_pwd2" type="password" class="validate" formControlName="new_password2"></ion-input>
-        </ion-item>
+    <ion-item>
+      <ion-label stacked>{{ 'Last Name' | translate }}</ion-label>
+      <ion-input id="lastName" type="text" class="validate" formControlName="lastName"></ion-input>
+    </ion-item>
 
-        <ion-item>
-          <button *ngIf="!status" ion-button item-end type="submit" class="btn center waves-effect white black-text" [disabled]="!changePasswordForm.valid">
-            <span class="btn-text">{{ 'Change Password' | translate }}</span>
-          </button>
-        </ion-item>
-      </ion-list>
-    </form>
+    <ion-item>
+      <ion-label stacked>{{ 'City' | translate }}</ion-label>
+      <ion-select formControlName="city">
+        <ion-option *ngFor="let city of cities" [value]="city.id">{{city.name}}</ion-option>
+      </ion-select>
+    </ion-item>
 
-  </div>
+    <ion-item>
+      <ion-label stacked>{{ 'Country' | translate }}</ion-label>
+      <ion-select formControlName="country">
+        <ion-option *ngFor="let country of countries" [value]="country.id">{{country.name}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>{{ 'interests' | translate }}</ion-label>
+      <ion-select formControlName="interest" multiple>
+        <ion-option *ngFor="let intrest of interests" [value]="intrest.id">{{intrest.name}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>{{ 'Profession' | translate }}</ion-label>
+      <ion-input id="profession" type="text" class="validate" formControlName="profession"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>{{ 'Mobile' | translate }}</ion-label>
+      <ion-input id="mobile" type="number" class="validate" formControlName="mobile"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>{{ 'About Me' | translate }}</ion-label>
+      <ion-input id="aboutme" type="textArea" class="validate" formControlName="aboutme"></ion-input>
+    </ion-item>
+
+  </ion-list>
+  <button ion-button block clear ion-button block type="submit">
+    <span class="btn-text">{{ 'SAVE' | translate }}</span>
+  </button>
+  
+  </form>
+
 </app-content>

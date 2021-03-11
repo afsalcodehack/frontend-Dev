@@ -7,6 +7,7 @@ import { UserProvider } from '../../providers/user/user';
 
 import { LoginPage } from '../login/login';
 import { PasswordresetPage } from '../passwordreset/passwordreset';
+import { ProfilePage } from '../profile/profile';
 
 @PageTrack()
 @Component({
@@ -57,7 +58,7 @@ export class SignupPage {
       .then((user) => {
         this.loading.dismiss();
         this.signup = true;
-        this.navCtrl.push(LoginPage, { message : user.detail });
+        this.navCtrl.push(ProfilePage);
       }, (error) => {
         this.loading.dismiss();
         console.log(error);

@@ -71,6 +71,7 @@ import { Script, ScriptProvider } from '../providers/scripts/scripts';
 import { StripeProvider } from '../providers/stripe/stripe';
 import { ThemeProvider } from '../providers/theme/theme';
 import { UserProvider } from '../providers/user/user';
+import { ProfileProvider } from '../providers/profile/profile';
 
 import { AppContentComponent } from '../components/app-content/app-content';
 import { EventSquareImageComponent } from '../components/event-square-image/event-square-image';
@@ -209,6 +210,7 @@ export const ScriptStore: Script[] = [
     },
     CurrencyExchangeProvider,
     UserProvider,
+    ProfileProvider,
     LanguageProvider,
     ThemeProvider,
     Globalization,
